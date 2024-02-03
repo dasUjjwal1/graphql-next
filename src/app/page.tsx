@@ -1,9 +1,9 @@
-import SignIn from "@/components/auth/SignIn";
+import HomePage from "@/components/home/HomePage";
 
 export default function Home() {
   return (
     <>
-      <SignIn />
+      <HomePage />
     </>
   );
 }

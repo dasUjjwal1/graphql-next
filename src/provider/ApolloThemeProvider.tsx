@@ -1,17 +1,18 @@
 "use client";
-import { client } from "@/config/apolloconfig";
+import { clientNode } from "@/config/apolloconfig";
 import { theme } from "@/config/theme";
 import { ApolloProvider } from "@apollo/client";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { ReactNode } from "react";
+import { AuthProvider } from "./AuthContext";
 
 const ApolloThemeProvider = ({ children }: { children: ReactNode }) => {
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={clientNode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </ThemeProvider>
     </ApolloProvider>
   );

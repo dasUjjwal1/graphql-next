@@ -1,14 +1,12 @@
 "use client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
+import SvgIcon from "@mui/material/SvgIcon";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -17,8 +15,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import {
+  ActionsTypes,
+  AuthContext,
+  AuthDispatch,
+} from "@/provider/AuthContext";
+import { indigo } from "@mui/material/colors";
+import Link from "next/link";
 
 const drawerWidth = 240;
 
@@ -92,9 +95,10 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Navbar({ children }: { children: ReactNode }) {
+  const state = useContext(AuthContext);
+  const { dispatch } = useContext(AuthDispatch);
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -102,10 +106,27 @@ export default function Navbar({ children }: { children: ReactNode }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const getMenus = async () => {
+    try {
+      const res = await fetch("/api/menu", {
+        method: "GET",
+      });
+      const data = await res.json();
+      dispatch({ type: ActionsTypes.MENU, payload: data?.menu });
+    } catch (error) {}
+  };
+  useEffect(() => {
+    let mount = true;
+    if (mount) {
+      state.menu?.length === 0 && getMenus();
+    }
+    return () => {
+      mount = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
@@ -120,12 +141,14 @@ export default function Navbar({ children }: { children: ReactNode }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer
+        // PaperProps={{ sx: { backgroundColor: "#f3f3f7" } }}
+        sx={{ color: "red" }}
+        variant="permanent"
+        open={open}
+      >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
@@ -135,15 +158,16 @@ export default function Navbar({ children }: { children: ReactNode }) {
             )}
           </IconButton>
         </DrawerHeader>
-        <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          {state?.menu?.map((item) => (
+            <ListItem key={item?.id} sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
+                  backgroundColor: indigo["100"],
+                  borderRadius: 3,
                 }}
               >
                 <ListItemIcon
@@ -151,36 +175,37 @@ export default function Navbar({ children }: { children: ReactNode }) {
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
+                    color: indigo["700"],
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <SvgIcon>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d={item?.icon}
+                      />
+                    </svg>
+                  </SvgIcon>
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
+                <ListItemText
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    opacity: open ? 1 : 0,
+                    color: indigo["800"],
+                    fontWeight: "bold",
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                  <Link className="" href={item.path}>
+                    {item.label}
+                  </Link>
+                </ListItemText>
               </ListItemButton>
             </ListItem>
           ))}

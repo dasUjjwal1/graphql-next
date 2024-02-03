@@ -22,18 +22,20 @@ export const ROLE_MUTATION = gql`
   }
 `;
 export const LOG_IN = gql`
-  mutation ($email: String!, $password: String!) {
-    loginOrg(body: { orgEmail: $email, orgPassword: $password }) {
-      user {
-        id
-        oragnizationName
-        orgImage
-        orgEmail
-        orgImage
-        orgType
-        country
-      }
+  mutation MyMutation($email: EmailAddress!, $password: String!) {
+    LogInOrganization(email: $email, password: $password) {
       token
+      org {
+        address
+        email
+        employeeCount
+        id
+        location
+        mobile
+        name
+        orgType
+        picturePath
+      }
     }
   }
 `;

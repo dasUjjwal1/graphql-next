@@ -11,16 +11,59 @@ import Image from "next/image";
 import Loginackground from "../../../public/visual-collaboration.svg";
 import { useMutation } from "@apollo/client";
 import { LOG_IN } from "@/apollo/employee";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { useContext, useState } from "react";
+import { ActionsTypes, AuthDispatch } from "@/provider/AuthContext";
 const SignIn = () => {
-  const [mutation, { data, loading, error }] = useMutation(LOG_IN);
+  const { dispatch } = useContext(AuthDispatch);
+  const [open, setOpen] = useState({ state: false, message: "" });
+  const [mutation, { loading }] = useMutation(LOG_IN, {
+    onCompleted: (data, clientOptions) => {
+      dispatch({ type: ActionsTypes.AUTH, payload: data?.LogInOrganization });
+    },
+    onError(error, clientOptions) {
+      setOpen((prev) => ({ ...prev, state: true, message: error?.message }));
+    },
+  });
   const initialValue = {
     email: "",
     password: "",
   };
   const handleFormSubmit = (value: typeof initialValue) =>
     mutation({ variables: value });
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen((prev) => ({ ...prev, state: false, message: "" }));
+  };
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
   return (
     <>
+      <Snackbar
+        open={open.state}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        message={open.message}
+        action={action}
+      />
       <Grid container component="main" sx={{ height: "100%" }}>
         <Grid item xs={12} sm={8} md={6}>
           <Box
