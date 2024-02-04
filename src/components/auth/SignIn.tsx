@@ -1,131 +1,107 @@
 "use client";
-import Box from "@mui/material/Box";
-import { Form, Formik } from "formik";
-import InputTextComponent from "../form/InputComponent";
-import LoadingButton from "@mui/lab/LoadingButton";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Image from "next/image";
-import Loginackground from "../../../public/visual-collaboration.svg";
-import { useMutation } from "@apollo/client";
-import { LOG_IN } from "@/apollo/employee";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import { useContext, useState } from "react";
 import { ActionsTypes, AuthDispatch } from "@/provider/AuthContext";
+import AuthService from "@/service/authService";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { ReloadIcon } from "@radix-ui/react-icons";
+type InitialValue = {
+  email: string;
+  password: string;
+};
 const SignIn = () => {
+  const authService = new AuthService();
+  const [loading, setLoading] = useState(false);
   const { dispatch } = useContext(AuthDispatch);
-  const [open, setOpen] = useState({ state: false, message: "" });
-  const [mutation, { loading }] = useMutation(LOG_IN, {
-    onCompleted: (data, clientOptions) => {
-      dispatch({ type: ActionsTypes.AUTH, payload: data?.LogInOrganization });
-    },
-    onError(error, clientOptions) {
-      setOpen((prev) => ({ ...prev, state: true, message: error?.message }));
+
+  const form = useForm<InitialValue>({
+    defaultValues: {
+      email: "",
+      password: "",
     },
   });
-  const initialValue = {
-    email: "",
-    password: "",
+
+  const onSubmit = (value: InitialValue) => {
+    setLoading(true);
+    authService
+      .logIn(value)
+      .then((res) => {
+        dispatch({
+          type: ActionsTypes.AUTH,
+          payload: res?.LogInOrganization,
+        });
+      })
+      .catch((error) => {
+        console.log(typeof error);
+      })
+      .finally(() => setLoading(false));
   };
-  const handleFormSubmit = (value: typeof initialValue) =>
-    mutation({ variables: value });
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen((prev) => ({ ...prev, state: false, message: "" }));
-  };
-  const action = (
-    <>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </>
-  );
   return (
     <>
-      <Snackbar
-        open={open.state}
-        autoHideDuration={5000}
-        onClose={handleClose}
-        message={open.message}
-        action={action}
-      />
-      <Grid container component="main" sx={{ height: "100%" }}>
-        <Grid item xs={12} sm={8} md={6}>
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            flexDirection={"column"}
-            justifyContent={"center"}
-            height={"100%"}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
-            </Typography>
-            <Formik initialValues={initialValue} onSubmit={handleFormSubmit}>
-              {({ handleSubmit }) => (
-                <Form
-                  autoComplete="off"
-                  onSubmit={handleSubmit}
-                  className="mt-3"
-                >
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <InputTextComponent label={"Email"} name={"email"} />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <InputTextComponent
-                        label={"Password"}
-                        name={"password"}
+      <div className="container grid grid-cols-12 gap-4 items-center">
+        <div className="col-span-3 py-8">
+          <h1 className="text-2xl font-semibold tracking-tight text-center">
+            Log In
+          </h1>
+          <Form {...form}>
+            <form
+              autoComplete={"off"}
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-3"
+            >
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
                         type="password"
+                        placeholder="Password"
+                        {...field}
                       />
-                    </Grid>
-                  </Grid>
-                  <LoadingButton
-                    loading={loading}
-                    loadingIndicator="Logging in"
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 2, mb: 2 }}
-                  >
-                    Log in
-                  </LoadingButton>
-                </Form>
-              )}
-            </Formik>
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={6}
-          height={"100%"}
-          display={"flex"}
-          alignItems={"center"}
-          justifyContent={"center"}
-        >
-          <Image src={Loginackground} alt="background" width={400} />
-        </Grid>
-      </Grid>
+                    </FormControl>
+                    {/* <FormDescription>
+                      This is your public display name.
+                    </FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Submit
+              </Button>
+            </form>
+          </Form>
+        </div>
+        <div className="col-span-9"></div>
+      </div>
     </>
   );
 };
