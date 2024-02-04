@@ -1,5 +1,11 @@
+import OrganizationComponent from "@/components/Organization/OrganizationComponent";
+
 const Organization = () => {
-  return <div>Organization</div>;
+  return (
+    <>
+      <OrganizationComponent />
+    </>
+  );
 };
 
 export default Organization;

@@ -10,15 +10,10 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Role } from "@/types/appTypes";
+import { RoleFormTypes, Role } from "@/types/appTypes";
 import { Dispatch, SetStateAction } from "react";
-type FormTypes = {
-  form: UseFormReturn<Role>;
-  onSubmit: (value: Role) => void;
-  setSaveType: Dispatch<SetStateAction<"create" | "update">>;
-  saveType: "create" | "update";
-};
-export default function CreateRoleDialog(props: FormTypes) {
+
+export default function CreateRoleDialog(props: RoleFormTypes) {
   return (
     <Form {...props.form}>
       <form

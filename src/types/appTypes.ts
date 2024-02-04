@@ -1,8 +1,17 @@
+import { Dispatch, SetStateAction } from "react";
+import { UseFormReturn } from "react-hook-form";
+
 export type Role = {
   _id?: string | null;
   name: string;
   position: number | string;
   parent?: number | string;
+};
+export type RoleFormTypes = {
+  form: UseFormReturn<Role>;
+  onSubmit: (value: Role) => void;
+  setSaveType: Dispatch<SetStateAction<"create" | "update">>;
+  saveType: "create" | "update";
 };
 export type Employee = {
   employeeName?: string;
@@ -20,4 +29,10 @@ export type Employee = {
   joiningDate?: Date;
   employeeAddress?: JSON;
   qualification?: JSON;
+};
+export type EmployeeFormTypes = {
+  form: UseFormReturn<Employee>;
+  onSubmit: (value: Employee) => void;
+  setSaveType: Dispatch<SetStateAction<"create" | "update">>;
+  saveType: "create" | "update";
 };
