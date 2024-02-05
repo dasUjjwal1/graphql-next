@@ -40,7 +40,7 @@ export default function Navbar({ children }: { children: ReactNode }) {
         <div
           className={`${
             open ? "w-60" : "w-12"
-          } flex flex-col h-screen duration-300 border-r`}
+          } flex flex-col h-screen duration-300 border-r overflow-hidden`}
         >
           <div className="space-y-3 ">
             <div className="flex items-center justify-between">
@@ -62,11 +62,11 @@ export default function Navbar({ children }: { children: ReactNode }) {
                       className={`${
                         pathName === item.path &&
                         "bg-primary text-primary-foreground hover:bg-primary/90"
-                      } hover:bg-accent rounded-md p-2 flex gap-3 items-center`}
+                      } hover:bg-accent rounded-md h-9 p-2 flex gap-3 justify-start items-center`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="w-4 h-4"
+                        className="w-5 h-5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -78,8 +78,15 @@ export default function Navbar({ children }: { children: ReactNode }) {
                           d={item.icon}
                         />
                       </svg>
+
                       {open && (
-                        <h3 className="font-medium text-sm">{item.label}</h3>
+                        <h3
+                          className={`font-medium text-sm ${
+                            !open && "opacity-0"
+                          }`}
+                        >
+                          {item.label}
+                        </h3>
                       )}
                     </Link>
                   </li>

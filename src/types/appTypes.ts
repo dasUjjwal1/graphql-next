@@ -1,17 +1,20 @@
 import { Dispatch, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
-
-export type Role = {
-  _id?: string | null;
+type IStringIndex = {
+  [key: string]: any;
+};
+export type Role = IStringIndex & {
+  _id: string;
   name: string;
-  position: number | string;
-  parent?: number | string;
+  position: number;
+  parent: string;
 };
 export type RoleFormTypes = {
   form: UseFormReturn<Role>;
   onSubmit: (value: Role) => void;
   setSaveType: Dispatch<SetStateAction<"create" | "update">>;
   saveType: "create" | "update";
+  roles: Role[];
 };
 export type Employee = {
   employeeName?: string;

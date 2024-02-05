@@ -31,9 +31,11 @@ import {
 import { useForm } from "react-hook-form";
 import CreateRoleDialog from "./CreateRole";
 import { Role } from "@/types/appTypes";
+import { produce } from "immer";
 
 const EmployeeRole = () => {
   const [saveType, setSaveType] = useState<"create" | "update">("create");
+  const [loading, setLoading] = useState(false);
   const orgService = new OrgService();
   const {
     data = { GetAllRoles: [] },
@@ -44,7 +46,12 @@ const EmployeeRole = () => {
     queryFn: async () => orgService.getAllRoles(),
   });
   const form = useForm<Role>({
-    defaultValues: {},
+    defaultValues: {
+      _id: "",
+      name: "",
+      parent: "",
+      position: 0,
+    },
   });
 
   const columnHelper = createColumnHelper<Role>();
@@ -100,11 +107,32 @@ const EmployeeRole = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const onSubmit = (value: Role) => {};
+  const onSubmit = (value: Role) => {
+    setLoading(true);
+    const filteredData = produce(value, (draft) => {
+      for (let item in draft) {
+        if (item === "position") {
+          draft[item] = Number(draft[item]);
+        }
+        if (draft[item] === "") {
+          delete draft[item];
+        }
+      }
+    });
+    // console.log(filteredData);
+    orgService
+      .createRole(filteredData)
+      .then((res) => {
+        console.log(res);
+        refetch();
+      })
+      .catch((error) => {})
+      .finally(() => setLoading(false));
+  };
 
   return (
     <>
-      <div className="grid grid-cols-12">
+      <div className="grid p-3 gap-3 grid-cols-12">
         <div className="col-span-6">
           <Table className="border">
             <TableHeader>
@@ -157,6 +185,7 @@ const EmployeeRole = () => {
         </div>
         <div className="col-span-3">
           <CreateRoleDialog
+            roles={data?.GetAllRoles}
             saveType={saveType}
             setSaveType={setSaveType}
             form={form}

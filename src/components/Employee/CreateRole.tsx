@@ -1,5 +1,4 @@
 "use client";
-import { UseFormReturn } from "react-hook-form";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -10,8 +9,14 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { RoleFormTypes, Role } from "@/types/appTypes";
-import { Dispatch, SetStateAction } from "react";
+import { RoleFormTypes } from "@/types/appTypes";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export default function CreateRoleDialog(props: RoleFormTypes) {
   return (
@@ -41,11 +46,36 @@ export default function CreateRoleDialog(props: RoleFormTypes) {
             <FormItem>
               <FormLabel>Position</FormLabel>
               <FormControl>
-                <Input placeholder="Position" {...field} />
+                <Input
+                  type="number"
+                  placeholder="Position ex:(1,2,3...)"
+                  {...field}
+                />
               </FormControl>
-              {/* <FormDescription>
-              This is your public display name.
-            </FormDescription> */}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={props.form.control}
+          name="parent"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Assign To</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Assign To" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {props.roles?.map((item) => (
+                    <SelectItem key={item._id} value={item._id}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -60,7 +90,12 @@ export default function CreateRoleDialog(props: RoleFormTypes) {
           type="reset"
           onClick={() => {
             props.setSaveType("create");
-            props.form.reset({ _id: "", name: "", parent: "", position: "" });
+            props.form.reset({
+              _id: "",
+              name: "",
+              parent: "",
+              position: 0,
+            });
           }}
           className="w-full"
           variant={"destructive"}

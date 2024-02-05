@@ -10,16 +10,9 @@ export const ROLE_QUERY = gql`
     }
   }
 `;
-export const ROLE_MUTATION = gql`
-  mutation ($rolename: String!, $position: Int!, $parent: Int) {
-    createRole(
-      body: { roleName: $rolename, position: $position, parent: $parent }
-    ) {
-      roleId
-      roleName
-      position
-      parent
-    }
+export const ROLE_MUTATION_CREATE = gql`
+  mutation MyMutation($name: String!, $parent: ID, $position: Int!) {
+    CreateRole(roles: { name: $name, position: $position, parent: $parent })
   }
 `;
 export const LOG_IN = gql`
