@@ -14,24 +14,37 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { Login } from "@/types/authType";
+import { Register } from "@/types/authType";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
-function SignIn() {
+function Register() {
   const authService = new AuthService();
   const [loading, setLoading] = useState(false);
   const { dispatch } = useContext(AuthDispatch);
 
-  const form = useForm<Login>({
+  const form = useForm<Register>({
     defaultValues: {
       email: "",
       password: "",
+      name: "",
+      location: "",
     },
   });
 
-  function onSubmit(value: Login) {
+  const onSubmit = (value: Register) => {
     setLoading(true);
+    const body = {
+      ...value,
+      location: Number(value.location),
+    };
     authService
-      .logIn(value)
+      .registerOrg(body)
       .then((res) => {
         dispatch({
           type: ActionsTypes.AUTH,
@@ -42,7 +55,7 @@ function SignIn() {
         console.log(typeof error);
       })
       .finally(() => setLoading(false));
-  }
+  };
   return (
     <>
       <Form {...form}>
@@ -51,6 +64,19 @@ function SignIn() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-3"
         >
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Full Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -80,6 +106,29 @@ function SignIn() {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Country</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Country" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value={"1"}>India</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit" className="w-full" disabled={loading}>
             {loading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             Submit
@@ -90,4 +139,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Register;

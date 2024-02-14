@@ -15,20 +15,38 @@ export const ROLE_MUTATION_CREATE = gql`
     CreateRole(roles: { name: $name, position: $position, parent: $parent })
   }
 `;
+export const REGISTER_ORGANIZATION = gql`
+  mutation MyMutation(
+    $email: EmailAddress!
+    $location: Int!
+    $name: String!
+    $password: String!
+  ) {
+    RegisterOrganization(
+      email: $email
+      location: $location
+      name: $name
+      password: $password
+    ) {
+      org {
+        email
+        id
+        location
+        name
+      }
+      token
+    }
+  }
+`;
 export const LOG_IN = gql`
   mutation MyMutation($email: EmailAddress!, $password: String!) {
     LogInOrganization(email: $email, password: $password) {
       token
       org {
-        address
         email
-        employeeCount
         id
         location
-        mobile
         name
-        orgType
-        picturePath
       }
     }
   }
