@@ -9,8 +9,8 @@ import Register from "./Register";
 function Auth() {
   const [login, setLogin] = useState<"login" | "register">("register");
   return (
-    <div className="auth-container h-full w-full">
-      <div className="h-full container flex = items-center justify-between">
+    <div className=" h-full w-full">
+      <div className="h-full container flex items-center justify-between">
         <div className="rounded-xl border p-8 text-card-foreground shadow">
           {login === "register" ? (
             <>
