@@ -39,3 +39,7 @@ export type EmployeeFormTypes = {
   setSaveType: Dispatch<SetStateAction<"create" | "update">>;
   saveType: "create" | "update";
 };
+export type OrgDetailsTable = {
+  _id: string;
+  name: string;
+};
