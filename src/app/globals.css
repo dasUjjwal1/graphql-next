@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-html,body{
+html,
+body {
   height: 100%;
 }
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -58,6 +60,7 @@ html,body{
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -66,7 +69,12 @@ html,body{
 .home-card-bg {
   background-color: #2d313d;
 }
+
 .auth-container {
   background-image: linear-gradient(351deg, #06194a 5%, #00050d 24%);
   background-size: 100%;
+}
+
+.font-size-sm {
+  font-size: 9px;
 }

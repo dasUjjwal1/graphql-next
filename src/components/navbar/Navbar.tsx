@@ -1,20 +1,17 @@
 "use client";
-import { ReactNode, useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import {
   ActionsTypes,
   AuthContext,
   AuthDispatch,
 } from "@/provider/AuthContext";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { usePathname } from "next/navigation";
 
-export default function Navbar({ children }: { children: ReactNode }) {
+export default function Navbar() {
   const pathName = usePathname();
   const state = useContext(AuthContext);
   const { dispatch } = useContext(AuthDispatch);
-  const [open, setOpen] = useState(false);
   const getMenus = async () => {
     try {
       const res = await fetch("/api/menu", {
@@ -36,70 +33,40 @@ export default function Navbar({ children }: { children: ReactNode }) {
   }, []);
   return (
     <>
-      <div className="flex">
-        <div
-          className={`${
-            open ? "w-60" : "w-12"
-          } flex flex-col h-screen duration-300 border-r overflow-hidden`}
-        >
-          <div className="space-y-3 ">
-            <div className="flex items-center justify-between">
-              <Button
-                variant={"ghost"}
-                onClick={() => setOpen((prev) => !prev)}
+      <nav className="h-full  pt-5 overflow-y-auto ">
+        <ul className="h-full p-0">
+          {state?.menu?.map((item) => (
+            <li
+              className={`m-0 py-4 ${
+                pathName === item.path && "text-[#3b73af] bg-[#E6EFFC]"
+              } hover:bg-[#E6EFFC]`}
+              key={item?.id}
+            >
+              <Link
+                href={item.path}
+                as={item.path}
+                className={`flex font-size-sm font-semibold items-center flex-col gap-1`}
               >
-                <HamburgerMenuIcon />
-              </Button>
-            </div>
-
-            <div className="flex-1">
-              <ul className="pt-2 px-2 pb-4 space-y-1 text-sm">
-                {state?.menu?.map((item) => (
-                  <li key={item.id}>
-                    <Link
-                      href={item.path}
-                      as={item.path}
-                      className={`${
-                        pathName === item.path &&
-                        "bg-primary text-primary-foreground hover:bg-primary/90"
-                      } hover:bg-accent rounded-md h-9 p-2 flex gap-3 justify-start items-center`}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-5 h-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1.8}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d={item.icon}
-                        />
-                      </svg>
-
-                      {open && (
-                        <h3
-                          className={`font-medium text-sm ${
-                            !open && "opacity-0"
-                          }`}
-                        >
-                          {item.label}
-                        </h3>
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="flex-grow">
-          <div className="py-5 border-y"></div>
-          {children}
-        </div>
-      </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.8}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d={item.icon}
+                  />
+                </svg>
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </>
   );
 }

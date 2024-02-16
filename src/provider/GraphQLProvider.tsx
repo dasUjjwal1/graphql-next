@@ -9,7 +9,7 @@ const GraphQLProvider = ({ children }: { children: ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="dark"
+        defaultTheme="light"
         // enableSystem
         // disableTransitionOnChange
       >
