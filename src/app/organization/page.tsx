@@ -1,11 +1,12 @@
-import OrganizationComponent from "@/components/Organization/OrganizationComponent";
+import Organization from "@/components/Organization/Organization";
+import Layout from "./layout";
 
-const Organization = () => {
+const Page = () => {
   return (
     <>
-      <OrganizationComponent />
+      <Organization />
     </>
   );
 };
-
-export default Organization;
+Page.getLayout = (page: any) => <Layout>{page}</Layout>;
+export default Page;

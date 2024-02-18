@@ -1,60 +1,54 @@
 "use client";
-import { useState } from "react";
-import OrgService from "@/service/orgService";
-import { useQuery } from "@tanstack/react-query";
+import {
+  DotsVerticalIcon,
+  Pencil1Icon,
+  PlusCircledIcon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
+import { table } from "console";
+import { columns } from "tailwindcss/defaultTheme";
 import { Button } from "../ui/button";
 import {
-  DotsVerticalIcon,
-  Pencil1Icon,
-  TrashIcon,
-} from "@radix-ui/react-icons";
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "../ui/table";
+import { Employee, OrgCreate, OrgDetailsTable } from "@/types/appTypes";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../ui/drawer";
+import { Form } from "../ui/form";
 import { useForm } from "react-hook-form";
-import CreateRoleDialog from "./CreateRole";
-import { Role } from "@/types/appTypes";
-import { produce } from "immer";
+import CreateOrganization from "./CreateOrganization";
 
-const EmployeeRole = () => {
-  const [saveType, setSaveType] = useState<"create" | "update">("create");
-  const [loading, setLoading] = useState(false);
-  const orgService = new OrgService();
-  const {
-    data = { GetAllRoles: [] },
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["roles"],
-    queryFn: async () => orgService.getAllRoles(),
+const Organization = () => {
+  const form = useForm<OrgCreate>({
+    defaultValues: {},
   });
-  const form = useForm<Role>({
-    defaultValues: {
-      _id: "",
-      name: "",
-      parent: "",
-      position: 0,
-    },
-  });
-
-  const columnHelper = createColumnHelper<Role>();
+  const onSubmit = (value: OrgCreate) => {};
+  const columnHelper = createColumnHelper<OrgDetailsTable>();
 
   const columns = [
     columnHelper.accessor("_id", {
@@ -77,10 +71,7 @@ const EmployeeRole = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-40">
             <Button
-              onClick={() => {
-                setSaveType("update");
-                form.reset(props.row.original);
-              }}
+              onClick={() => {}}
               variant={"ghost"}
               className="flex items-center justify-start gap-3 font-semibold w-full text-sm"
             >
@@ -102,39 +93,62 @@ const EmployeeRole = () => {
     }),
   ];
   const table = useReactTable({
-    data: data.GetAllRoles,
+    data: [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-
-  const onSubmit = (value: Role) => {
-    setLoading(true);
-    const filteredData = produce(value, (draft) => {
-      for (let item in draft) {
-        if (item === "position") {
-          draft[item] = Number(draft[item]);
-        }
-        if (draft[item] === "") {
-          delete draft[item];
-        }
-      }
-    });
-    // console.log(filteredData);
-    orgService
-      .createRole(filteredData)
-      .then((res) => {
-        console.log(res);
-        refetch();
-      })
-      .catch((error) => {})
-      .finally(() => setLoading(false));
-  };
-
   return (
     <>
-      <div className="grid p-3 gap-3 grid-cols-12">
-        <div className="col-span-6">
-          <Table className="border">
+      <Drawer>
+        <div className="h-full py-10 flex items-center gap-5 flex-col">
+          <h2 className="text-3xl  font-bold space-x-2">
+            Looks like you have no Organization yet
+          </h2>
+          <DrawerTrigger asChild>
+            <Button
+              variant={"destructive"}
+              className="p-6 flex gap-3 font-semibold text-lg"
+            >
+              <PlusCircledIcon className="w-6 h-6" />
+              Let&apos;s create
+            </Button>
+          </DrawerTrigger>
+        </div>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Create Organization</DrawerTitle>
+            <DrawerDescription>
+              Data would not be lost untill you reset
+            </DrawerDescription>
+          </DrawerHeader>
+          <Form {...form}>
+            <form
+              autoComplete={"off"}
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="p-4 border grid grid-cols-12 gap-2 items-center"
+            >
+              <CreateOrganization form={form} onSubmit={onSubmit} />
+              <DrawerFooter className="col-span-12">
+                <Button type="submit">Submit</Button>
+                <DrawerClose>
+                  <Button type="button" variant="outline">
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </form>
+          </Form>
+        </DrawerContent>
+      </Drawer>
+
+      {false && (
+        <>
+          <div className="pb-4 flex items-center justify-end">
+            <Button className="gap-2 font-semibold">
+              <PlusCircledIcon /> Create
+            </Button>
+          </div>
+          <Table className="border w-full">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -182,19 +196,10 @@ const EmployeeRole = () => {
               )}
             </TableBody>
           </Table>
-        </div>
-        <div className="col-span-3">
-          <CreateRoleDialog
-            roles={data?.GetAllRoles}
-            saveType={saveType}
-            setSaveType={setSaveType}
-            form={form}
-            onSubmit={onSubmit}
-          />
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 };
 
-export default EmployeeRole;
+export default Organization;

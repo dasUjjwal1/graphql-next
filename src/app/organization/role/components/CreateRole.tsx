@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 import {
   Form,
   FormControl,
@@ -7,8 +7,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "../../../../components/ui/form";
+import { Input } from "../../../../components/ui/input";
 import { RoleFormTypes } from "@/types/appTypes";
 import {
   Select,
@@ -16,7 +16,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../../../components/ui/select";
 
 export default function CreateRoleDialog(props: RoleFormTypes) {
   return (

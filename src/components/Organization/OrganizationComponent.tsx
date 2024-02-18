@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Employee, OrgDetailsTable } from "@/types/appTypes";
 import { useForm } from "react-hook-form";
-import CreateOrgEmployee from "./CreateOrgEmployee";
 import {
   Table,
   TableBody,

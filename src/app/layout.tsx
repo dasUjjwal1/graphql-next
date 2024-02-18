@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import GraphQLProvider from "../provider/GraphQLProvider";
 import BaseLayout from "@/components/BaseLayout";
-import { Quicksand as FontSans } from "next/font/google";
+import { Noto_Sans as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Create Next App",

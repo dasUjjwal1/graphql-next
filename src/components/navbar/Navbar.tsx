@@ -7,6 +7,12 @@ import {
 } from "@/provider/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 export default function Navbar() {
   const pathName = usePathname();
@@ -33,36 +39,38 @@ export default function Navbar() {
   }, []);
   return (
     <>
-      <nav className="h-full  pt-5 overflow-y-auto ">
-        <ul className="h-full p-0">
+      <nav className="h-full bg-[#1f40c9] pt-5 overflow-y-auto shadow-lg">
+        <ul className="h-full flex flex-col gap-3 p-0">
           {state?.menu?.map((item) => (
-            <li
-              className={`m-0 py-4 ${
-                pathName === item.path && "text-[#3b73af] bg-[#E6EFFC]"
-              } hover:bg-[#E6EFFC]`}
-              key={item?.id}
-            >
-              <Link
-                href={item.path}
-                as={item.path}
-                className={`flex font-size-sm font-semibold items-center flex-col gap-1`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 h-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d={item.icon}
-                  />
-                </svg>
-                {item.label}
-              </Link>
+            <li className={"flex items-center justify-center"} key={item?.id}>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Link
+                      href={item.path}
+                      as={item.path}
+                      className={`flex items-center ${
+                        pathName?.split("/")[1] === item.path?.split("/")[1] &&
+                        "bg-[#b6bcd775]"
+                      } rounded-xl h-12 w-12 justify-center text-gray-200`}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d={item.icon}
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">{item.label}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </li>
           ))}
         </ul>

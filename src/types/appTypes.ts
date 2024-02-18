@@ -43,3 +43,25 @@ export type OrgDetailsTable = {
   _id: string;
   name: string;
 };
+export type OrgCreate = {
+  address?: {
+    city?: string;
+    street?: string;
+    houseNumber?: string;
+    state?: string;
+    pin?: string;
+  };
+  orgName: string;
+  employeeCount: number;
+  orgType: number;
+  totalLeaveCount?: number;
+  orgContact?: string;
+  logo?: string;
+  officeHour: number;
+  startTime: string;
+  endTime: string;
+};
+export type OrgDetailsFormTypes = {
+  form: UseFormReturn<OrgCreate>;
+  onSubmit: (value: OrgCreate) => void;
+};
