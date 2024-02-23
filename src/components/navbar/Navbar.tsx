@@ -13,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import TopBar from "./TopBar";
 
 export default function Navbar() {
   const pathName = usePathname();
@@ -39,39 +40,43 @@ export default function Navbar() {
   }, []);
   return (
     <>
-      <nav className="h-full bg-[#1f40c9] pt-5 overflow-y-auto shadow-lg">
+      <nav className="h-full pt-5 overflow-y-auto shadow-md">
         <ul className="h-full flex flex-col gap-3 p-0">
           {state?.menu?.map((item) => (
-            <li className={"flex items-center justify-center"} key={item?.id}>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Link
-                      href={item.path}
-                      as={item.path}
-                      className={`flex items-center ${
-                        pathName?.split("/")[1] === item.path?.split("/")[1] &&
-                        "bg-[#b6bcd775]"
-                      } rounded-xl h-12 w-12 justify-center text-gray-200`}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-6 h-6"
+            <>
+              <TopBar />
+              <li className={"flex items-center justify-center"} key={item?.id}>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Link
+                        href={item.path}
+                        as={item.path}
+                        className={`flex items-center ${
+                          pathName?.split("/")[1] ===
+                            item.path?.split("/")[1] &&
+                          "bg-[#63ace9] text-cyan-800"
+                        } rounded-xl h-12 w-12 justify-center `}
                       >
-                        <path
-                          fillRule="evenodd"
-                          d={item.icon}
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">{item.label}</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </li>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d={item.icon}
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">{item.label}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </li>
+            </>
           ))}
         </ul>
       </nav>

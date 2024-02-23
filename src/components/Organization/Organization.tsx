@@ -101,15 +101,12 @@ const Organization = () => {
     <>
       <Drawer>
         <div className="h-full py-10 flex items-center gap-5 flex-col">
-          <h2 className="text-3xl  font-bold space-x-2">
+          <h2 className="text-2xl space-x-2">
             Looks like you have no Organization yet
           </h2>
           <DrawerTrigger asChild>
-            <Button
-              variant={"destructive"}
-              className="p-6 flex gap-3 font-semibold text-lg"
-            >
-              <PlusCircledIcon className="w-6 h-6" />
+            <Button className=" flex gap-3 font-semibold ">
+              <PlusCircledIcon />
               Let&apos;s create
             </Button>
           </DrawerTrigger>

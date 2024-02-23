@@ -2,13 +2,10 @@ import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 const TopBar = () => {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-4 py-3">
-      <div className="flex items-center justify-between">
-        <h6 className="mr-4 cursor-pointer py-1.5 font-bold">Hr-Manual</h6>
-        <div className="flex items-center gap-2">
-          <h3>U</h3>
-        </div>
-      </div>
+    <header className="fixed top-0 left-0 bg-white w-full z-50 p-3 shadow-md">
+      <h1 className="text-xl font-bold pl-3 my-2 border-l-8 border-blue-700">
+        Organization
+      </h1>
     </header>
   );
 };

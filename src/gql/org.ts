@@ -38,16 +38,51 @@ export const REGISTER_ORGANIZATION = gql`
     }
   }
 `;
+export const ORG_ADDRESS_FRAGMENT = gql`
+  fragment orgaddressFragment on orgaddress {
+    city
+    houseNumber
+    pin
+    state
+    street
+  }
+`;
+export const ORG_ROLE = gql`
+  fragment rolesFragment on roles {
+    _id
+    name
+    parent
+    position
+  }
+`;
 export const LOG_IN = gql`
-  mutation MyMutation($email: EmailAddress!, $password: String!) {
+  query MyMutation($email: EmailAddress!, $password: String!) {
     LogInOrganization(email: $email, password: $password) {
-      token
       org {
+        address {
+          city
+          houseNumber
+          pin
+          state
+          street
+        }
         email
         id
         location
+        mobile
         name
+        paid
+        password
+        payment_structure
+        picturePath
+        roles {
+          _id
+          name
+          parent
+          position
+        }
       }
+      token
     }
   }
 `;

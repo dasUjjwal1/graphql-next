@@ -39,10 +39,10 @@ const OrgSidebar = () => {
         <li
           key={item.id}
           className={`${
-            path[pathLength - 1] === item.pathname ? "bg-slate-600" : ""
-          } py-3 px-5 rounded-md`}
+            path[pathLength - 1] === item.pathname ? "bg-slate-200" : ""
+          } py-2 px-5 rounded-md`}
         >
-          <Link className=" font-bold" href={item.path}>
+          <Link className="text-xs" href={item.path}>
             {item.label}
           </Link>
         </li>

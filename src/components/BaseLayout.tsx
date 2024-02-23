@@ -8,14 +8,14 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
   const state = useContext(AuthContext);
   return (
     <>
-      {!state?.auth?.token ? (
+      {state?.auth?.token ? (
         <>
           {/* <TopBar /> */}
           <div className="flex flex-col h-full md:flex-row flex-1">
-            <aside className="w-20 fixed left-0 top-0  h-full">
+            <aside className="w-16 fixed left-0 top-0  h-full">
               <Navbar />
             </aside>
-            <main className="h-full flex ml-20 flex-1">{children}</main>
+            <main className="h-full flex ml-16 flex-1">{children}</main>
           </div>
         </>
       ) : (

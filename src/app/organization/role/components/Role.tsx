@@ -1,6 +1,4 @@
 "use client";
-
-import CreateOrganization from "@/components/Organization/CreateOrganization";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -13,17 +11,16 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import { Form } from "react-hook-form";
 
 const RoleComponent = () => {
   return (
     <>
       <Drawer>
         <div className="h-full py-10 flex items-center gap-5 flex-col">
-          <h2 className="text-3xl  font-bold space-x-2">No Role Created</h2>
+          <h2 className="text-2xl">No Role Created</h2>
           <DrawerTrigger asChild>
             <Button className="flex gap-3 font-semibold">
-              <PlusCircledIcon className="w-5 h-5" />
+              <PlusCircledIcon />
               Let&apos;s create
             </Button>
           </DrawerTrigger>
