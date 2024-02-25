@@ -6,7 +6,7 @@ import Image from "next/image";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Register from "./Register";
 function Auth() {
-  const [login, setLogin] = useState<"login" | "register">("register");
+  const [login, setLogin] = useState<"login" | "register">("login");
   return (
     <div className="h-full w-full flex items-center justify-center">
       <div>

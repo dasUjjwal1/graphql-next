@@ -72,32 +72,30 @@ export const ORG_ROLE = gql`
   }
 `;
 export const LOG_IN = gql`
-  query MyMutation($email: EmailAddress!, $password: String!) {
-    LogInOrganization(email: $email, password: $password) {
-      org {
-        address {
-          city
-          houseNumber
-          pin
-          state
-          street
-        }
-        email
+  query ($email: String!, $password: String!) {
+    loginOrganization(body: { email: $email, password: $password }) {
+      id
+      name
+      email
+      mobile
+      picturePath
+      paymentStructure
+      location
+      address {
         id
-        location
-        mobile
-        name
-        paid
-        password
-        payment_structure
-        picturePath
-        roles {
-          _id
-          name
-          parent
-          position
-        }
+        city
+        street
+        housenumber
+        state
+        pin
       }
+      roles {
+        id
+        name
+        position
+        parent
+      }
+      paid
       token
     }
   }

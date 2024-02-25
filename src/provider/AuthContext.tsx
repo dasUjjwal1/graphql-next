@@ -1,18 +1,8 @@
 import { produce } from "immer";
-import {
-  Dispatch,
-  DispatchWithoutAction,
-  ReactNode,
-  createContext,
-  useContext,
-  useReducer,
-} from "react";
+import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
 type AuthType = {
-  auth: {
-    user: any;
-    token: string | null;
-  };
+  auth: any;
   menu: { id: string; label: string; path: string; icon: string }[];
 };
 export enum ActionsTypes {
@@ -26,10 +16,7 @@ export type Actions =
     }
   | { type: ActionsTypes.MENU; payload: [] };
 const initialState: AuthType = {
-  auth: {
-    user: null,
-    token: null,
-  },
+  auth: null,
   menu: [],
 };
 const reducer = produce((draft: AuthType, action: Actions) => {
@@ -44,7 +31,7 @@ const reducer = produce((draft: AuthType, action: Actions) => {
   }
 });
 export const AuthContext = createContext<AuthType>({
-  auth: { user: null, token: null },
+  auth: null,
   menu: [],
 });
 export const AuthDispatch = createContext<{ dispatch: Dispatch<Actions> }>({

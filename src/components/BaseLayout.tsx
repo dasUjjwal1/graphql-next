@@ -6,6 +6,7 @@ import Auth from "./auth";
 
 const BaseLayout = ({ children }: { children: ReactNode }) => {
   const state = useContext(AuthContext);
+  console.log(state?.auth);
   return (
     <>
       {state?.auth?.token ? (

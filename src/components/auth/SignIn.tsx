@@ -1,7 +1,6 @@
 "use client";
 import { useContext, useState } from "react";
 import { ActionsTypes, AuthDispatch } from "@/provider/AuthContext";
-import AuthService from "@/service/authService";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -15,12 +14,21 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Login } from "@/types/authType";
+import { LOG_IN } from "@/gql/org";
+import { AppConfig } from "@/config/appConfig";
+import { useLazyQuery } from "@apollo/client";
 
 function SignIn() {
-  const authService = new AuthService();
-  const [loading, setLoading] = useState(false);
   const { dispatch } = useContext(AuthDispatch);
-
+  const [mutation, { loading }] = useLazyQuery(LOG_IN, {
+    onCompleted: (data) => {
+      sessionStorage.setItem(
+        AppConfig.CREDENTIAL,
+        JSON.stringify(data?.loginOrganization)
+      );
+      dispatch({ type: ActionsTypes.AUTH, payload: data?.loginOrganization });
+    },
+  });
   const form = useForm<Login>({
     defaultValues: {
       email: "",
@@ -29,19 +37,7 @@ function SignIn() {
   });
 
   function onSubmit(value: Login) {
-    setLoading(true);
-    authService
-      .logIn(value)
-      .then((res) => {
-        dispatch({
-          type: ActionsTypes.AUTH,
-          payload: res?.LogInOrganization,
-        });
-      })
-      .catch((error) => {
-        console.log(typeof error);
-      })
-      .finally(() => setLoading(false));
+    mutation({ variables: value });
   }
   return (
     <>
