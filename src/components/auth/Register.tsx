@@ -22,12 +22,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useMutation } from "@apollo/client";
+import { REGISTER_ORGANIZATION } from "@/gql/org";
 
 function Register() {
   const authService = new AuthService();
   const [loading, setLoading] = useState(false);
   const { dispatch } = useContext(AuthDispatch);
-
+  const [mutation, { data }] = useMutation(REGISTER_ORGANIZATION);
   const form = useForm<Register>({
     defaultValues: {
       email: "",
@@ -43,18 +45,6 @@ function Register() {
       ...value,
       location: Number(value.location),
     };
-    authService
-      .registerOrg(body)
-      .then((res) => {
-        dispatch({
-          type: ActionsTypes.AUTH,
-          payload: res?.LogInOrganization,
-        });
-      })
-      .catch((error) => {
-        console.log(typeof error);
-      })
-      .finally(() => setLoading(false));
   };
   return (
     <>

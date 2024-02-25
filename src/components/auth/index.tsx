@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import SignIn from "./SignIn";
 import Image from "next/image";
-import LoginImg from "../../../public/auth/login.png";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Register from "./Register";
 function Auth() {

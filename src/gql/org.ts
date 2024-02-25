@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from "@apollo/client";
 
 export const ROLE_QUERY = gql`
   query MyQuery {
@@ -28,12 +28,28 @@ export const REGISTER_ORGANIZATION = gql`
       name: $name
       password: $password
     ) {
-      org {
-        email
+      id
+      name
+      email
+      mobile
+      picturePath
+      paymentStructure
+      location
+      address {
         id
-        location
-        name
+        city
+        street
+        housenumber
+        state
+        pin
       }
+      roles {
+        id
+        name
+        position
+        parent
+      }
+      paid
       token
     }
   }
