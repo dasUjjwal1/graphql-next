@@ -24,13 +24,22 @@ import {
 import { useMutation } from "@apollo/client";
 import { REGISTER_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
+import { useToast } from "../ui/use-toast";
 
 function Register() {
+  const { toast } = useToast();
   const { dispatch } = useContext(AuthDispatch);
   const [mutation, { loading }] = useMutation(REGISTER_ORGANIZATION, {
     onCompleted: (data) => {
       sessionStorage.setItem(AppConfig.CREDENTIAL, JSON.stringify(data));
       dispatch({ type: ActionsTypes.AUTH, payload: data });
+    },
+    onError(error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
   const form = useForm<Register>({
@@ -55,7 +64,7 @@ function Register() {
         <form
           autoComplete={"off"}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid "
+          className="grid"
         >
           <FormField
             control={form.control}

@@ -16,17 +16,19 @@ export const ROLE_MUTATION_CREATE = gql`
   }
 `;
 export const REGISTER_ORGANIZATION = gql`
-  mutation MyMutation(
-    $email: EmailAddress!
+  mutation (
+    $email: String!
     $location: Int!
     $name: String!
     $password: String!
   ) {
-    RegisterOrganization(
-      email: $email
-      location: $location
-      name: $name
-      password: $password
+    createOrganization(
+      body: {
+        email: $email
+        location: $location
+        name: $name
+        password: $password
+      }
     ) {
       id
       name

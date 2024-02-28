@@ -13,7 +13,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import TopBar from "./TopBar";
 
 export default function Navbar() {
   const pathName = usePathname();
@@ -44,7 +43,6 @@ export default function Navbar() {
         <ul className="h-full flex flex-col gap-3 p-0">
           {state?.menu?.map((item) => (
             <>
-              <TopBar />
               <li className={"flex items-center justify-center"} key={item?.id}>
                 <TooltipProvider>
                   <Tooltip>

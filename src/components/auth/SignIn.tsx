@@ -17,9 +17,11 @@ import { Login } from "@/types/authType";
 import { LOG_IN } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
+import { useToast } from "../ui/use-toast";
 
 function SignIn() {
   const { dispatch } = useContext(AuthDispatch);
+  const { toast } = useToast();
   const [mutation, { loading }] = useLazyQuery(LOG_IN, {
     onCompleted: (data) => {
       sessionStorage.setItem(
@@ -27,6 +29,13 @@ function SignIn() {
         JSON.stringify(data?.loginOrganization)
       );
       dispatch({ type: ActionsTypes.AUTH, payload: data?.loginOrganization });
+    },
+    onError(error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
   const form = useForm<Login>({
