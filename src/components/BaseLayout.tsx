@@ -17,7 +17,7 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
             <aside className="w-16 fixed left-0 top-0  h-full">
               <Navbar />
             </aside>
-            <main className="pt-16 flex ml-16 flex-1">{children}</main>
+            <main className="pt-12 flex ml-16 flex-1">{children}</main>
           </div>
         </>
       ) : (

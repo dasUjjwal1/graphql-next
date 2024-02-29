@@ -39,7 +39,7 @@ export default function Navbar() {
   }, []);
   return (
     <>
-      <nav className="h-full pt-5 overflow-y-auto shadow-md">
+      <nav className="h-full pt-12 overflow-y-auto shadow-md">
         <ul className="h-full flex flex-col gap-3 p-0">
           {state?.menu?.map((item) => (
             <>
