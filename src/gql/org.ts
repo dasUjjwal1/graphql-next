@@ -73,13 +73,14 @@ export const ORG_ROLE = gql`
     position
   }
 `;
-export const LOG_IN = gql`
+export const LOG_IN_ORGANIZATION = gql`
   query ($email: String!, $password: String!) {
     loginOrganization(body: { email: $email, password: $password }) {
       id
       name
       email
       mobile
+      isAdmin
       picturePath
       paymentStructure
       location

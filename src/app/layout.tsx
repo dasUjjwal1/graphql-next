@@ -26,9 +26,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <GraphQLProvider>
-          <BaseLayout>{children}</BaseLayout>
-        </GraphQLProvider>
+        <GraphQLProvider>{children}</GraphQLProvider>
         <Toaster />
       </body>
     </html>

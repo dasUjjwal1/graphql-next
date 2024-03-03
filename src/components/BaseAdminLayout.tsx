@@ -1,17 +1,16 @@
 "use client";
-import { ReactNode, useContext } from "react";
-import Navbar from "./navbar/Navbar";
-import { AuthContext } from "@/provider/AuthContext";
-import Auth from "./auth";
-import TopBar from "./navbar/TopBar";
 
-const BaseLayout = ({ children }: { children: ReactNode }) => {
+import { AuthContext } from "@/provider/AuthContext";
+import { ReactNode, useContext } from "react";
+import AdminAuth from "./auth/admin";
+import Navbar from "./navbar/Navbar";
+
+const BaseAdminLayout = ({ children }: { children: ReactNode }) => {
   const state = useContext(AuthContext);
   return (
     <>
-      {state?.auth?.token ? (
+      {state?.adminAuth?.token ? (
         <>
-          <TopBar />
           <div className="flex flex-col h-full md:flex-row flex-1">
             <aside className="w-16 fixed left-0 top-0  h-full">
               <Navbar />
@@ -20,10 +19,10 @@ const BaseLayout = ({ children }: { children: ReactNode }) => {
           </div>
         </>
       ) : (
-        <Auth />
+        <AdminAuth />
       )}
     </>
   );
 };
 
-export default BaseLayout;
+export default BaseAdminLayout;

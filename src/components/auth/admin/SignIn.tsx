@@ -9,17 +9,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Login } from "@/types/authType";
 import { LOG_IN_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../ui/use-toast";
 
-function SignIn() {
+function AdminSignIn() {
   const { dispatch } = useContext(AuthDispatch);
   const { toast } = useToast();
   const [mutation, { loading }] = useLazyQuery(LOG_IN_ORGANIZATION, {
@@ -28,7 +28,10 @@ function SignIn() {
         AppConfig.CREDENTIAL,
         JSON.stringify(data?.loginOrganization)
       );
-      dispatch({ type: ActionsTypes.AUTH, payload: data?.loginOrganization });
+      dispatch({
+        type: ActionsTypes.ADMINAUTH,
+        payload: data?.loginOrganization,
+      });
     },
     onError(error) {
       toast({
@@ -95,4 +98,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default AdminSignIn;
