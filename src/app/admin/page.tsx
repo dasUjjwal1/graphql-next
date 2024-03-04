@@ -1,10 +1,10 @@
-import Organization from "@/components/Organization/Organization";
 import Layout from "./layout";
+import AdminDashboard from "@/components/admin/dashboard/dashboard";
 
 const Page = () => {
   return (
     <>
-      <Organization />
+      <AdminDashboard />
     </>
   );
 };

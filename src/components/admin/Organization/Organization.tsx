@@ -13,7 +13,7 @@ import {
 } from "@tanstack/react-table";
 import { table } from "console";
 import { columns } from "tailwindcss/defaultTheme";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   Table,
   TableHeader,
@@ -21,14 +21,14 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from "../ui/table";
+} from "../../ui/table";
 import { Employee, OrgCreate, OrgDetailsTable } from "@/types/appTypes";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "../../ui/dropdown-menu";
 import {
   Drawer,
   DrawerClose,
@@ -38,8 +38,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "../ui/drawer";
-import { Form } from "../ui/form";
+} from "../../ui/drawer";
+import { Form } from "../../ui/form";
 import { useForm } from "react-hook-form";
 import CreateOrganization from "./CreateOrganization";
 

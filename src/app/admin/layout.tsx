@@ -1,16 +1,10 @@
-import BaseAdminLayout from "@/components/BaseAdminLayout";
-import OrgSidebar from "@/components/Organization/OrgSidebar";
+import AdminIndexPage from "@/components/admin";
 import { ReactNode } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <BaseAdminLayout>
-        <div className="flex flex-grow">
-          <OrgSidebar />
-          <div className="flex-grow p-3">{children}</div>
-        </div>
-      </BaseAdminLayout>
+      <AdminIndexPage>{children}</AdminIndexPage>
     </>
   );
 };

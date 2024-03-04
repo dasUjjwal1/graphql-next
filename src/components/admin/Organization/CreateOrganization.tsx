@@ -1,6 +1,6 @@
 "use client";
 import { OrgDetailsFormTypes } from "@/types/appTypes";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   Form,
   FormControl,
@@ -9,8 +9,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
 
 const CreateOrganization = (props: OrgDetailsFormTypes) => {
   return (

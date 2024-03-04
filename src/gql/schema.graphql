@@ -1,0 +1,163 @@
+schema {
+  query: RootQuery
+  mutation: Mutation
+}
+
+type Address {
+  id: ObjectId
+  city: String
+  street: String
+  housenumber: String
+  state: String
+  pin: String
+}
+
+"""
+Implement the DateTime<Utc> scalar
+
+The input/output is a string in RFC3339 format.
+"""
+scalar DateTime
+
+input EmployeeLoginInput {
+  employeeEmail: String!
+  employeePassword: String!
+}
+
+input EmployeeRegisterInput {
+  employeeName: String!
+  employeeEmail: String!
+  profileImage: String!
+  employeeType: Int
+  depertment: String
+  employeePosition: Int
+  employeeId: Int
+  account: String
+  employeePassword: String!
+  country: Int!
+  organizationId: String!
+  mobile: String!
+  joiningDate: DateTime
+  employeeAddress: JSON
+  qualification: JSON
+}
+
+"""A scalar that can represent any JSON value."""
+scalar JSON
+
+type Mutation {
+  createEmployee(body: EmployeeRegisterInput!): String!
+  createAttenadce: String!
+  createOrganization(body: OrganizationRegister!): OrganizationResponse!
+  createOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
+  updateOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
+}
+
+scalar ObjectId
+
+type OrgAddress {
+  city: String
+  street: String
+  housenumber: String
+  state: String
+  pin: String
+}
+
+type OrgHoliday {
+  id: ObjectId
+  name: String
+  date: DateTime
+}
+
+type OrganizationDetails {
+  id: ObjectId
+  orgName: String!
+  orgId: ObjectId!
+  idActive: Boolean!
+  address: OrgAddress
+  employeeCount: Int!
+  orgType: Int
+  totalLeaveCount: Int
+  establishedOn: DateTime
+  holiday: [OrgHoliday!]
+  documents: [String!]
+  logo: String
+  officeHour: Int
+  startTime: Int!
+  endTime: Int!
+  financialYearStart: String
+  financialYearEnd: String
+  depertment: Int
+  notWorkingDays: [Int!]
+  orgContact: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input OrganizationDetailsRegisterInput {
+  id: ObjectId
+  address: addressinput
+  orgName: String!
+  employeeCount: Int!
+  orgType: Int
+  totalLeaveCount: Int
+  orgContact: String
+  logo: String
+  officeHour: Int
+  startTime: Int!
+  endTime: Int!
+}
+
+input OrganizationLogin {
+  email: String!
+  password: String!
+}
+
+input OrganizationRegister {
+  name: String!
+  email: String!
+  password: String!
+  location: Int!
+}
+
+type OrganizationResponse {
+  id: ObjectId!
+  name: String!
+  email: String!
+  isAdmin: Boolean!
+  mobile: String
+  picturePath: String
+  paymentStructure: Status
+  location: Int!
+  address: Address
+  roles: [Role!]
+  paid: Boolean
+  token: String!
+}
+
+type Role {
+  id: ObjectId
+  name: String
+  position: Int
+  parent: ObjectId
+}
+
+type RootQuery {
+  loginEmployee(body: EmployeeLoginInput!): String!
+  loginOrganization(body: OrganizationLogin!): OrganizationResponse!
+  getAllOrganization: [OrganizationDetails!]!
+}
+
+enum Status {
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+input addressinput {
+  city: String
+  street: String
+  housenumber: String
+  state: String
+  pin: String
+}

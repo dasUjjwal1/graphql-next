@@ -6,9 +6,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+} from "../../ui/form";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
 
 const CreateOrgEmployee = (props: EmployeeFormTypes) => {
   return (

@@ -1,12 +1,5 @@
-import BaseLayout from "@/components/BaseLayout";
-import HomePage from "@/components/home/HomePage";
+import HomeHandler from "@/components/home";
 
 export default function Home() {
-  return (
-    <>
-      <BaseLayout>
-        <HomePage />
-      </BaseLayout>
-    </>
-  );
+  return <HomeHandler />;
 }

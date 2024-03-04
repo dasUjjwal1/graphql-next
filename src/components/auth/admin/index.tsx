@@ -8,13 +8,13 @@ function AdminAuth() {
   const [login, setLogin] = useState<"login" | "register">("login");
   return (
     <div className="h-full w-full flex items-center justify-center">
-      <div>
+      <div className="w-1/4">
         {login === "register" ? (
           <>
-            <h1 className={"text-3xl py-4 font-bold"}>
-              Create new account<span className={"text-blue-600"}>.</span>
+            <h1 className={"text-4xl text-center py-4 font-bold"}>
+              Create new account<span className={"text-green-600"}>.</span>
             </h1>
-
+            {/* 
             <div className="grid pb-4 grid-cols-2 gap-6">
               <Button variant={"outline"} className="flex gap-2">
                 <GitHubLogoIcon />
@@ -29,7 +29,7 @@ function AdminAuth() {
                 </svg>
                 Google
               </Button>
-            </div>
+            </div> */}
             <AdminRegister />
             <p className="text-sm text-muted-foreground text-center">
               Already a member?
@@ -40,10 +40,10 @@ function AdminAuth() {
           </>
         ) : (
           <>
-            <h1 className={"text-3xl py-4 font-bold"}>
-              Welcome Admin<span className={"text-blue-600"}>.</span>
+            <h1 className={"text-4xl text-center py-4 font-bold"}>
+              Welcome Admin<span className={"text-green-600"}>.</span>
             </h1>
-            <div className="grid pb-4 grid-cols-2 gap-6">
+            {/* <div className="grid pb-4 grid-cols-2 gap-6">
               <Button variant={"outline"} className="flex gap-2">
                 <GitHubLogoIcon />
                 Github
@@ -57,7 +57,7 @@ function AdminAuth() {
                 </svg>
                 Google
               </Button>
-            </div>
+            </div> */}
             <AdminSignIn />
             <p className="text-sm text-muted-foreground text-center">
               Don`t have any account?
