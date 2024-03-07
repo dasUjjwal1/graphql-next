@@ -49,7 +49,7 @@ function AdminSignIn() {
   });
 
   function onSubmit(value: Login) {
-    mutation({ variables: value });
+    mutation({ variables: { body: value } });
   }
   return (
     <>

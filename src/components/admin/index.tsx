@@ -11,7 +11,7 @@ type Props = {
 };
 const AdminIndexPage = (props: Props) => {
   const state = useContext(AuthContext);
-
+  console.log(state?.adminAuth?.token);
   return (
     <>
       {state?.adminAuth?.token ? (

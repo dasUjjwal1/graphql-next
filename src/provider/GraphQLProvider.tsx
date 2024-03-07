@@ -10,7 +10,7 @@ const GraphQLProvider = ({ children }: { children: ReactNode }) => {
     <ApolloProvider client={client}>
       <ThemeProvider
         attribute="class"
-        // defaultTheme="dark"
+        defaultTheme="light"
         // enableSystem
         // disableTransitionOnChange
       >

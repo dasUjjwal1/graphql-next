@@ -1,13 +1,37 @@
 import { gql } from "@apollo/client";
 
 export const REGISTER_ORGANIZATION = gql`
-  mutation Mutation($body: OrganizationRegister!) {
-    createOrganization(body: $body)
+  mutation CreateOrganization($body: OrganizationRegister!) {
+    createOrganization(body: $body) {
+      id
+      name
+      email
+      isAdmin
+      mobile
+      picturePath
+      paymentStructure
+      location
+      address {
+        city
+        street
+        housenumber
+        state
+        pin
+      }
+      roles {
+        id
+        name
+        position
+        parent
+      }
+      lastSubscribe
+      token
+    }
   }
 `;
 
 export const LOG_IN_ORGANIZATION = gql`
-  query LoginOrganization($body: OrganizationLogin!) {
+  query RootQuery($body: OrganizationLogin!) {
     loginOrganization(body: $body) {
       id
       name
@@ -30,7 +54,7 @@ export const LOG_IN_ORGANIZATION = gql`
         position
         parent
       }
-      paid
+      lastSubscribe
       token
     }
   }

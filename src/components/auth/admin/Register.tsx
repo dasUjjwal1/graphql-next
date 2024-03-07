@@ -64,7 +64,7 @@ function AdminRegister() {
         <form
           autoComplete={"off"}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid"
+          className="space-y-3"
         >
           <FormField
             control={form.control}
