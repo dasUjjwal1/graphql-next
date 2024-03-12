@@ -1,4 +1,4 @@
-import AdminIndexPage from "@/components/admin";
+import AdminIndexPage from "@/components/organization";
 import { ReactNode } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {

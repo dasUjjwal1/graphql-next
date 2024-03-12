@@ -2,19 +2,25 @@
 import { useState } from "react";
 import { Button } from "../../ui/button";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import LoginImg from "../../../../public/auth/work-with-the-best.svg";
 import AdminRegister from "./Register";
 import AdminSignIn from "./SignIn";
+import Image from "next/image";
 function AdminAuth() {
   const [login, setLogin] = useState<"login" | "register">("login");
   return (
-    <div className="h-full w-full flex items-center justify-center">
-      <div className="w-1/4">
-        {login === "register" ? (
-          <>
-            <h1 className={"text-4xl text-center py-4 font-bold"}>
-              Create new account<span className={"text-green-600"}>.</span>
-            </h1>
-            {/* 
+    <div className="h-full w-full bg-[#def1e3] flex items-center justify-center">
+      <div className="w-full lg:w-1/2 bg-slate-50 grid grid-cols-2 items-center shadow-md rounded-md">
+        <div className="col-span-1 h-full flex items-center bg-[#e6feed]">
+          <Image src={LoginImg} alt="img" />
+        </div>
+        <div className="col-span-1  p-6">
+          {login === "register" ? (
+            <>
+              <h1 className={"text-4xl text-center mb-10 font-bold"}>
+                Create new account<span className={"text-blue-600"}>.</span>
+              </h1>
+              {/* 
             <div className="grid pb-4 grid-cols-2 gap-6">
               <Button variant={"outline"} className="flex gap-2">
                 <GitHubLogoIcon />
@@ -30,20 +36,20 @@ function AdminAuth() {
                 Google
               </Button>
             </div> */}
-            <AdminRegister />
-            <p className="text-sm text-muted-foreground text-center">
-              Already a member?
-              <Button onClick={() => setLogin("login")} variant={"link"}>
-                Login
-              </Button>
-            </p>
-          </>
-        ) : (
-          <>
-            <h1 className={"text-4xl text-center py-4 font-bold"}>
-              Welcome Admin<span className={"text-green-600"}>.</span>
-            </h1>
-            {/* <div className="grid pb-4 grid-cols-2 gap-6">
+              <AdminRegister />
+              <p className="text-sm text-muted-foreground text-center">
+                Already a member?
+                <Button onClick={() => setLogin("login")} variant={"link"}>
+                  Login
+                </Button>
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className={"text-4xl text-center py-4 font-bold"}>
+                Welcome Admin<span className={"text-blue-600"}>.</span>
+              </h1>
+              {/* <div className="grid pb-4 grid-cols-2 gap-6">
               <Button variant={"outline"} className="flex gap-2">
                 <GitHubLogoIcon />
                 Github
@@ -58,15 +64,16 @@ function AdminAuth() {
                 Google
               </Button>
             </div> */}
-            <AdminSignIn />
-            <p className="text-sm text-muted-foreground text-center">
-              Don`t have any account?
-              <Button onClick={() => setLogin("register")} variant={"link"}>
-                Register
-              </Button>
-            </p>
-          </>
-        )}
+              <AdminSignIn />
+              <p className="text-sm text-muted-foreground text-center">
+                Don`t have any account?
+                <Button onClick={() => setLogin("register")} variant={"link"}>
+                  Register
+                </Button>
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

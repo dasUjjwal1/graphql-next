@@ -1,5 +1,5 @@
 import Layout from "./layout";
-import AdminDashboard from "@/components/admin/dashboard/dashboard";
+import AdminDashboard from "@/components/organization/dashboard/dashboard";
 
 const Page = () => {
   return (
