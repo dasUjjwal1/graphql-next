@@ -28,10 +28,19 @@ import {
   ActionsTypes,
   OrgAuthDispatch,
 } from "@/components/organization/AuthContext";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 function AdminRegister() {
   const { toast } = useToast();
   const { dispatch } = useContext(OrgAuthDispatch);
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid Email")
+      .required("This field is required"),
+    password: Yup.string().required("This field is required"),
+    name: Yup.string().required("This field is required"),
+    location: Yup.string().required("This field is required"),
+  }).required();
   const [mutation, { loading }] = useMutation(REGISTER_ORGANIZATION, {
     onCompleted: (data) => {
       sessionStorage.setItem(AppConfig.CREDENTIAL, JSON.stringify(data));
@@ -52,6 +61,7 @@ function AdminRegister() {
       name: "",
       location: "",
     },
+    resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = (value: Register) => {
@@ -59,7 +69,7 @@ function AdminRegister() {
       ...value,
       location: Number(value.location),
     };
-    mutation({ variables: body });
+    mutation({ variables: { body: body } });
   };
   return (
     <>

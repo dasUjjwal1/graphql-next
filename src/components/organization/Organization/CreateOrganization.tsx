@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import { OrgDetailsFormTypes } from "@/types/appTypes";
 import { Button } from "../../ui/button";
@@ -27,7 +28,7 @@ const CreateOrganization = (props: OrgDetailsFormTypes) => {
             <FormControl>
               <Input placeholder="Organization Name" {...field} />
             </FormControl>
-            {/* <FormMessage /> */}
+            <FormMessage />
           </FormItem>
         )}
       />

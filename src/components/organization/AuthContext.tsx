@@ -1,5 +1,4 @@
 "use client";
-import { produce } from "immer";
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
 type AuthType = {
@@ -21,18 +20,18 @@ const initialState: AuthType = {
   adminAuth: null,
   token: null,
 };
-const reducer = produce((draft: AuthType, action: Actions) => {
+const reducer = (draft: AuthType, action: Actions) => {
   switch (action.type) {
     case ActionsTypes.MENU:
-      draft.menu = action.payload;
+      return { ...draft, menu: action.payload };
     case ActionsTypes.ADMINAUTH:
-      draft.adminAuth = action.payload;
+      return { ...draft, adminAuth: action.payload };
     case ActionsTypes.TOKEN:
-      draft.token = action.payload;
+      return { ...draft, token: action.payload };
     default:
       return draft;
   }
-});
+};
 export const OrgAuthContext = createContext<AuthType>({
   menu: [],
   adminAuth: null,

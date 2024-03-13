@@ -28,7 +28,7 @@ const AdminNavbar = () => {
   }, []);
   return (
     <>
-      <Navbar menu={[]} />
+      <Navbar menu={state.menu} />
     </>
   );
 };

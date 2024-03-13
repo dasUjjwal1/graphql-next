@@ -22,7 +22,7 @@ import {
   TableBody,
   TableCell,
 } from "../../ui/table";
-import { Employee, OrgCreate, OrgDetailsTable } from "@/types/appTypes";
+import { Employee, OrgDetailsTable } from "@/types/appTypes";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,12 +42,13 @@ import {
 import { Form } from "../../ui/form";
 import { useForm } from "react-hook-form";
 import CreateOrganization from "./CreateOrganization";
+import { OrganizationDetailsRegisterInput } from "@/graphql/graphql";
 
 const Organization = () => {
-  const form = useForm<OrgCreate>({
+  const form = useForm<OrganizationDetailsRegisterInput>({
     defaultValues: {},
   });
-  const onSubmit = (value: OrgCreate) => {};
+  const onSubmit = (value: OrganizationDetailsRegisterInput) => {};
   const columnHelper = createColumnHelper<OrgDetailsTable>();
 
   const columns = [

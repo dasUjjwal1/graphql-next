@@ -21,10 +21,17 @@ import {
   ActionsTypes,
   OrgAuthDispatch,
 } from "@/components/organization/AuthContext";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 function AdminSignIn() {
   const { dispatch } = useContext(OrgAuthDispatch);
   const { toast } = useToast();
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid Email")
+      .required("This field is required"),
+    password: Yup.string().required("This field is required"),
+  }).required();
   const [mutation, { loading }] = useLazyQuery(LOG_IN_ORGANIZATION, {
     onCompleted: (data) => {
       sessionStorage.setItem(
@@ -53,6 +60,7 @@ function AdminSignIn() {
       email: "",
       password: "",
     },
+    resolver: yupResolver(validationSchema),
   });
 
   function onSubmit(value: Login) {
