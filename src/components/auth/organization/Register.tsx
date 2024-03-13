@@ -1,6 +1,5 @@
 "use client";
 import { useContext, useState } from "react";
-import { ActionsTypes, AuthDispatch } from "@/provider/AuthContext";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -9,9 +8,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Register } from "@/types/authType";
 import {
@@ -20,19 +19,23 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
 import { useMutation } from "@apollo/client";
 import { REGISTER_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../ui/use-toast";
+import {
+  ActionsTypes,
+  OrgAuthDispatch,
+} from "@/components/organization/AuthContext";
 
-function Register() {
+function AdminRegister() {
   const { toast } = useToast();
-  const { dispatch } = useContext(AuthDispatch);
+  const { dispatch } = useContext(OrgAuthDispatch);
   const [mutation, { loading }] = useMutation(REGISTER_ORGANIZATION, {
     onCompleted: (data) => {
       sessionStorage.setItem(AppConfig.CREDENTIAL, JSON.stringify(data));
-      dispatch({ type: ActionsTypes.AUTH, payload: data });
+      dispatch({ type: ActionsTypes.ADMINAUTH, payload: data });
     },
     onError(error) {
       toast({
@@ -64,7 +67,7 @@ function Register() {
         <form
           autoComplete={"off"}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid"
+          className="space-y-3"
         >
           <FormField
             control={form.control}
@@ -141,4 +144,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default AdminRegister;

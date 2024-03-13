@@ -1,6 +1,5 @@
 "use client";
 import { useContext, useState } from "react";
-import { ActionsTypes, AuthDispatch } from "@/provider/AuthContext";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -18,9 +17,10 @@ import { LOG_IN_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
 import { useToast } from "../../ui/use-toast";
+import { ActionsTypes, UserAuthDispatch } from "@/components/user/AuthContext";
 
-function AdminSignIn() {
-  const { dispatch } = useContext(AuthDispatch);
+function SignIn() {
+  const { dispatch } = useContext(UserAuthDispatch);
   const { toast } = useToast();
   const [mutation, { loading }] = useLazyQuery(LOG_IN_ORGANIZATION, {
     onCompleted: (data) => {
@@ -29,7 +29,7 @@ function AdminSignIn() {
         JSON.stringify(data?.loginOrganization)
       );
       dispatch({
-        type: ActionsTypes.ADMINAUTH,
+        type: ActionsTypes.USERAUTH,
         payload: data?.loginOrganization,
       });
     },
@@ -98,4 +98,4 @@ function AdminSignIn() {
   );
 }
 
-export default AdminSignIn;
+export default SignIn;

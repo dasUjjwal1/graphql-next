@@ -1,6 +1,5 @@
 "use client";
 import { useContext, useState } from "react";
-import { ActionsTypes, AuthDispatch } from "@/provider/AuthContext";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -9,18 +8,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Login } from "@/types/authType";
 import { LOG_IN_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../ui/use-toast";
+import {
+  ActionsTypes,
+  OrgAuthDispatch,
+} from "@/components/organization/AuthContext";
 
-function SignIn() {
-  const { dispatch } = useContext(AuthDispatch);
+function AdminSignIn() {
+  const { dispatch } = useContext(OrgAuthDispatch);
   const { toast } = useToast();
   const [mutation, { loading }] = useLazyQuery(LOG_IN_ORGANIZATION, {
     onCompleted: (data) => {
@@ -28,7 +31,14 @@ function SignIn() {
         AppConfig.CREDENTIAL,
         JSON.stringify(data?.loginOrganization)
       );
-      dispatch({ type: ActionsTypes.AUTH, payload: data?.loginOrganization });
+      dispatch({
+        type: ActionsTypes.ADMINAUTH,
+        payload: data?.loginOrganization,
+      });
+      dispatch({
+        type: ActionsTypes.TOKEN,
+        payload: data?.loginOrganization?.token,
+      });
     },
     onError(error) {
       toast({
@@ -95,4 +105,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default AdminSignIn;

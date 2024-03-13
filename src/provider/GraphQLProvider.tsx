@@ -1,7 +1,6 @@
 "use client";
 import { ApolloProvider } from "@apollo/client";
 import { ReactNode } from "react";
-import { AuthProvider } from "./AuthContext";
 import { ThemeProvider } from "./ThemeProvider";
 import { client } from "@/config/apollo";
 
@@ -10,11 +9,11 @@ const GraphQLProvider = ({ children }: { children: ReactNode }) => {
     <ApolloProvider client={client}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="light"
+        defaultTheme="dark"
         // enableSystem
         // disableTransitionOnChange
       >
-        <AuthProvider>{children}</AuthProvider>
+        {children}
       </ThemeProvider>
     </ApolloProvider>
   );

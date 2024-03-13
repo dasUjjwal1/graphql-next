@@ -1,31 +1,24 @@
 "use client";
 
 import { ReactNode, useContext } from "react";
-import { AuthContext } from "@/provider/AuthContext";
-import AdminAuth from "../auth/admin";
-import Navbar from "../navbar/Navbar";
+import AdminAuth from "../auth/organization";
 import AdminNavbar from "./navbar";
+import { OrgAuthContext } from "./AuthContext";
 
 type Props = {
   children: ReactNode;
 };
 const AdminIndexPage = (props: Props) => {
-  const state = useContext(AuthContext);
-  console.log(state?.adminAuth?.token);
-  return (
-    <>
-      {state?.adminAuth?.token ? (
-        <div className="flex flex-grow">
-          <AdminNavbar />
-          <div className="flex-grow p-3">{props?.children}</div>
-        </div>
-      ) : (
-        <>
-          <AdminAuth />
-        </>
-      )}
-    </>
-  );
+  const state = useContext(OrgAuthContext);
+  if (state?.token) {
+    return (
+      <div className="flex h-full flex-grow">
+        <AdminNavbar />
+        <div className="flex-grow p-3">{props?.children}</div>
+      </div>
+    );
+  }
+  return <AdminAuth />;
 };
 
 export default AdminIndexPage;

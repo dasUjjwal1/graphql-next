@@ -1,11 +1,11 @@
 "use client";
-import { AuthContext } from "@/provider/AuthContext";
 import React, { useContext } from "react";
+import { OrgAuthContext } from "../AuthContext";
 
 const AdminDashboard = () => {
-  const state = useContext(AuthContext);
+  const state = useContext(OrgAuthContext);
   console.log(state);
-  return <div>AdminDashboard</div>;
+  return <></>;
 };
 
 export default AdminDashboard;

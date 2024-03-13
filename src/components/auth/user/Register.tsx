@@ -1,6 +1,5 @@
 "use client";
 import { useContext, useState } from "react";
-import { ActionsTypes, AuthDispatch } from "@/provider/AuthContext";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -25,14 +24,15 @@ import { useMutation } from "@apollo/client";
 import { REGISTER_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useToast } from "../../ui/use-toast";
+import { ActionsTypes, UserAuthDispatch } from "@/components/user/AuthContext";
 
-function AdminRegister() {
+function Register() {
   const { toast } = useToast();
-  const { dispatch } = useContext(AuthDispatch);
+  const { dispatch } = useContext(UserAuthDispatch);
   const [mutation, { loading }] = useMutation(REGISTER_ORGANIZATION, {
     onCompleted: (data) => {
       sessionStorage.setItem(AppConfig.CREDENTIAL, JSON.stringify(data));
-      dispatch({ type: ActionsTypes.ADMINAUTH, payload: data });
+      dispatch({ type: ActionsTypes.USERAUTH, payload: data });
     },
     onError(error) {
       toast({
@@ -64,7 +64,7 @@ function AdminRegister() {
         <form
           autoComplete={"off"}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-3"
+          className="grid"
         >
           <FormField
             control={form.control}
@@ -141,4 +141,4 @@ function AdminRegister() {
   );
 }
 
-export default AdminRegister;
+export default Register;

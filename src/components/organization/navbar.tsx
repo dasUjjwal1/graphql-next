@@ -1,16 +1,12 @@
 "use client";
 
-import {
-  ActionsTypes,
-  AuthContext,
-  AuthDispatch,
-} from "@/provider/AuthContext";
 import { useContext, useEffect } from "react";
 import Navbar from "../navbar/Navbar";
+import { ActionsTypes, OrgAuthContext, OrgAuthDispatch } from "./AuthContext";
 
 const AdminNavbar = () => {
-  const state = useContext(AuthContext);
-  const { dispatch } = useContext(AuthDispatch);
+  const state = useContext(OrgAuthContext);
+  const { dispatch } = useContext(OrgAuthDispatch);
   const getMenus = async () => {
     try {
       const res = await fetch("/api/menu", {
@@ -32,7 +28,7 @@ const AdminNavbar = () => {
   }, []);
   return (
     <>
-      <Navbar menu={state.menu} />
+      <Navbar menu={[]} />
     </>
   );
 };
