@@ -24,11 +24,26 @@ import { Form } from "../../ui/form";
 import CreateOrganization from "../Organization/CreateOrganization";
 import { useForm } from "react-hook-form";
 import { OrganizationDetailsRegisterInput } from "@/graphql/graphql";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 const AdminDashboard = () => {
   const { adminAuth } = useContext(OrgAuthContext);
+  const validationSchema = Yup.object({
+    address: Yup.string().nullable(),
+    employeeCount: Yup.string().required("This field is required"),
+    endTime: Yup.string().required("This field is required"),
+    id: Yup.string().nullable(),
+    logo: Yup.string().nullable(),
+    officeHour: Yup.number().required("This field is required"),
+    orgContact: Yup.string().nullable(),
+    orgName: Yup.string().nullable(),
+    orgType: Yup.number(),
+    startTime: Yup.string().required("This field is required"),
+    totalLeaveCount: Yup.number().nullable(),
+  }).required("This field is required");
   const form = useForm<OrganizationDetailsRegisterInput>({
     defaultValues: {},
+    resolver: yupResolver(validationSchema),
   });
   const onSubmit = (value: OrganizationDetailsRegisterInput) => {};
   return (

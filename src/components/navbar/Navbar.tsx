@@ -11,7 +11,7 @@ type MenuItems = {
   id: string;
   label: string;
   path: string;
-  icon: string;
+  icon: string[];
 };
 type Props = {
   menu: MenuItems[];
@@ -38,14 +38,19 @@ export default function Navbar(props: Props) {
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-4 h-4"
+                        fill="none"
+                        className="w-5 h-5"
+                        stroke-width="1.6"
+                        stroke="currentColor"
                       >
-                        <path
-                          fillRule="evenodd"
-                          d={item.icon}
-                          clipRule="evenodd"
-                        />
+                        {item?.icon?.map((elm, index) => (
+                          <path
+                            key={index}
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d={elm}
+                          />
+                        ))}
                       </svg>
                     </Link>
                   </TooltipTrigger>
