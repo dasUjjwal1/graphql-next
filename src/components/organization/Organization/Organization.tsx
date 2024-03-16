@@ -11,8 +11,6 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { table } from "console";
-import { columns } from "tailwindcss/defaultTheme";
 import { Button } from "../../ui/button";
 import {
   Table,
@@ -22,43 +20,31 @@ import {
   TableBody,
   TableCell,
 } from "../../ui/table";
-import { Employee, OrgDetailsTable } from "@/types/appTypes";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../../ui/drawer";
-import { Form } from "../../ui/form";
-import { useForm } from "react-hook-form";
+import { DrawerTrigger } from "../../ui/drawer";
 import CreateOrganization from "./CreateOrganization";
-import { OrganizationDetailsRegisterInput } from "@/graphql/graphql";
+import { GetAllOrganizationQuery } from "@/graphql/graphql";
 
 const Organization = () => {
-  const form = useForm<OrganizationDetailsRegisterInput>({
-    defaultValues: {},
-  });
-  const onSubmit = (value: OrganizationDetailsRegisterInput) => {};
-  const columnHelper = createColumnHelper<OrgDetailsTable>();
+  const columnHelper =
+    createColumnHelper<GetAllOrganizationQuery["getAllOrganization"]>();
 
   const columns = [
-    columnHelper.accessor("_id", {
+    columnHelper.accessor("id", {
       header: () => "Role Id",
       cell: (info) => info.row.index + 1,
     }),
-    columnHelper.accessor("name", {
-      header: () => "Role Name",
+    columnHelper.accessor("orgName", {
+      header: () => "Org-name",
       cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("orgType", {
+      header: () => "Org-type",
     }),
     columnHelper.display({
       id: "actions",
@@ -77,7 +63,7 @@ const Organization = () => {
               className="flex items-center justify-start gap-3 font-semibold w-full text-sm"
             >
               <Pencil1Icon />
-              Edit
+              Preview & Update
             </Button>
             <DropdownMenuSeparator />
             <Button
@@ -98,105 +84,71 @@ const Organization = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+  const Trigger = () => (
+    <div className="flex items-center justify-end">
+      <DrawerTrigger asChild>
+        <Button className=" flex gap-3 font-semibold ">
+          <PlusCircledIcon />
+          Create Organization
+        </Button>
+      </DrawerTrigger>
+    </div>
+  );
   return (
-    <>
-      <Drawer>
-        <div className="h-full py-10 flex items-center gap-5 flex-col">
-          <h2 className="text-2xl space-x-2">
-            Looks like you have no Organization yet
-          </h2>
-          <DrawerTrigger asChild>
-            <Button className=" flex gap-3 font-semibold ">
-              <PlusCircledIcon />
-              Let&apos;s create
-            </Button>
-          </DrawerTrigger>
-        </div>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Create Organization</DrawerTitle>
-            <DrawerDescription>
-              Data would not be lost untill you reset
-            </DrawerDescription>
-          </DrawerHeader>
-          <Form {...form}>
-            <form
-              autoComplete={"off"}
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="p-4 border grid grid-cols-12 gap-2 items-center"
-            >
-              <CreateOrganization form={form} onSubmit={onSubmit} />
-              <DrawerFooter className="col-span-12">
-                <Button type="submit">Submit</Button>
-                <DrawerClose>
-                  <Button type="button" variant="outline">
-                    Cancel
-                  </Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </form>
-          </Form>
-        </DrawerContent>
-      </Drawer>
+    <div className="container">
+      <CreateOrganization Trigger={Trigger} />
 
-      {false && (
-        <>
-          <div className="pb-4 flex items-center justify-end">
-            <Button className="gap-2 font-semibold">
-              <PlusCircledIcon /> Create
-            </Button>
-          </div>
-          <Table className="border w-full">
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead className="px-4" key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    );
-                  })}
+      <>
+        <Table className="border mt-3 w-full">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead className="px-4" key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell className="px-4" key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell className="px-4" key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </>
-      )}
-    </>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </>
+    </div>
   );
 };
 

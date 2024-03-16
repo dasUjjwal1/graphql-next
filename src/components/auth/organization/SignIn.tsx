@@ -36,7 +36,7 @@ function AdminSignIn() {
     onCompleted: (data) => {
       sessionStorage.setItem(
         AppConfig.CREDENTIAL,
-        JSON.stringify(data?.loginOrganization)
+        JSON.stringify(data?.loginOrganization?.token)
       );
       dispatch({
         type: ActionsTypes.ADMINAUTH,
