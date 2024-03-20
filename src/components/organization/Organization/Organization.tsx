@@ -56,7 +56,7 @@ const Organization = () => {
 
   const columns = [
     columnHelper.accessor("id", {
-      header: () => "Role Id",
+      header: () => "Serial",
       cell: (info) => info.row.index + 1,
     }),
     columnHelper.accessor("orgName", {
@@ -70,7 +70,10 @@ const Organization = () => {
         const data = props.row.original as any;
         return (
           <>
-            {Number(data?.startTime) / 60} : {Number(data?.startTime) % 60}
+            {Number(data?.startTime) / 60} :{" "}
+            {(Number(data?.startTime) % 60).toString().padStart(2, "0")} -{" "}
+            {Number(data?.endTime) / 60} :{" "}
+            {(Number(data?.endTime) % 60).toString().padStart(2, "0")}
           </>
         );
       },
@@ -113,13 +116,13 @@ const Organization = () => {
               <DotsVerticalIcon />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-40">
+          <DropdownMenuContent>
             <Button
               onClick={() => {
                 setModal(true);
               }}
               variant={"ghost"}
-              className="flex items-center justify-start gap-3 font-semibold w-full text-sm"
+              className="flex items-center justify-start gap-3 text-sm w-full"
             >
               <Pencil1Icon />
               Preview & Update
@@ -128,7 +131,7 @@ const Organization = () => {
             <Button
               onClick={() => {}}
               variant={"ghost"}
-              className="flex items-center justify-start gap-3 font-semibold w-full text-sm"
+              className="flex items-center justify-start gap-3 w-full text-sm"
             >
               <TrashIcon />
               Delete

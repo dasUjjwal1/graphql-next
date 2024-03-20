@@ -16,25 +16,17 @@ const AdminDashboard = () => {
   const { adminAuth } = useContext(OrgAuthContext);
   const Trigger = () => {
     return (
-      <div className="h-full py-32 flex items-center gap-5 flex-col">
-        <Card className="w-full lg:w-2/4">
-          <CardHeader>
-            <CardTitle className="text-2xl">
-              Good Evening {adminAuth?.name}
-            </CardTitle>
-            <CardDescription>
-              Looks like you have not created Organization
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <DrawerTrigger asChild>
-              <Button className=" flex gap-3 font-semibold ">
-                <PlusCircledIcon />
-                Let&apos;s create
-              </Button>
-            </DrawerTrigger>
-          </CardContent>
-        </Card>
+      <div className="h-full py-32 flex items-center  gap-5 flex-col">
+        <p className="text-center">
+          {" "}
+          Looks like you have not created Organization
+        </p>
+        <DrawerTrigger asChild>
+          <Button className=" flex gap-3 font-semibold ">
+            <PlusCircledIcon />
+            Let&apos;s create
+          </Button>
+        </DrawerTrigger>
       </div>
     );
   };

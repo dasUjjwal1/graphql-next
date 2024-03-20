@@ -1,11 +1,12 @@
 import Organization from "@/components/organization/Organization/Organization";
+import Layout from "./layout";
 
-const OrgPage = () => {
+const Page = () => {
   return (
     <>
       <Organization />
     </>
   );
 };
-
-export default OrgPage;
+Page.getLayout = (page: any) => <Layout>{page}</Layout>;
+export default Page;
