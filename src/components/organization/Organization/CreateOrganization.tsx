@@ -42,7 +42,17 @@ import {
   ReloadIcon,
   ResetIcon,
 } from "@radix-ui/react-icons";
-const CreateOrganization = ({ Trigger }: { Trigger: FC }) => {
+const CreateOrganization = ({
+  Trigger,
+  refetch,
+  open,
+  setModal,
+}: {
+  Trigger: FC;
+  refetch?: () => void;
+  open?: boolean;
+  setModal?: any;
+}) => {
   const [mutation, { loading }] = useMutation(CREATE_ORG_DETAILS, {
     onCompleted: (data: CreateOrganizationDetailsMutation) => {
       toast({
@@ -50,6 +60,7 @@ const CreateOrganization = ({ Trigger }: { Trigger: FC }) => {
         description: data.createOrganizationDetails,
         variant: "default",
       });
+      refetch && refetch();
     },
     onError: (error) => {
       toast({
@@ -101,7 +112,7 @@ const CreateOrganization = ({ Trigger }: { Trigger: FC }) => {
     mutation({ variables: { body: requestBody } });
   };
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={(e) => setModal(e)}>
       <Trigger />
       <DrawerContent>
         <DrawerHeader>
