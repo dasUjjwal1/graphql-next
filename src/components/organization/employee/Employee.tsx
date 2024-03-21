@@ -1,11 +1,11 @@
 "use client";
 
-import CreateEmployee from "./components/CreateEmployee";
+import CreateEmployeeCredential from "./components/CreateEmployee";
 
 const EmployeeComponent = () => {
   return (
     <div className="container">
-      <CreateEmployee />
+      <CreateEmployeeCredential />
     </div>
   );
 };

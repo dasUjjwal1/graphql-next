@@ -3,8 +3,12 @@ schema {
   mutation: Mutation
 }
 
+enum Access {
+  EMPLOYEE
+  PAYROLL
+}
+
 type Address {
-  id: ObjectId
   city: String
   street: String
   housenumber: String
@@ -19,36 +23,86 @@ The input/output is a string in RFC3339 format.
 """
 scalar DateTime
 
+type Employee {
+  id: Int!
+  employeeName: String
+  employeeEmail: String!
+  profileImage: String
+  employeeType: Int
+  depertment: String
+  employeeRole: Int
+  employeeId: Int
+  employeeStatus: Boolean
+  account: String
+  employeePassword: String!
+  country: Int
+  isDelete: Boolean
+  organizationId: String!
+  mobile: String
+  joiningDate: DateTime
+  employeeAddress: JSON
+  qualification: JSON
+  access: JSON
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input EmployeeAccess {
+  employeeId: Int!
+  orgId: String!
+  write: [Access!]!
+}
+
+type EmployeeAttendance {
+  id: Int!
+  employeeId: Int!
+  orgId: String!
+  clockIn: DateTime!
+  clockOut: DateTime
+  createdAt: DateTime!
+}
+
 input EmployeeLoginInput {
   employeeEmail: String!
   employeePassword: String!
 }
 
 input EmployeeRegisterInput {
-  employeeName: String!
   employeeEmail: String!
-  profileImage: String!
-  employeeType: Int
-  depertment: String
-  employeePosition: Int
-  employeeId: Int
-  account: String
   employeePassword: String!
-  country: Int!
   organizationId: String!
-  mobile: String!
-  joiningDate: DateTime
-  employeeAddress: JSON
-  qualification: JSON
 }
 
-"""A scalar that can represent any JSON value."""
+input GetEmployeeCriteria {
+  id: ObjectId!
+  pagination: ListPaginator!
+}
+
+"""
+A scalar that can represent any JSON value.
+"""
 scalar JSON
 
+input ListPaginator {
+  limit: Int
+  offset: Int
+  skip: Int
+}
+
+type LoginResponse {
+  user: Employee!
+  token: String!
+}
+
 type Mutation {
-  createEmployee(body: EmployeeRegisterInput!): String!
-  createAttenadce: String!
+  createEmployee(body: EmployeeRegisterInput!): Int!
+  createPermission(body: EmployeeAccess!): String!
+  createAttendence: EmployeeAttendance!
+  updateAttendence: EmployeeAttendance!
   createOrganization(body: OrganizationRegister!): OrganizationResponse!
+  createRole(body: RoleInput!): String!
+  updateRoleById(body: RoleInput!): String!
+  updateOrganization(body: UpdateOrganizationsInput!): String!
   createOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
   updateOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
 }
@@ -127,12 +181,18 @@ type OrganizationResponse {
   isAdmin: Boolean!
   mobile: String
   picturePath: String
-  paymentStructure: Status
+  paymentStructure: Int
   location: Int!
   address: Address
   roles: [Role!]
-  paid: Boolean
+  lastSubscribe: DateTime!
   token: String!
+}
+
+enum PayStructureStatus {
+  WEEKLY
+  MONTHLY
+  YEARLY
 }
 
 type Role {
@@ -142,19 +202,37 @@ type Role {
   parent: ObjectId
 }
 
+input RoleInput {
+  id: ObjectId
+  name: String!
+  position: Int!
+  parent: ObjectId
+}
+
 type RootQuery {
-  loginEmployee(body: EmployeeLoginInput!): String!
+  loginEmployee(body: EmployeeLoginInput!): LoginResponse!
+  getEmployeeListByOrgId(body: GetEmployeeCriteria!): String!
   loginOrganization(body: OrganizationLogin!): OrganizationResponse!
+  getAllRole: [Role!]
   getAllOrganization: [OrganizationDetails!]!
 }
 
-enum Status {
-  WEEKLY
-  MONTHLY
-  YEARLY
+input UpdateOrganizationsInput {
+  mobile: String
+  picturePath: String
+  paymentStructure: PayStructureStatus
+  address: orgaddressinput
 }
 
 input addressinput {
+  city: String
+  street: String
+  housenumber: String
+  state: String
+  pin: String
+}
+
+input orgaddressinput {
   city: String
   street: String
   housenumber: String

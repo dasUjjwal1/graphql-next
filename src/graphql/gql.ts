@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  mutation CreateEmployee($body: EmployeeRegisterInput!) {\n    createEmployee(body: $body)\n  }\n": types.CreateEmployeeDocument,
     "\n  mutation CreateOrganization($body: OrganizationRegister!) {\n    createOrganization(body: $body) {\n      id\n      name\n      email\n      isAdmin\n      mobile\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        position\n        parent\n      }\n      lastSubscribe\n      token\n    }\n  }\n": types.CreateOrganizationDocument,
     "\n  query RootQuery($body: OrganizationLogin!) {\n    loginOrganization(body: $body) {\n      id\n      name\n      email\n      isAdmin\n      mobile\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        position\n        parent\n      }\n      lastSubscribe\n      token\n    }\n  }\n": types.RootQueryDocument,
     "\n  mutation CreateOrganizationDetails($body: OrganizationDetailsRegisterInput!) {\n    createOrganizationDetails(body: $body)\n  }\n": types.CreateOrganizationDetailsDocument,
@@ -33,6 +34,10 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateEmployee($body: EmployeeRegisterInput!) {\n    createEmployee(body: $body)\n  }\n"): (typeof documents)["\n  mutation CreateEmployee($body: EmployeeRegisterInput!) {\n    createEmployee(body: $body)\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

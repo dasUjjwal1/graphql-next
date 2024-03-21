@@ -43,23 +43,23 @@ export type Employee = {
   __typename?: 'Employee';
   access?: Maybe<Scalars['JSON']['output']>;
   account?: Maybe<Scalars['String']['output']>;
-  country: Scalars['Int']['output'];
+  country?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   depertment?: Maybe<Scalars['String']['output']>;
   employeeAddress?: Maybe<Scalars['JSON']['output']>;
   employeeEmail: Scalars['String']['output'];
   employeeId?: Maybe<Scalars['Int']['output']>;
-  employeeName: Scalars['String']['output'];
+  employeeName?: Maybe<Scalars['String']['output']>;
   employeePassword: Scalars['String']['output'];
   employeeRole?: Maybe<Scalars['Int']['output']>;
-  employeeStatus: Scalars['Boolean']['output'];
+  employeeStatus?: Maybe<Scalars['Boolean']['output']>;
   employeeType?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
-  isDelete: Scalars['Boolean']['output'];
+  isDelete?: Maybe<Scalars['Boolean']['output']>;
   joiningDate?: Maybe<Scalars['DateTime']['output']>;
-  mobile: Scalars['String']['output'];
+  mobile?: Maybe<Scalars['String']['output']>;
   organizationId: Scalars['String']['output'];
-  profileImage: Scalars['String']['output'];
+  profileImage?: Maybe<Scalars['String']['output']>;
   qualification?: Maybe<Scalars['JSON']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -86,22 +86,9 @@ export type EmployeeLoginInput = {
 };
 
 export type EmployeeRegisterInput = {
-  access?: InputMaybe<EmployeeAccess>;
-  account?: InputMaybe<Scalars['String']['input']>;
-  country: Scalars['Int']['input'];
-  depertment?: InputMaybe<Scalars['String']['input']>;
-  employeeAddress?: InputMaybe<Scalars['JSON']['input']>;
   employeeEmail: Scalars['String']['input'];
-  employeeId?: InputMaybe<Scalars['Int']['input']>;
-  employeeName: Scalars['String']['input'];
   employeePassword: Scalars['String']['input'];
-  employeeRole?: InputMaybe<Scalars['Int']['input']>;
-  employeeType?: InputMaybe<Scalars['Int']['input']>;
-  joiningDate?: InputMaybe<Scalars['DateTime']['input']>;
-  mobile: Scalars['String']['input'];
   organizationId: Scalars['String']['input'];
-  profileImage: Scalars['String']['input'];
-  qualification?: InputMaybe<Scalars['JSON']['input']>;
 };
 
 export type GetEmployeeCriteria = {
@@ -327,6 +314,13 @@ export type Orgaddressinput = {
   street?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type CreateEmployeeMutationVariables = Exact<{
+  body: EmployeeRegisterInput;
+}>;
+
+
+export type CreateEmployeeMutation = { __typename?: 'Mutation', createEmployee: number };
+
 export type CreateOrganizationMutationVariables = Exact<{
   body: OrganizationRegister;
 }>;
@@ -354,6 +348,7 @@ export type GetAllOrganizationQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllOrganizationQuery = { __typename?: 'RootQuery', getAllOrganization: Array<{ __typename?: 'OrganizationDetails', id?: any | null, orgName: string, orgId: any, idActive: boolean, employeeCount: number, orgType?: number | null, totalLeaveCount?: number | null, establishedOn?: any | null, documents?: Array<string> | null, logo?: string | null, officeHour?: number | null, startTime: number, endTime: number, financialYearStart?: string | null, financialYearEnd?: string | null, depertment?: number | null, notWorkingDays?: Array<number> | null, orgContact?: string | null, createdAt: any, updatedAt: any, address?: { __typename?: 'OrgAddress', city?: string | null, street?: string | null, housenumber?: string | null, state?: string | null, pin?: string | null } | null, holiday?: Array<{ __typename?: 'OrgHoliday', id?: any | null, name?: string | null, date?: any | null }> | null }> };
 
 
+export const CreateEmployeeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateEmployee"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EmployeeRegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createEmployee"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}]}]}}]} as unknown as DocumentNode<CreateEmployeeMutation, CreateEmployeeMutationVariables>;
 export const CreateOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrganizationRegister"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOrganization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"isAdmin"}},{"kind":"Field","name":{"kind":"Name","value":"mobile"}},{"kind":"Field","name":{"kind":"Name","value":"picturePath"}},{"kind":"Field","name":{"kind":"Name","value":"paymentStructure"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"street"}},{"kind":"Field","name":{"kind":"Name","value":"housenumber"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"pin"}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"position"}},{"kind":"Field","name":{"kind":"Name","value":"parent"}}]}},{"kind":"Field","name":{"kind":"Name","value":"lastSubscribe"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
 export const RootQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RootQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrganizationLogin"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginOrganization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"isAdmin"}},{"kind":"Field","name":{"kind":"Name","value":"mobile"}},{"kind":"Field","name":{"kind":"Name","value":"picturePath"}},{"kind":"Field","name":{"kind":"Name","value":"paymentStructure"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"street"}},{"kind":"Field","name":{"kind":"Name","value":"housenumber"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"pin"}}]}},{"kind":"Field","name":{"kind":"Name","value":"roles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"position"}},{"kind":"Field","name":{"kind":"Name","value":"parent"}}]}},{"kind":"Field","name":{"kind":"Name","value":"lastSubscribe"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<RootQueryQuery, RootQueryQueryVariables>;
 export const CreateOrganizationDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOrganizationDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrganizationDetailsRegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOrganizationDetails"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}]}]}}]} as unknown as DocumentNode<CreateOrganizationDetailsMutation, CreateOrganizationDetailsMutationVariables>;
