@@ -70,9 +70,9 @@ const Organization = () => {
         const data = props.row.original as any;
         return (
           <>
-            {Number(data?.startTime) / 60} :{" "}
+            {Math.floor(Number(data?.startTime) / 60)} :{" "}
             {(Number(data?.startTime) % 60).toString().padStart(2, "0")} -{" "}
-            {Number(data?.endTime) / 60} :{" "}
+            {Math.floor(Number(data?.endTime) / 60)} :{" "}
             {(Number(data?.endTime) % 60).toString().padStart(2, "0")}
           </>
         );

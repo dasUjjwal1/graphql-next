@@ -111,8 +111,12 @@ const CreateOrganization = ({
     };
     mutation({ variables: { body: requestBody } });
   };
+
   return (
-    <Drawer open={open} onOpenChange={(e) => setModal(e)}>
+    <Drawer
+      {...(setModal && { onOpenChange: (e: any) => setModal(e) })}
+      {...(open && { open: open })}
+    >
       <Trigger />
       <DrawerContent>
         <DrawerHeader>

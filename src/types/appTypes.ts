@@ -1,5 +1,5 @@
 import { OrganizationDetailsRegisterInput } from "@/graphql/graphql";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 type IStringIndex = {
   [key: string]: any;
@@ -11,11 +11,16 @@ export type Role = IStringIndex & {
   parent: string;
 };
 export type RoleFormTypes = {
-  form: UseFormReturn<Role>;
-  onSubmit: (value: Role) => void;
-  setSaveType: Dispatch<SetStateAction<"create" | "update">>;
-  saveType: "create" | "update";
-  roles: Role[];
+  roles: {
+    id: string;
+    name: string;
+    position: number;
+    parent?: string;
+  }[];
+  Trigger: FC;
+  refetch?: () => void;
+  open?: boolean;
+  setModal?: any;
 };
 export type Employee = {
   employeeName?: string;
