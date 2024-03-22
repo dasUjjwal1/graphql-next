@@ -10,7 +10,7 @@ const GraphQLProvider = ({ children }: { children: ReactNode }) => {
     <ApolloProvider client={neteork.client}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="light"
+        defaultTheme="dark"
         // enableSystem
         // disableTransitionOnChange
       >

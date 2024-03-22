@@ -17,7 +17,7 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
             <li
               className={`px-3 py-1 ${
                 pathName === item.path &&
-                "bg-blue-50 text-blue-900 border-b-2 border-blue-600"
+                "bg-blue-50 dark:bg-gray-600 text-blue-900 dark:text-blue-50 border-b-2 border-blue-600"
               }  font-semibold rounded-sm `}
               key={index.toString()}
             >
