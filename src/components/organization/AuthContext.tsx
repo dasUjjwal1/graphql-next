@@ -46,9 +46,11 @@ export const OrgAuthDispatch = createContext<{ dispatch: Dispatch<Actions> }>({
 
 export const OrgAuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const token = JSON.parse(
-    sessionStorage.getItem(AppConfig.CREDENTIAL) as string
-  );
+  const token =
+    typeof window !== "undefined"
+      ? JSON.parse(sessionStorage.getItem(AppConfig.CREDENTIAL) as string)
+      : "";
+
   const network = client(token);
   return (
     <OrgAuthContext.Provider value={state}>
