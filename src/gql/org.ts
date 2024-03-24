@@ -31,7 +31,7 @@ export const REGISTER_ORGANIZATION = gql`
 `;
 
 export const LOG_IN_ORGANIZATION = gql`
-  query RootQuery($body: OrganizationLogin!) {
+  query LoginOrganization($body: OrganizationLogin!) {
     loginOrganization(body: $body) {
       id
       name
@@ -56,6 +56,23 @@ export const LOG_IN_ORGANIZATION = gql`
       }
       lastSubscribe
       token
+    }
+  }
+`;
+
+export const CREATE_ROLE = gql`
+  mutation CreateRole($body: RoleInput!) {
+    createRole(body: $body)
+  }
+`;
+
+export const GET_ALL_ROLE = gql`
+  query GetAllRole {
+    getAllRole {
+      position
+      parent
+      name
+      id
     }
   }
 `;

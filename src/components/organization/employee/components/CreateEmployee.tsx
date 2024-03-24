@@ -28,11 +28,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AppConfig } from "@/config/appConfig";
+import { CREATE_EMPLOYEE_CREDENTIAL } from "@/gql/employee";
 import {
   EmployeeRegisterInput,
   GetAllOrganizationDocument,
 } from "@/graphql/graphql";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   ResetIcon,
   ReloadIcon,
@@ -41,9 +42,13 @@ import {
 import { PlusCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
-const CreateEmployeeCredential = () => {
-  const { data, loading, error, refetch } = useQuery(
-    GetAllOrganizationDocument
+const CreateEmployeeCredential = ({ orgList }: any) => {
+  const [mutation, { loading, error }] = useMutation(
+    CREATE_EMPLOYEE_CREDENTIAL,
+    {
+      onCompleted(data, clientOptions) {},
+      onError(error, clientOptions) {},
+    }
   );
   const form = useForm<EmployeeRegisterInput>({
     defaultValues: {},
@@ -87,7 +92,7 @@ const CreateEmployeeCredential = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {data?.getAllOrganization.map((item) => (
+                        {orgList?.map((item) => (
                           <SelectItem key={item.id} value={item.id.toString()}>
                             {item.orgName}
                           </SelectItem>

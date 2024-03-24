@@ -13,9 +13,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  mutation CreateEmployee($body: EmployeeRegisterInput!) {\n    createEmployee(body: $body)\n  }\n": types.CreateEmployeeDocument,
+    "\n  mutation CreateEmployeeCredential($body: EmployeeRegisterInput!) {\n    createEmployee(body: $body)\n  }\n": types.CreateEmployeeCredentialDocument,
+    "\n  query GetAllEmployeeByOrgId($body: GetEmployeeCriteria!) {\n    getEmployeeListByOrgId(body: $body) {\n      data {\n        id\n        employeeType\n        employeeStatus\n        employeeRole\n        employeeName\n        employeeId\n        employeeEmail\n        employeeAddress\n        depertment\n        qualification\n        profileImage\n        organizationId\n        mobile\n        isDelete\n      }\n      totalCount\n      pagination {\n        offset\n        limit\n      }\n    }\n  }\n": types.GetAllEmployeeByOrgIdDocument,
     "\n  mutation CreateOrganization($body: OrganizationRegister!) {\n    createOrganization(body: $body) {\n      id\n      name\n      email\n      isAdmin\n      mobile\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        position\n        parent\n      }\n      lastSubscribe\n      token\n    }\n  }\n": types.CreateOrganizationDocument,
-    "\n  query RootQuery($body: OrganizationLogin!) {\n    loginOrganization(body: $body) {\n      id\n      name\n      email\n      isAdmin\n      mobile\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        position\n        parent\n      }\n      lastSubscribe\n      token\n    }\n  }\n": types.RootQueryDocument,
+    "\n  query LoginOrganization($body: OrganizationLogin!) {\n    loginOrganization(body: $body) {\n      id\n      name\n      email\n      isAdmin\n      mobile\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        position\n        parent\n      }\n      lastSubscribe\n      token\n    }\n  }\n": types.LoginOrganizationDocument,
+    "\n  mutation CreateRole($body: RoleInput!) {\n    createRole(body: $body)\n  }\n": types.CreateRoleDocument,
+    "\n  query GetAllRole {\n    getAllRole {\n      position\n      parent\n      name\n      id\n    }\n  }\n": types.GetAllRoleDocument,
     "\n  mutation CreateOrganizationDetails($body: OrganizationDetailsRegisterInput!) {\n    createOrganizationDetails(body: $body)\n  }\n": types.CreateOrganizationDetailsDocument,
     "\n  query GetAllOrganization {\n    getAllOrganization {\n      id\n      orgName\n      orgId\n      idActive\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      employeeCount\n      orgType\n      totalLeaveCount\n      establishedOn\n      holiday {\n        id\n        name\n        date\n      }\n      documents\n      logo\n      officeHour\n      startTime\n      endTime\n      financialYearStart\n      financialYearEnd\n      depertment\n      notWorkingDays\n      orgContact\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetAllOrganizationDocument,
 };
@@ -37,7 +40,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateEmployee($body: EmployeeRegisterInput!) {\n    createEmployee(body: $body)\n  }\n"): (typeof documents)["\n  mutation CreateEmployee($body: EmployeeRegisterInput!) {\n    createEmployee(body: $body)\n  }\n"];
+export function graphql(source: "\n  mutation CreateEmployeeCredential($body: EmployeeRegisterInput!) {\n    createEmployee(body: $body)\n  }\n"): (typeof documents)["\n  mutation CreateEmployeeCredential($body: EmployeeRegisterInput!) {\n    createEmployee(body: $body)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetAllEmployeeByOrgId($body: GetEmployeeCriteria!) {\n    getEmployeeListByOrgId(body: $body) {\n      data {\n        id\n        employeeType\n        employeeStatus\n        employeeRole\n        employeeName\n        employeeId\n        employeeEmail\n        employeeAddress\n        depertment\n        qualification\n        profileImage\n        organizationId\n        mobile\n        isDelete\n      }\n      totalCount\n      pagination {\n        offset\n        limit\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAllEmployeeByOrgId($body: GetEmployeeCriteria!) {\n    getEmployeeListByOrgId(body: $body) {\n      data {\n        id\n        employeeType\n        employeeStatus\n        employeeRole\n        employeeName\n        employeeId\n        employeeEmail\n        employeeAddress\n        depertment\n        qualification\n        profileImage\n        organizationId\n        mobile\n        isDelete\n      }\n      totalCount\n      pagination {\n        offset\n        limit\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -45,7 +52,15 @@ export function graphql(source: "\n  mutation CreateOrganization($body: Organiza
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query RootQuery($body: OrganizationLogin!) {\n    loginOrganization(body: $body) {\n      id\n      name\n      email\n      isAdmin\n      mobile\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        position\n        parent\n      }\n      lastSubscribe\n      token\n    }\n  }\n"): (typeof documents)["\n  query RootQuery($body: OrganizationLogin!) {\n    loginOrganization(body: $body) {\n      id\n      name\n      email\n      isAdmin\n      mobile\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        position\n        parent\n      }\n      lastSubscribe\n      token\n    }\n  }\n"];
+export function graphql(source: "\n  query LoginOrganization($body: OrganizationLogin!) {\n    loginOrganization(body: $body) {\n      id\n      name\n      email\n      isAdmin\n      mobile\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        position\n        parent\n      }\n      lastSubscribe\n      token\n    }\n  }\n"): (typeof documents)["\n  query LoginOrganization($body: OrganizationLogin!) {\n    loginOrganization(body: $body) {\n      id\n      name\n      email\n      isAdmin\n      mobile\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        position\n        parent\n      }\n      lastSubscribe\n      token\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateRole($body: RoleInput!) {\n    createRole(body: $body)\n  }\n"): (typeof documents)["\n  mutation CreateRole($body: RoleInput!) {\n    createRole(body: $body)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetAllRole {\n    getAllRole {\n      position\n      parent\n      name\n      id\n    }\n  }\n"): (typeof documents)["\n  query GetAllRole {\n    getAllRole {\n      position\n      parent\n      name\n      id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

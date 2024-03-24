@@ -1,4 +1,7 @@
 "use client";
+import { client } from "@/config/apollo";
+import { AppConfig } from "@/config/appConfig";
+import { ApolloProvider } from "@apollo/client";
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
 type AuthType = {
@@ -43,10 +46,14 @@ export const OrgAuthDispatch = createContext<{ dispatch: Dispatch<Actions> }>({
 
 export const OrgAuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const token = JSON.parse(
+    sessionStorage.getItem(AppConfig.CREDENTIAL) as string
+  );
+  const network = client(token);
   return (
     <OrgAuthContext.Provider value={state}>
       <OrgAuthDispatch.Provider value={{ dispatch }}>
-        {children}
+        <ApolloProvider client={network}>{children}</ApolloProvider>
       </OrgAuthDispatch.Provider>
     </OrgAuthContext.Provider>
   );

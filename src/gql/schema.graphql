@@ -73,9 +73,15 @@ input EmployeeRegisterInput {
   organizationId: String!
 }
 
+type GetEmployeeByOrgIdResponse {
+  data: [Employee!]!
+  totalCount: Int!
+  pagination: ListPaginator!
+}
+
 input GetEmployeeCriteria {
   id: ObjectId!
-  pagination: ListPaginator!
+  pagination: paginator_input!
 }
 
 """
@@ -83,14 +89,32 @@ A scalar that can represent any JSON value.
 """
 scalar JSON
 
-input ListPaginator {
-  limit: Int
-  offset: Int
-  skip: Int
+type ListPaginator {
+  limit: Int!
+  offset: Int!
 }
 
 type LoginResponse {
-  user: Employee!
+  id: Int!
+  employeeName: String
+  employeeEmail: String!
+  profileImage: String
+  employeeType: Int
+  depertment: String
+  employeeRole: Int
+  employeeId: Int
+  employeeStatus: Boolean
+  account: String
+  country: Int
+  isDelete: Boolean
+  organizationId: String!
+  mobile: String
+  joiningDate: DateTime
+  employeeAddress: JSON
+  qualification: JSON
+  access: JSON
+  createdAt: DateTime
+  updatedAt: DateTime
   token: String!
 }
 
@@ -211,7 +235,9 @@ input RoleInput {
 
 type RootQuery {
   loginEmployee(body: EmployeeLoginInput!): LoginResponse!
-  getEmployeeListByOrgId(body: GetEmployeeCriteria!): String!
+  getEmployeeListByOrgId(
+    body: GetEmployeeCriteria!
+  ): GetEmployeeByOrgIdResponse!
   loginOrganization(body: OrganizationLogin!): OrganizationResponse!
   getAllRole: [Role!]
   getAllOrganization: [OrganizationDetails!]!
@@ -238,4 +264,9 @@ input orgaddressinput {
   housenumber: String
   state: String
   pin: String
+}
+
+input paginator_input {
+  limit: Int!
+  offset: Int!
 }

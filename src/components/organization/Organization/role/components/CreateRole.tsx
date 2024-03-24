@@ -19,21 +19,50 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RoleInput } from "@/graphql/graphql";
-import { RoleFormTypes } from "@/types/appTypes";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { ResetIcon } from "@radix-ui/react-icons";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
+import { CREATE_ROLE } from "@/gql/org";
+import { RoleInput } from "@/graphql/graphql";
+import { RoleFormTypes } from "@/types/appTypes";
+import { useMutation } from "@apollo/client";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  DoubleArrowLeftIcon,
+  ReloadIcon,
+  ResetIcon,
+} from "@radix-ui/react-icons";
+
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
-export default function CreateRoleDialog({ Trigger, roles }: RoleFormTypes) {
+export default function CreateRoleDialog({
+  Trigger,
+  roles,
+  refetch,
+}: RoleFormTypes) {
+  const [mutation, { loading, error }] = useMutation(CREATE_ROLE, {
+    onCompleted: (data) => {
+      toast({
+        title: "Success",
+        description: data?.createRole,
+        variant: "default",
+      });
+      refetch && refetch();
+    },
+    onError(error, clientOptions) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("This field is required"),
     parent: Yup.number().nullable(),
@@ -43,7 +72,15 @@ export default function CreateRoleDialog({ Trigger, roles }: RoleFormTypes) {
     defaultValues: {},
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit = (value: RoleInput) => {};
+  const onSubmit = (value: RoleInput) => {
+    const requestBody: RoleInput = {
+      name: value.name,
+      position: value.position,
+      parent: value.parent ? value.parent : null,
+      id: null,
+    };
+    mutation({ variables: { body: requestBody } });
+  };
 
   return (
     <>
@@ -100,20 +137,17 @@ export default function CreateRoleDialog({ Trigger, roles }: RoleFormTypes) {
                 name="parent"
                 render={({ field }) => (
                   <FormItem className="col-span-3">
-                    <FormLabel>Assign To</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <FormLabel>Assign to</FormLabel>
+                    <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Assign To" />
+                          <SelectValue placeholder="Select or leave it blank" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {roles?.map((elm) => (
-                          <SelectItem key={elm.id} value={elm.id}>
-                            {elm.name}
+                        {roles.map((item) => (
+                          <SelectItem key={item.id} value={item.id}>
+                            {item.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -126,12 +160,12 @@ export default function CreateRoleDialog({ Trigger, roles }: RoleFormTypes) {
                 <Button variant="outline" size="icon" type="button">
                   <ResetIcon className="h-4 w-4" />
                 </Button>
-                <Button type="submit">
-                  {/* {loading ? (
+                <Button type="submit" disabled={loading}>
+                  {loading ? (
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                   ) : (
                     <DoubleArrowLeftIcon className="mr-2 h-4 w-4" />
-                  )} */}
+                  )}
                   Submit
                 </Button>
 
