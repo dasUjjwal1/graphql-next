@@ -12,7 +12,7 @@ import {
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { Register } from "@/types/authType";
+import { RegisterProps } from "@/types/authType";
 import {
   Select,
   SelectContent,
@@ -58,7 +58,7 @@ function AdminRegister() {
       });
     },
   });
-  const form = useForm<Register>({
+  const form = useForm<RegisterProps>({
     defaultValues: {
       email: "",
       password: "",
@@ -68,7 +68,7 @@ function AdminRegister() {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (value: Register) => {
+  const onSubmit = (value: RegisterProps) => {
     const body = {
       ...value,
       location: Number(value.location),

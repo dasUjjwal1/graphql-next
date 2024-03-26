@@ -1,5 +1,7 @@
-const Employee = () => {
+import Layout from "./layout";
+
+const Page = () => {
   return <div>Employee</div>;
 };
-
-export default Employee;
+Page.getLayout = (page: any) => <Layout>{page}</Layout>;
+export default Page;
