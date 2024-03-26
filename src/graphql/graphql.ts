@@ -87,6 +87,7 @@ export type EmployeeLoginInput = {
 };
 
 export type EmployeeRegisterInput = {
+  access?: InputMaybe<Scalars['JSON']['input']>;
   employeeEmail: Scalars['String']['input'];
   employeePassword: Scalars['String']['input'];
   employeeRole?: InputMaybe<Scalars['String']['input']>;

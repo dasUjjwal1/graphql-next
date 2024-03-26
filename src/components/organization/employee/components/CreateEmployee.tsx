@@ -69,7 +69,16 @@ const CreateEmployeeCredential = ({
   const form = useForm<EmployeeRegisterInput>({
     defaultValues: {},
   });
-  const onSubmit = (value: EmployeeRegisterInput) => {};
+  const onSubmit = (value: EmployeeRegisterInput) => {
+    const role = JSON.parse(value.employeeRole as string);
+    const requestBody = {
+      employeeEmail: value.employeeEmail,
+      employeePassword: value.employeePassword,
+      access: JSON.stringify(role?.access),
+      employeeRole: role?.id,
+    };
+    console.log(requestBody);
+  };
 
   return (
     <Drawer>
@@ -144,6 +153,30 @@ const CreateEmployeeCredential = ({
                 )}
               />
             </>
+            <FormField
+              control={form.control}
+              name="employeeRole"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>Role</FormLabel>
+                  <Select onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select organization" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {data?.getAllRole?.map((item) => (
+                        <SelectItem key={item.id} value={JSON.stringify(item)}>
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <DrawerFooter className="col-span-12 flex items-center justify-end flex-row">
               <Button variant="outline" size="icon" type="button">
                 <ResetIcon className="h-4 w-4" />

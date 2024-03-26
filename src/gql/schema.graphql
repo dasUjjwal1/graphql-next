@@ -73,6 +73,7 @@ input EmployeeRegisterInput {
   employeePassword: String!
   organizationId: String!
   employeeRole: String
+  access: JSON
 }
 
 type GetEmployeeByOrgIdResponse {
