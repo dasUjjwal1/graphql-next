@@ -6,29 +6,36 @@ export const CREATE_EMPLOYEE_CREDENTIAL = gql`
   }
 `;
 export const GET_ALL_EMPLOYEE_BY_ORG_ID = gql`
-  query GetAllEmployeeByOrgId($body: GetEmployeeCriteria!) {
+  query GetEmployeeListByOrgId($body: GetEmployeeCriteria!) {
     getEmployeeListByOrgId(body: $body) {
       data {
         id
-        employeeType
-        employeeStatus
-        employeeRole
         employeeName
-        employeeId
         employeeEmail
-        employeeAddress
-        depertment
-        qualification
         profileImage
+        employeeType
+        depertment
+        employeeRole
+        employeeId
+        employeeStatus
+        account
+        employeePassword
+        country
+        isDelete
         organizationId
         mobile
-        isDelete
+        joiningDate
+        employeeAddress
+        qualification
+        access
+        createdAt
+        updatedAt
+      }
+      pagination {
+        limit
+        offset
       }
       totalCount
-      pagination {
-        offset
-        limit
-      }
     }
   }
 `;

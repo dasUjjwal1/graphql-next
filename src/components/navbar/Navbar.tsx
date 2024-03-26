@@ -40,14 +40,14 @@ export default function Navbar(props: Props) {
                         viewBox="0 0 24 24"
                         fill="none"
                         className="w-5 h-5"
-                        stroke-width="1.6"
+                        strokeWidth="1.6"
                         stroke="currentColor"
                       >
                         {item?.icon?.map((elm, index) => (
                           <path
                             key={index}
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             d={elm}
                           />
                         ))}

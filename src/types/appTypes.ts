@@ -1,4 +1,8 @@
-import { OrganizationDetailsRegisterInput } from "@/graphql/graphql";
+import {
+  GetAllOrganizationQuery,
+  GetAllRoleQuery,
+  OrganizationDetailsRegisterInput,
+} from "@/graphql/graphql";
 import { Dispatch, FC, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 type IStringIndex = {
@@ -11,12 +15,14 @@ export type Role = IStringIndex & {
   parent: string;
 };
 export type RoleFormTypes = {
-  roles: {
-    id: string;
-    name: string;
-    position: number;
-    parent?: string;
-  }[];
+  roles: GetAllRoleQuery["getAllRole"];
+  Trigger: FC;
+  refetch?: () => void;
+  open?: boolean;
+  setModal?: any;
+};
+export type EmployeeCredentialFormTypes = {
+  orgList: GetAllOrganizationQuery["getAllOrganization"];
   Trigger: FC;
   refetch?: () => void;
   open?: boolean;

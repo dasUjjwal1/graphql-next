@@ -32,14 +32,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "@/components/ui/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
+import { AppConfig } from "@/config/appConfig";
 
 const RoleComponent = () => {
-  const {
-    data = { getAllRole: [] },
-    loading,
-    error,
-    refetch,
-  } = useQuery(GET_ALL_ROLE);
+  const { data, loading, refetch } = useQuery<GetAllRoleQuery>(GET_ALL_ROLE, {
+    onError(error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
   const Trigger = () => (
     <DrawerTrigger asChild>
       <Button className=" flex gap-3 font-semibold " onClick={() => refetch()}>
@@ -58,6 +64,27 @@ const RoleComponent = () => {
     columnHelper.accessor("name", {
       header: () => "Role",
       cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("access", {
+      header: () => "Access",
+      cell: (info) =>
+        info.getValue() &&
+        AppConfig.ACCESS.map((item) => (
+          <div key={item.value} className="items-top flex space-x-2">
+            <Checkbox checked={info.getValue()?.includes(item.value)} />
+            <div className="grid gap-1.5 leading-none">
+              <label
+                htmlFor="terms1"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {item.label}
+              </label>
+              <p className="text-sm text-muted-foreground">
+                {/* You agree to our Terms of Service and Privacy Policy. */}
+              </p>
+            </div>
+          </div>
+        )),
     }),
     columnHelper.display({
       id: "actions",
@@ -93,7 +120,7 @@ const RoleComponent = () => {
     }),
   ];
   const table = useReactTable({
-    data: data.getAllRole,
+    data: data?.getAllRole ? data.getAllRole : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -101,15 +128,23 @@ const RoleComponent = () => {
     <>
       <div className="container">
         <div className="flex items-center justify-between">
-          <Button onClick={() => {}}>
+          <Button
+            onClick={() => {
+              refetch();
+            }}
+          >
             <RotateCcw className="w-4 h-4" />
           </Button>
-          <CreateRoleDialog Trigger={Trigger} roles={data.getAllRole} />
+          <CreateRoleDialog
+            Trigger={Trigger}
+            refetch={refetch}
+            roles={data?.getAllRole ? data?.getAllRole : []}
+          />
         </div>
         <>
           <Table className="border mt-3 w-full">
             <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
+              {table?.getHeaderGroups()?.map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
@@ -138,13 +173,13 @@ const RoleComponent = () => {
                 </TableRow>
               ) : (
                 <>
-                  {table.getRowModel().rows?.length ? (
-                    table.getRowModel().rows.map((row) => (
+                  {table?.getRowModel()?.rows?.length ? (
+                    table?.getRowModel()?.rows?.map((row) => (
                       <TableRow
                         key={row.id}
-                        data-state={row.getIsSelected() && "selected"}
+                        data-state={row?.getIsSelected() && "selected"}
                       >
-                        {row.getVisibleCells().map((cell) => (
+                        {row?.getVisibleCells()?.map((cell) => (
                           <TableCell className="px-4" key={cell.id}>
                             {flexRender(
                               cell.column.columnDef.cell,

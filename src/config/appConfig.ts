@@ -23,4 +23,8 @@ export const AppConfig = {
     { label: "Transport", value: 19 },
     { label: "Others", value: 20 },
   ],
+  ACCESS: [
+    { label: "Employee", value: 5 },
+    { label: "Payroll", value: 10 },
+  ],
 };

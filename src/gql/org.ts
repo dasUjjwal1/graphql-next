@@ -21,8 +21,8 @@ export const REGISTER_ORGANIZATION = gql`
       roles {
         id
         name
-        position
         parent
+        access
       }
       lastSubscribe
       token
@@ -51,8 +51,8 @@ export const LOG_IN_ORGANIZATION = gql`
       roles {
         id
         name
-        position
         parent
+        access
       }
       lastSubscribe
       token
@@ -69,10 +69,10 @@ export const CREATE_ROLE = gql`
 export const GET_ALL_ROLE = gql`
   query GetAllRole {
     getAllRole {
-      position
-      parent
-      name
       id
+      name
+      parent
+      access
     }
   }
 `;

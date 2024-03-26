@@ -27,12 +27,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
 import { AppConfig } from "@/config/appConfig";
 import { CREATE_EMPLOYEE_CREDENTIAL } from "@/gql/employee";
+import { GET_ALL_ROLE } from "@/gql/org";
 import {
   EmployeeRegisterInput,
   GetAllOrganizationDocument,
+  GetAllRoleQuery,
 } from "@/graphql/graphql";
+import { EmployeeCredentialFormTypes } from "@/types/appTypes";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   ResetIcon,
@@ -42,7 +46,10 @@ import {
 import { PlusCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
-const CreateEmployeeCredential = ({ orgList }: any) => {
+const CreateEmployeeCredential = ({
+  orgList,
+  Trigger,
+}: EmployeeCredentialFormTypes) => {
   const [mutation, { loading, error }] = useMutation(
     CREATE_EMPLOYEE_CREDENTIAL,
     {
@@ -50,6 +57,15 @@ const CreateEmployeeCredential = ({ orgList }: any) => {
       onError(error, clientOptions) {},
     }
   );
+  const { data } = useQuery<GetAllRoleQuery>(GET_ALL_ROLE, {
+    onError(error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
   const form = useForm<EmployeeRegisterInput>({
     defaultValues: {},
   });
@@ -57,13 +73,7 @@ const CreateEmployeeCredential = ({ orgList }: any) => {
 
   return (
     <Drawer>
-      <div className="flex items-center justify-end">
-        <DrawerTrigger asChild>
-          <Button className=" flex gap-3 font-semibold ">
-            <PlusCircle className="w-4 h-4" /> Create Employee Credential
-          </Button>
-        </DrawerTrigger>
-      </div>
+      <Trigger />
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Are you absolutely sure?</DrawerTitle>

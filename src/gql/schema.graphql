@@ -30,7 +30,7 @@ type Employee {
   profileImage: String
   employeeType: Int
   depertment: String
-  employeeRole: Int
+  employeeRole: String
   employeeId: Int
   employeeStatus: Boolean
   account: String
@@ -65,12 +65,14 @@ type EmployeeAttendance {
 input EmployeeLoginInput {
   employeeEmail: String!
   employeePassword: String!
+  employeeRole: String!
 }
 
 input EmployeeRegisterInput {
   employeeEmail: String!
   employeePassword: String!
   organizationId: String!
+  employeeRole: String
 }
 
 type GetEmployeeByOrgIdResponse {
@@ -101,7 +103,7 @@ type LoginResponse {
   profileImage: String
   employeeType: Int
   depertment: String
-  employeeRole: Int
+  employeeRole: String
   employeeId: Int
   employeeStatus: Boolean
   account: String
@@ -222,14 +224,14 @@ enum PayStructureStatus {
 type Role {
   id: ObjectId
   name: String
-  position: Int
   parent: ObjectId
+  access: [Int!]
 }
 
 input RoleInput {
   id: ObjectId
   name: String!
-  position: Int!
+  access: [Access!]
   parent: ObjectId
 }
 

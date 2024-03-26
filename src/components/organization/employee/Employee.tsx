@@ -4,10 +4,10 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import CreateEmployeeCredential from "./components/CreateEmployee";
 import {
   Employee,
-  GetAllEmployeeByOrgIdQuery,
-  GetAllEmployeeByOrgIdQueryVariables,
   GetAllOrganizationDocument,
   GetAllOrganizationQuery,
+  GetEmployeeListByOrgIdQuery,
+  GetEmployeeListByOrgIdQueryVariables,
 } from "@/graphql/graphql";
 import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
 import {
@@ -44,7 +44,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Loader2 } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
+import { DrawerTrigger } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
 
 const EmployeeComponent = () => {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -55,8 +57,8 @@ const EmployeeComponent = () => {
     useQuery<GetAllOrganizationQuery>(GET_ALL_ORGANIZATION);
   const [query, { data: employeeList, fetchMore, updateQuery, loading }] =
     useLazyQuery<
-      GetAllEmployeeByOrgIdQuery["getEmployeeListByOrgId"],
-      GetAllEmployeeByOrgIdQueryVariables
+      GetEmployeeListByOrgIdQuery["getEmployeeListByOrgId"],
+      GetEmployeeListByOrgIdQueryVariables
     >(GET_ALL_EMPLOYEE_BY_ORG_ID);
   const columnHelper = createColumnHelper<Employee>();
   const columns = useMemo<ColumnDef<Employee, any>[]>(
@@ -87,28 +89,44 @@ const EmployeeComponent = () => {
     // getPaginationRowModel: getPaginationRowModel(), // If only doing manual pagination, you don't need this
     debugTable: true,
   });
+  const Trigger = () => {
+    return (
+      <DrawerTrigger asChild>
+        <Button className=" flex gap-3 font-semibold ">
+          <PlusCircle className="w-4 h-4" /> Create Employee Credential
+        </Button>
+      </DrawerTrigger>
+    );
+  };
   return (
     <div className="container">
-      <CreateEmployeeCredential orgList={data?.getAllOrganization} />
-      <Select
-        onValueChange={(e) => {
-          query({
-            variables: { body: { id: e, pagination: { limit: 1, offset: 1 } } },
-          });
-        }}
-        defaultValue={data?.getAllOrganization[0]?.id}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select Organization" />
-        </SelectTrigger>
-        <SelectContent>
-          {data?.getAllOrganization?.map((item) => (
-            <SelectItem key={item.id} value={item.id}>
-              {item.orgName}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="flex items-center justify-between">
+        <Select
+          onValueChange={(e) => {
+            query({
+              variables: {
+                body: { id: e, pagination: { limit: 1, offset: 1 } },
+              },
+            });
+          }}
+          defaultValue={data?.getAllOrganization[0]?.id}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Organization" />
+          </SelectTrigger>
+          <SelectContent>
+            {data?.getAllOrganization?.map((item) => (
+              <SelectItem key={item.id} value={item.id}>
+                {item.orgName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <CreateEmployeeCredential
+          Trigger={Trigger}
+          orgList={data?.getAllOrganization ? data?.getAllOrganization : []}
+        />
+      </div>
       <>
         <Table className="border mt-3 w-full">
           <TableHeader>

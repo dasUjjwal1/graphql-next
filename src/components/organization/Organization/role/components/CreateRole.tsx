@@ -13,6 +13,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,7 +29,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import { CREATE_ROLE } from "@/gql/org";
-import { RoleInput } from "@/graphql/graphql";
+import { Access, RoleInput } from "@/graphql/graphql";
 import { RoleFormTypes } from "@/types/appTypes";
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -46,7 +47,7 @@ export default function CreateRoleDialog({
   roles,
   refetch,
 }: RoleFormTypes) {
-  const [mutation, { loading, error }] = useMutation(CREATE_ROLE, {
+  const [mutation, { loading }] = useMutation(CREATE_ROLE, {
     onCompleted: (data) => {
       toast({
         title: "Success",
@@ -75,7 +76,7 @@ export default function CreateRoleDialog({
   const onSubmit = (value: RoleInput) => {
     const requestBody: RoleInput = {
       name: value.name,
-      position: value.position,
+      access: value.access ? value.access : null,
       parent: value.parent ? value.parent : null,
       id: null,
     };
@@ -117,17 +118,27 @@ export default function CreateRoleDialog({
               />
               <FormField
                 control={form.control}
-                name="position"
+                name="access"
                 render={({ field }) => (
                   <FormItem className="col-span-3">
-                    <FormLabel>Position</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Position ex:(1,2,3...)"
-                        {...field}
-                      />
-                    </FormControl>
+                    <FormLabel>Access</FormLabel>
+                    <Select onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select or leave it blank" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.values(Access).map((item, index) => (
+                          <SelectItem key={index} value={item}>
+                            {item}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      * Write access or leave it blank
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -145,7 +156,7 @@ export default function CreateRoleDialog({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {roles.map((item) => (
+                        {roles?.map((item) => (
                           <SelectItem key={item.id} value={item.id}>
                             {item.name}
                           </SelectItem>
