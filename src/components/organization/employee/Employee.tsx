@@ -27,7 +27,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import {
   ColumnDef,
   PaginationState,
@@ -47,19 +47,50 @@ import {
 import { Loader2, PlusCircle } from "lucide-react";
 import { DrawerTrigger } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { OrgAuthContext } from "../AuthContext";
+import { toast } from "@/components/ui/use-toast";
 
 const EmployeeComponent = () => {
+  const state = useContext(OrgAuthContext);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
-  const { data, error } =
-    useQuery<GetAllOrganizationQuery>(GET_ALL_ORGANIZATION);
+  const { data, error } = useQuery<GetAllOrganizationQuery>(
+    GET_ALL_ORGANIZATION,
+    {
+      onError(error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+      context: {
+        headers: {
+          authorization: state.token,
+        },
+      },
+    }
+  );
   const [query, { data: employeeList, fetchMore, updateQuery, loading }] =
     useLazyQuery<
       GetEmployeeListByOrgIdQuery["getEmployeeListByOrgId"],
       GetEmployeeListByOrgIdQueryVariables
-    >(GET_ALL_EMPLOYEE_BY_ORG_ID);
+    >(GET_ALL_EMPLOYEE_BY_ORG_ID, {
+      onError(error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+      context: {
+        headers: {
+          authorization: state.token,
+        },
+      },
+    });
   const columnHelper = createColumnHelper<Employee>();
   const columns = useMemo<ColumnDef<Employee, any>[]>(
     () => [

@@ -33,7 +33,7 @@ import {
   GetAllOrganizationQuery,
 } from "@/graphql/graphql";
 import { useQuery } from "@apollo/client";
-import { Loader2, RefreshCw, RotateCcw } from "lucide-react";
+import { Loader2, RotateCcw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import {
   Select,
@@ -45,10 +45,28 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AppConfig } from "@/config/appConfig";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { toast } from "@/components/ui/use-toast";
+import { OrgAuthContext } from "../AuthContext";
+import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
 const Organization = () => {
-  const { data, loading, error, refetch } = useQuery(
-    GetAllOrganizationDocument
+  const state = useContext(OrgAuthContext);
+  const { data, loading, refetch } = useQuery<GetAllOrganizationQuery>(
+    GET_ALL_ORGANIZATION,
+    {
+      onError(error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+      context: {
+        headers: {
+          authorization: state.token,
+        },
+      },
+    }
   );
   const [modal, setModal] = useState<boolean>(false);
   const columnHelper =
@@ -103,7 +121,10 @@ const Organization = () => {
     columnHelper.accessor("idActive", {
       header: () => "Status",
       cell: (info) => (
-        <Switch checked={info.getValue()} onCheckedChange={() => {}} />
+        <Switch
+          checked={info.getValue() ? (info.getValue() as boolean) : false}
+          onCheckedChange={() => {}}
+        />
       ),
     }),
     columnHelper.display({
