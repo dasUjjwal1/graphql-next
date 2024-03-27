@@ -17,10 +17,9 @@ type AuthType = {
 export enum ActionsTypes {
   MENU,
   ADMINAUTH,
-  TOKEN,
 }
 export type Actions = {
-  type: ActionsTypes.MENU | ActionsTypes.ADMINAUTH | ActionsTypes.TOKEN;
+  type: ActionsTypes.MENU | ActionsTypes.ADMINAUTH;
   payload: any;
 };
 const initialState: AuthType = {
@@ -33,9 +32,11 @@ const reducer = (draft: AuthType, action: Actions) => {
     case ActionsTypes.MENU:
       return { ...draft, menu: action.payload };
     case ActionsTypes.ADMINAUTH:
-      return { ...draft, adminAuth: action.payload };
-    case ActionsTypes.TOKEN:
-      return { ...draft, token: action.payload };
+      return {
+        ...draft,
+        adminAuth: action.payload,
+        token: action.payload?.token,
+      };
     default:
       return draft;
   }
@@ -66,32 +67,33 @@ export const OrgAuthProvider = ({ children }: { children: ReactNode }) => {
   // },
   //   });
 
-  const makeClient = () => {
+  const makeClient = (token: string) => {
     const httpLink = new HttpLink({
       uri: process.env.NEXT_PUBLIC_API + "/rust-graphql",
     });
     console.log(token);
     return new NextSSRApolloClient({
       cache: new NextSSRInMemoryCache(),
-      link:
-        typeof window === "undefined"
-          ? ApolloLink.from([
-              new SSRMultipartLink({
-                stripDefer: true,
-              }),
-              httpLink,
-            ])
-          : httpLink,
+      // link:
+      //   typeof window === "undefined"
+      //     ? ApolloLink.from([
+      //         new SSRMultipartLink({
+      //           stripDefer: true,
+      //         }),
+      //         httpLink,
+      //       ])
+      //     : httpLink,
+      uri: process.env.NEXT_PUBLIC_API + "/rust-graphql",
       headers: {
-        authorization: token,
+        Authorization: token,
       },
     });
   };
-
+  const network = makeClient(token);
   return (
     <OrgAuthContext.Provider value={state}>
       <OrgAuthDispatch.Provider value={{ dispatch }}>
-        <ApolloNextAppProvider makeClient={makeClient}>
+        <ApolloNextAppProvider makeClient={() => network}>
           {children}
         </ApolloNextAppProvider>
       </OrgAuthDispatch.Provider>
