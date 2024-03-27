@@ -16,10 +16,7 @@ import { LOG_IN_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
 import { useToast } from "../../ui/use-toast";
-import {
-  ActionsTypes,
-  OrgAuthDispatch,
-} from "@/components/organization/AuthContext";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import {
@@ -27,6 +24,7 @@ import {
   LoginOrganizationQueryVariables,
   OrganizationLogin,
 } from "@/graphql/graphql";
+import { ActionsTypes, OrgAuthDispatch } from "@/components/admin/AuthContext";
 function AdminSignIn() {
   const { dispatch } = useContext(OrgAuthDispatch);
   const { toast } = useToast();

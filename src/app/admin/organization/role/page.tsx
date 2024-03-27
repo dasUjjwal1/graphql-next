@@ -1,4 +1,4 @@
-import RoleComponent from "@/components/organization/Organization/role/Role";
+import RoleComponent from "@/components/admin/Organization/role/Role";
 
 const Role = () => {
   return (

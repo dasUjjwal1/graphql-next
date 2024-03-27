@@ -51,23 +51,20 @@ import { OrgAuthContext } from "../AuthContext";
 import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
 const Organization = () => {
   const state = useContext(OrgAuthContext);
-  const { data, loading, refetch } = useQuery<GetAllOrganizationQuery>(
-    GET_ALL_ORGANIZATION,
-    {
-      onError(error) {
-        toast({
-          title: "Error",
-          description: error.message,
-          variant: "destructive",
-        });
+  const { data, loading, refetch } = useQuery<>(GET_ALL_ORGANIZATION, {
+    onError(error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+    context: {
+      headers: {
+        authorization: state.token,
       },
-      context: {
-        headers: {
-          authorization: state.token,
-        },
-      },
-    }
-  );
+    },
+  });
   const [modal, setModal] = useState<boolean>(false);
   const columnHelper =
     createColumnHelper<GetAllOrganizationQuery["getAllOrganization"]>();

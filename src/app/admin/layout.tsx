@@ -1,5 +1,5 @@
-import AdminIndexPage from "@/components/organization";
-import { OrgAuthProvider } from "@/components/organization/AuthContext";
+import AdminIndexPage from "@/components/admin";
+import { OrgAuthProvider } from "@/components/admin/AuthContext";
 import { ReactNode } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {

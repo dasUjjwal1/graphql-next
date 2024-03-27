@@ -1,4 +1,4 @@
-import EmployeeComponent from "@/components/organization/employee/Employee";
+import EmployeeComponent from "@/components/admin/employee/Employee";
 
 const Employee = () => {
   return (

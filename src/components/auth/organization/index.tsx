@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 function AdminAuth() {
-  const [login, setLogin] = useState<"login" | "register">("login");
+  const [login, setLogin] = useState<"login" | "register">("register");
   return (
     <div className="h-full w-full flex items-center justify-center">
       <Card className="w-full lg:w-1/3 grid items-center">
@@ -22,7 +22,7 @@ function AdminAuth() {
                 <CardTitle className="text-3xl">
                   Create new account<span className={"text-blue-600"}>.</span>
                 </CardTitle>
-                <CardDescription>Card Description</CardDescription>
+                <CardDescription>Enter basic details</CardDescription>
               </CardHeader>
               <CardContent>
                 <AdminRegister />
@@ -40,7 +40,7 @@ function AdminAuth() {
                 <CardTitle className="text-3xl">
                   Welcome Admin<span className={"text-blue-600"}>.</span>
                 </CardTitle>
-                <CardDescription>Card Description</CardDescription>
+                <CardDescription>Enter email & password</CardDescription>
               </CardHeader>
               <CardContent>
                 <AdminSignIn />
