@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -12,7 +12,6 @@ import {
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { Login } from "@/types/authType";
 import { LOG_IN_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
@@ -23,6 +22,10 @@ import {
 } from "@/components/organization/AuthContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import {
+  LoginOrganizationQuery,
+  LoginOrganizationQueryVariables,
+} from "@/graphql/graphql";
 function AdminSignIn() {
   const { dispatch } = useContext(OrgAuthDispatch);
   const { toast } = useToast();
@@ -32,7 +35,10 @@ function AdminSignIn() {
       .required("This field is required"),
     password: Yup.string().required("This field is required"),
   }).required();
-  const [mutation, { loading }] = useLazyQuery(LOG_IN_ORGANIZATION, {
+  const [mutation, { loading }] = useLazyQuery<
+    LoginOrganizationQuery,
+    LoginOrganizationQueryVariables
+  >(LOG_IN_ORGANIZATION, {
     onCompleted: (data) => {
       sessionStorage.setItem(
         AppConfig.CREDENTIAL,
@@ -41,10 +47,6 @@ function AdminSignIn() {
       dispatch({
         type: ActionsTypes.ADMINAUTH,
         payload: data?.loginOrganization,
-      });
-      dispatch({
-        type: ActionsTypes.TOKEN,
-        payload: data?.loginOrganization?.token,
       });
     },
     onError(error) {
@@ -55,7 +57,7 @@ function AdminSignIn() {
       });
     },
   });
-  const form = useForm<Login>({
+  const form = useForm<LoginOrganizationQueryVariables["body"]>({
     defaultValues: {
       email: "",
       password: "",
@@ -63,7 +65,7 @@ function AdminSignIn() {
     resolver: yupResolver(validationSchema),
   });
 
-  function onSubmit(value: Login) {
+  function onSubmit(value: LoginOrganizationQueryVariables["body"]) {
     mutation({ variables: { body: value } });
   }
   return (

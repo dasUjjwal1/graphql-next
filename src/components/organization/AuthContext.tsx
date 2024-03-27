@@ -1,9 +1,14 @@
 "use client";
-import { client } from "@/config/apollo";
+// import { makeClient } from "@/config/apollo";
 import { AppConfig } from "@/config/appConfig";
-import { ApolloProvider } from "@apollo/client";
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
-
+import { ApolloLink, HttpLink } from "@apollo/client";
+import {
+  ApolloNextAppProvider,
+  NextSSRInMemoryCache,
+  NextSSRApolloClient,
+  SSRMultipartLink,
+} from "@apollo/experimental-nextjs-app-support/ssr";
 type AuthType = {
   menu: { id: string; label: string; path: string; icon: string }[];
   adminAuth: any;
@@ -12,10 +17,9 @@ type AuthType = {
 export enum ActionsTypes {
   MENU,
   ADMINAUTH,
-  TOKEN,
 }
 export type Actions = {
-  type: ActionsTypes.MENU | ActionsTypes.ADMINAUTH | ActionsTypes.TOKEN;
+  type: ActionsTypes.MENU | ActionsTypes.ADMINAUTH;
   payload: any;
 };
 const initialState: AuthType = {
@@ -28,9 +32,11 @@ const reducer = (draft: AuthType, action: Actions) => {
     case ActionsTypes.MENU:
       return { ...draft, menu: action.payload };
     case ActionsTypes.ADMINAUTH:
-      return { ...draft, adminAuth: action.payload };
-    case ActionsTypes.TOKEN:
-      return { ...draft, token: action.payload };
+      return {
+        ...draft,
+        adminAuth: action.payload,
+        token: action.payload?.token,
+      };
     default:
       return draft;
   }
@@ -50,12 +56,46 @@ export const OrgAuthProvider = ({ children }: { children: ReactNode }) => {
     typeof window !== "undefined"
       ? JSON.parse(sessionStorage.getItem(AppConfig.CREDENTIAL) as string)
       : "";
+  // import { ApolloClient, InMemoryCache } from "@apollo/client";
 
-  const network = client(token);
+  // export const client = (token: string) =>
+  //   new ApolloClient({
+  //     uri: process.env.NEXT_PUBLIC_API + "/rust-graphql",
+  //     cache: new InMemoryCache(),
+  // headers: {
+  //   authorization: token,
+  // },
+  //   });
+
+  const makeClient = (token: string) => {
+    const httpLink = new HttpLink({
+      uri: process.env.NEXT_PUBLIC_API + "/rust-graphql",
+    });
+    console.log(token);
+    return new NextSSRApolloClient({
+      cache: new NextSSRInMemoryCache(),
+      // link:
+      //   typeof window === "undefined"
+      //     ? ApolloLink.from([
+      //         new SSRMultipartLink({
+      //           stripDefer: true,
+      //         }),
+      //         httpLink,
+      //       ])
+      //     : httpLink,
+      uri: process.env.NEXT_PUBLIC_API + "/rust-graphql",
+      headers: {
+        Authorization: token,
+      },
+    });
+  };
+  const network = makeClient(token);
   return (
     <OrgAuthContext.Provider value={state}>
       <OrgAuthDispatch.Provider value={{ dispatch }}>
-        <ApolloProvider client={network}>{children}</ApolloProvider>
+        <ApolloNextAppProvider makeClient={() => network}>
+          {children}
+        </ApolloNextAppProvider>
       </OrgAuthDispatch.Provider>
     </OrgAuthContext.Provider>
   );
