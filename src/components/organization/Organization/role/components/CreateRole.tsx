@@ -1,5 +1,6 @@
 "use client";
 
+import { OrgAuthContext } from "@/components/organization/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -29,7 +30,12 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import { CREATE_ROLE } from "@/gql/org";
-import { Access, RoleInput } from "@/graphql/graphql";
+import {
+  Access,
+  CreateRoleMutation,
+  CreateRoleMutationVariables,
+  RoleInput,
+} from "@/graphql/graphql";
 import { RoleFormTypes } from "@/types/appTypes";
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -38,6 +44,7 @@ import {
   ReloadIcon,
   ResetIcon,
 } from "@radix-ui/react-icons";
+import { useContext } from "react";
 
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
@@ -47,7 +54,11 @@ export default function CreateRoleDialog({
   roles,
   refetch,
 }: RoleFormTypes) {
-  const [mutation, { loading }] = useMutation(CREATE_ROLE, {
+  const state = useContext(OrgAuthContext);
+  const [mutation, { loading }] = useMutation<
+    CreateRoleMutation,
+    CreateRoleMutationVariables
+  >(CREATE_ROLE, {
     onCompleted: (data) => {
       toast({
         title: "Success",
@@ -62,6 +73,11 @@ export default function CreateRoleDialog({
         description: error.message,
         variant: "destructive",
       });
+    },
+    context: {
+      headers: {
+        authorization: state.token,
+      },
     },
   });
   const validationSchema = Yup.object().shape({

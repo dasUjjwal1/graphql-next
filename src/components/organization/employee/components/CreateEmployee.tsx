@@ -44,12 +44,15 @@ import {
   DoubleArrowLeftIcon,
 } from "@radix-ui/react-icons";
 import { PlusCircle } from "lucide-react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
+import { OrgAuthContext } from "../../AuthContext";
 const CreateEmployeeCredential = ({
   orgList,
   Trigger,
 }: EmployeeCredentialFormTypes) => {
+  const state = useContext(OrgAuthContext);
   const [mutation, { loading, error }] = useMutation(
     CREATE_EMPLOYEE_CREDENTIAL,
     {
@@ -64,6 +67,11 @@ const CreateEmployeeCredential = ({
         description: error.message,
         variant: "destructive",
       });
+    },
+    context: {
+      headers: {
+        authorization: state.token,
+      },
     },
   });
   const form = useForm<EmployeeRegisterInput>({

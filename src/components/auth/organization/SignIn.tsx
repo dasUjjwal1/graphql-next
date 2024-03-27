@@ -25,6 +25,7 @@ import * as Yup from "yup";
 import {
   LoginOrganizationQuery,
   LoginOrganizationQueryVariables,
+  OrganizationLogin,
 } from "@/graphql/graphql";
 function AdminSignIn() {
   const { dispatch } = useContext(OrgAuthDispatch);
@@ -57,7 +58,7 @@ function AdminSignIn() {
       });
     },
   });
-  const form = useForm<LoginOrganizationQueryVariables["body"]>({
+  const form = useForm<OrganizationLogin>({
     defaultValues: {
       email: "",
       password: "",
@@ -65,7 +66,7 @@ function AdminSignIn() {
     resolver: yupResolver(validationSchema),
   });
 
-  function onSubmit(value: LoginOrganizationQueryVariables["body"]) {
+  function onSubmit(value: OrganizationLogin) {
     mutation({ variables: { body: value } });
   }
   return (

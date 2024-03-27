@@ -35,8 +35,11 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AppConfig } from "@/config/appConfig";
+import { useContext } from "react";
+import { OrgAuthContext } from "../../AuthContext";
 
 const RoleComponent = () => {
+  const state = useContext(OrgAuthContext);
   const { data, loading, refetch } = useQuery<GetAllRoleQuery>(GET_ALL_ROLE, {
     onError(error) {
       toast({
@@ -44,6 +47,11 @@ const RoleComponent = () => {
         description: error.message,
         variant: "destructive",
       });
+    },
+    context: {
+      headers: {
+        authorization: state.token,
+      },
     },
   });
   const Trigger = () => (
