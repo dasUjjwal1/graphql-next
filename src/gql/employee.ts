@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_EMPLOYEE_CREDENTIAL = gql`
-  mutation CreateEmployeeCredential($body: EmployeeRegisterInput!) {
+  mutation CreateEmployee($body: EmployeeRegisterInput!) {
     createEmployee(body: $body)
   }
 `;

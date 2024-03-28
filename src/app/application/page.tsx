@@ -1,7 +1,8 @@
+import ApplicationIndex from "@/components/application/ApplicationIndex";
 import Layout from "./layout";
 
 const Page = () => {
-  return <div>Employee</div>;
+  return <ApplicationIndex />;
 };
 Page.getLayout = (page: any) => <Layout>{page}</Layout>;
 export default Page;

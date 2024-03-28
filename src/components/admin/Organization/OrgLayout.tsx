@@ -5,8 +5,8 @@ import { ReactNode } from "react";
 
 const OrgLayout = ({ children }: { children: ReactNode }) => {
   const menu = [
-    { label: "Organization", path: "/organization/org" },
-    { label: "Role", path: "/organization/org/role" },
+    { label: "Organization", path: "/admin/organization" },
+    { label: "Role", path: "/admin/organization/role" },
   ];
   const pathName = usePathname();
   return (

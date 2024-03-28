@@ -28,22 +28,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
-import { AppConfig } from "@/config/appConfig";
 import { CREATE_EMPLOYEE_CREDENTIAL } from "@/gql/employee";
 import { GET_ALL_ROLE } from "@/gql/org";
 import {
+  CreateEmployeeMutation,
+  CreateEmployeeMutationVariables,
   EmployeeRegisterInput,
-  GetAllOrganizationDocument,
   GetAllRoleQuery,
 } from "@/graphql/graphql";
 import { EmployeeCredentialFormTypes } from "@/types/appTypes";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-  ResetIcon,
-  ReloadIcon,
-  DoubleArrowLeftIcon,
-} from "@radix-ui/react-icons";
-import { PlusCircle } from "lucide-react";
+import { ResetIcon } from "@radix-ui/react-icons";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
@@ -53,13 +48,31 @@ const CreateEmployeeCredential = ({
   Trigger,
 }: EmployeeCredentialFormTypes) => {
   const state = useContext(OrgAuthContext);
-  const [mutation, { loading, error }] = useMutation(
-    CREATE_EMPLOYEE_CREDENTIAL,
-    {
-      onCompleted(data, clientOptions) {},
-      onError(error, clientOptions) {},
-    }
-  );
+  const context = {
+    headers: {
+      authorization: state.token,
+    },
+  };
+  const [mutation, { loading, error }] = useMutation<
+    CreateEmployeeMutation,
+    CreateEmployeeMutationVariables
+  >(CREATE_EMPLOYEE_CREDENTIAL, {
+    onCompleted(data, clientOptions) {
+      toast({
+        title: "Success",
+        description: data.createEmployee,
+        variant: "default",
+      });
+    },
+    onError(error, clientOptions) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+    context,
+  });
   const { data } = useQuery<GetAllRoleQuery>(GET_ALL_ROLE, {
     onError(error) {
       toast({
@@ -68,11 +81,7 @@ const CreateEmployeeCredential = ({
         variant: "destructive",
       });
     },
-    context: {
-      headers: {
-        authorization: state.token,
-      },
-    },
+    context,
   });
   const form = useForm<EmployeeRegisterInput>({
     defaultValues: {},
@@ -84,8 +93,13 @@ const CreateEmployeeCredential = ({
       employeePassword: value.employeePassword,
       access: JSON.stringify(role?.access),
       employeeRole: role?.id,
+      organizationId: value.organizationId,
     };
-    console.log(requestBody);
+    mutation({
+      variables: {
+        body: requestBody,
+      },
+    });
   };
 
   return (

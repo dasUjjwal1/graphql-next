@@ -17,7 +17,10 @@ import { LOG_IN_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
 import { useToast } from "../../ui/use-toast";
-import { ActionsTypes, UserAuthDispatch } from "@/components/user/AuthContext";
+import {
+  ActionsTypes,
+  UserAuthDispatch,
+} from "@/components/application/AuthContext";
 
 function SignIn() {
   const { dispatch } = useContext(UserAuthDispatch);

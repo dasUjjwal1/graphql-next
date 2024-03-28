@@ -24,7 +24,10 @@ import { useMutation } from "@apollo/client";
 import { REGISTER_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useToast } from "../../ui/use-toast";
-import { ActionsTypes, UserAuthDispatch } from "@/components/user/AuthContext";
+import {
+  ActionsTypes,
+  UserAuthDispatch,
+} from "@/components/application/AuthContext";
 
 function Register() {
   const { toast } = useToast();

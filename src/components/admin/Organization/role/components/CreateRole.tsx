@@ -1,6 +1,6 @@
 "use client";
 
-import { OrgAuthContext } from "@/components/organization/AuthContext";
+import { OrgAuthContext } from "@/components/admin/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,

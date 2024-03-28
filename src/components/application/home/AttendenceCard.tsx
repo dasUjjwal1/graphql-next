@@ -1,5 +1,5 @@
 import { ClockIcon } from "@radix-ui/react-icons";
-import { Button } from "../ui/button";
+
 import {
   Card,
   CardContent,
@@ -7,9 +7,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "../../ui/card";
+import { Button } from "@/components/ui/button";
 
-const HomePage = () => {
+const AttendenceCard = () => {
   return (
     <div className="grid grid-cols-2 gap-3 grid-flow-row p-3 w-full">
       <div className="grid gap-3 grid-cols-2 grid-flow-row auto-rows-max">
@@ -68,4 +69,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default AttendenceCard;

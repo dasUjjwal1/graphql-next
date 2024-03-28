@@ -1,4 +1,4 @@
-import { UserAuthProvider } from "@/components/user/AuthContext";
+import { UserAuthProvider } from "@/components/application/AuthContext";
 import { ReactNode } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {

@@ -27,7 +27,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import {
   ColumnDef,
   PaginationState,
@@ -44,19 +44,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Loader2, PlusCircle } from "lucide-react";
+import { Loader2, PlusCircle, RefreshCcw, SearchIcon } from "lucide-react";
 import { DrawerTrigger } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { OrgAuthContext } from "../AuthContext";
 import { toast } from "@/components/ui/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const EmployeeComponent = () => {
   const state = useContext(OrgAuthContext);
+  const context = {
+    headers: {
+      authorization: state.token,
+    },
+  };
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
-  const { data, error } = useQuery<GetAllOrganizationQuery>(
+  const { data, loading: orgLoading } = useQuery<GetAllOrganizationQuery>(
     GET_ALL_ORGANIZATION,
     {
       onError(error) {
@@ -66,16 +79,12 @@ const EmployeeComponent = () => {
           variant: "destructive",
         });
       },
-      context: {
-        headers: {
-          authorization: state.token,
-        },
-      },
+      context,
     }
   );
   const [query, { data: employeeList, fetchMore, updateQuery, loading }] =
     useLazyQuery<
-      GetEmployeeListByOrgIdQuery["getEmployeeListByOrgId"],
+      GetEmployeeListByOrgIdQuery,
       GetEmployeeListByOrgIdQueryVariables
     >(GET_ALL_EMPLOYEE_BY_ORG_ID, {
       onError(error) {
@@ -85,12 +94,20 @@ const EmployeeComponent = () => {
           variant: "destructive",
         });
       },
-      context: {
-        headers: {
-          authorization: state.token,
-        },
-      },
+      context,
     });
+  useEffect(() => {
+    !orgLoading &&
+      data?.getAllOrganization &&
+      query({
+        variables: {
+          body: {
+            id: data?.getAllOrganization[0]?.id,
+            pagination: { limit: 10, offset: 0 },
+          },
+        },
+      });
+  }, [data?.getAllOrganization]);
   const columnHelper = createColumnHelper<Employee>();
   const columns = useMemo<ColumnDef<Employee, any>[]>(
     () => [
@@ -102,15 +119,26 @@ const EmployeeComponent = () => {
         header: () => "Name",
         cell: (info) => info.getValue(),
       }),
+      columnHelper.accessor("depertment", {
+        header: () => "Depertment",
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor("mobile", {
+        header: () => "Mobile No.",
+        cell: (info) => info.getValue(),
+      }),
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
   const table = useReactTable({
-    data: employeeList?.data ? employeeList.data : [],
+    data: employeeList?.getEmployeeListByOrgId?.data
+      ? employeeList?.getEmployeeListByOrgId?.data
+      : [],
     columns,
     // pageCount: dataQuery.data?.pageCount ?? -1, //you can now pass in `rowCount` instead of pageCount and `pageCount` will be calculated internally (new in v8.13.0)
-    rowCount: employeeList?.totalCount, // new in v8.13.0 - alternatively, just pass in `pageCount` directly
+    rowCount: employeeList?.getEmployeeListByOrgId?.totalCount, // new in v8.13.0 - alternatively, just pass in `pageCount` directly
     state: {
       pagination,
     },
@@ -136,7 +164,7 @@ const EmployeeComponent = () => {
           onValueChange={(e) => {
             query({
               variables: {
-                body: { id: e, pagination: { limit: 1, offset: 1 } },
+                body: { id: e, pagination: { limit: 10, offset: 1 } },
               },
             });
           }}
@@ -153,17 +181,50 @@ const EmployeeComponent = () => {
             ))}
           </SelectContent>
         </Select>
-        <CreateEmployeeCredential
-          Trigger={Trigger}
-          orgList={data?.getAllOrganization ? data?.getAllOrganization : []}
-        />
+        <div className="flex gap-2">
+          <CreateEmployeeCredential
+            Trigger={Trigger}
+            orgList={data?.getAllOrganization ? data?.getAllOrganization : []}
+          />
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <SearchIcon className="w-4 h-4" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
+      <Button
+        className="mt-2"
+        onClick={() =>
+          query({
+            variables: {
+              body: {
+                id: data?.getAllOrganization[0]?.id,
+                pagination: { limit: 3, offset: 0 },
+              },
+            },
+          })
+        }
+      >
+        <RefreshCcw className="w-4 h-4" />
+      </Button>
       <>
         <Table className="border mt-3 w-full">
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups()?.map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers?.map((header) => {
                   return (
                     <TableHead className="px-4" key={header.id}>
                       {header.isPlaceholder
@@ -190,13 +251,13 @@ const EmployeeComponent = () => {
               </TableRow>
             ) : (
               <>
-                {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
+                {table.getRowModel()?.rows?.length ? (
+                  table.getRowModel()?.rows.map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
                     >
-                      {row.getVisibleCells().map((cell) => (
+                      {row.getVisibleCells()?.map((cell) => (
                         <TableCell className="px-4" key={cell.id}>
                           {flexRender(
                             cell.column.columnDef.cell,
@@ -221,7 +282,7 @@ const EmployeeComponent = () => {
           </TableBody>
         </Table>
       </>
-      <div className="flex items-center gap-2">
+      {/* <div className="flex items-center gap-2">
         <button
           className="border rounded p-1"
           onClick={() => table.firstPage()}
@@ -257,60 +318,54 @@ const EmployeeComponent = () => {
             {table.getPageCount().toLocaleString()}
           </strong>
         </span>
-        <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-            type="number"
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
-            }}
-            className="border p-1 rounded w-16"
-          />
-        </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-        {/* {dataQuery.isFetching ? 'Loading...' : null} */}
-      </div>
-      <div>
-        Showing {table.getRowModel().rows.length.toLocaleString()} of{" "}
-        {employeeList?.totalCount.toLocaleString()} Rows
-      </div>
-      <div className="flex items-center justify-end">
-        <Pagination>
+      </div> */}
+
+      <div className="flex mt-3 items-center justify-end">
+        <Pagination className="gap-2">
           <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
+            {table.getState().pagination.pageIndex + 1 > 1 && (
+              <PaginationItem>
+                <PaginationPrevious onClick={() => table.previousPage()} />
+              </PaginationItem>
+            )}
+
+            {Array(table.getPageCount())
+              .fill("")
+              .map((elm, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    isActive={table.getState().pagination.pageIndex === index}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+            {table.getPageCount() > 6 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+
+            {table.getState().pagination.pageIndex + 1 <
+              table.getPageCount() && (
+              <PaginationItem>
+                <PaginationNext onClick={() => table.nextPage()} />
+              </PaginationItem>
+            )}
           </PaginationContent>
+          <Select onValueChange={(e) => {}} defaultValue={"10"}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select Organization" />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 20, 30, 40, 50].map((pageSize) => (
+                <SelectItem key={pageSize} value={pageSize.toString()}>
+                  {pageSize}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </Pagination>
       </div>
     </div>
