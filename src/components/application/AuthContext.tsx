@@ -1,38 +1,40 @@
 "use client";
-import { produce } from "immer";
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
 type AuthType = {
-  menu: { id: string; label: string; path: string; icon: string }[];
+  menu: { id: string; label: string; path: string; icon: string[] }[];
   userAuth: any;
+  token: any;
 };
 export enum ActionsTypes {
   MENU,
   USERAUTH,
 }
-export type Actions =
-  | { type: ActionsTypes.MENU; payload: [] }
-  | {
-      type: ActionsTypes.USERAUTH;
-      payload: { token: string | null };
-    };
+export type Actions = { type: ActionsTypes; payload: any };
+
 const initialState: AuthType = {
   menu: [],
   userAuth: null,
+  token: null,
 };
-const reducer = produce((draft: AuthType, action: Actions) => {
+const reducer = (draft: AuthType, action: Actions) => {
   switch (action.type) {
     case ActionsTypes.MENU:
-      draft.menu = action.payload;
+      return { ...draft, menu: action.payload };
     case ActionsTypes.USERAUTH:
-      draft.userAuth = action.payload;
+      return {
+        ...draft,
+        userAuth: action.payload,
+        token: action.payload?.token,
+      };
     default:
       return draft;
   }
-});
+};
 export const UserAuthContext = createContext<AuthType>({
   menu: [],
   userAuth: null,
+  token: null,
 });
 export const UserAuthDispatch = createContext<{ dispatch: Dispatch<Actions> }>({
   dispatch: () => null,

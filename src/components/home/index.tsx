@@ -9,7 +9,7 @@ const HomeHandler = () => {
     <>
       <Header />
       <Hero />
-      <Features />
+      {/* <Features /> */}
       {/* <div className="flex h-full items-center justify-center gap-4">
         <Link href={"/organization"}>
           <Button>Admin</Button>

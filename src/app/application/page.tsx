@@ -1,8 +1,12 @@
-import ApplicationIndex from "@/components/application/ApplicationIndex";
+import AttendanceCard from "@/components/application/home/AttendenceCard";
 import Layout from "./layout";
 
 const Page = () => {
-  return <ApplicationIndex />;
+  return (
+    <>
+      <AttendanceCard />
+    </>
+  );
 };
 Page.getLayout = (page: any) => <Layout>{page}</Layout>;
 export default Page;

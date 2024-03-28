@@ -16,24 +16,32 @@ import { Login } from "@/types/authType";
 import { LOG_IN_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
-import { useToast } from "../../ui/use-toast";
 import {
   ActionsTypes,
   UserAuthDispatch,
 } from "@/components/application/AuthContext";
+import { toast } from "@/components/ui/use-toast";
+import { LOG_IN_EMPLOYEE } from "@/gql/employee";
+import {
+  EmployeeLoginInput,
+  LoginEmployeeQuery,
+  LoginEmployeeQueryVariables,
+} from "@/graphql/graphql";
 
 function SignIn() {
   const { dispatch } = useContext(UserAuthDispatch);
-  const { toast } = useToast();
-  const [mutation, { loading }] = useLazyQuery(LOG_IN_ORGANIZATION, {
+  const [mutation, { loading }] = useLazyQuery<
+    LoginEmployeeQuery,
+    LoginEmployeeQueryVariables
+  >(LOG_IN_EMPLOYEE, {
     onCompleted: (data) => {
       sessionStorage.setItem(
         AppConfig.CREDENTIAL,
-        JSON.stringify(data?.loginOrganization)
+        JSON.stringify(data?.loginEmployee?.token)
       );
       dispatch({
         type: ActionsTypes.USERAUTH,
-        payload: data?.loginOrganization,
+        payload: data?.loginEmployee,
       });
     },
     onError(error) {
@@ -44,14 +52,14 @@ function SignIn() {
       });
     },
   });
-  const form = useForm<Login>({
+  const form = useForm<EmployeeLoginInput>({
     defaultValues: {
-      email: "",
-      password: "",
+      employeeEmail: "",
+      employeePassword: "",
     },
   });
 
-  function onSubmit(value: Login) {
+  function onSubmit(value: EmployeeLoginInput) {
     mutation({ variables: { body: value } });
   }
   return (
@@ -64,7 +72,7 @@ function SignIn() {
         >
           <FormField
             control={form.control}
-            name="email"
+            name="employeeEmail"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
@@ -77,7 +85,7 @@ function SignIn() {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="employeePassword"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>

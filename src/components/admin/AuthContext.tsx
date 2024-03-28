@@ -1,7 +1,7 @@
 "use client";
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 type AuthType = {
-  menu: { id: string; label: string; path: string; icon: string }[];
+  menu: { id: string; label: string; path: string; icon: string[] }[];
   adminAuth: any;
   token: any;
 };

@@ -1,3 +1,4 @@
+"use client";
 import { ClockIcon } from "@radix-ui/react-icons";
 
 import {
@@ -10,7 +11,7 @@ import {
 } from "../../ui/card";
 import { Button } from "@/components/ui/button";
 
-const AttendenceCard = () => {
+const AttendanceCard = () => {
   return (
     <div className="grid grid-cols-2 gap-3 grid-flow-row p-3 w-full">
       <div className="grid gap-3 grid-cols-2 grid-flow-row auto-rows-max">
@@ -69,4 +70,4 @@ const AttendenceCard = () => {
   );
 };
 
-export default AttendenceCard;
+export default AttendanceCard;

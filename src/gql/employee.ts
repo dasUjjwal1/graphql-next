@@ -39,3 +39,30 @@ export const GET_ALL_EMPLOYEE_BY_ORG_ID = gql`
     }
   }
 `;
+export const LOG_IN_EMPLOYEE = gql`
+  query LoginEmployee($body: EmployeeLoginInput!) {
+    loginEmployee(body: $body) {
+      id
+      employeeName
+      employeeEmail
+      profileImage
+      employeeType
+      depertment
+      employeeRole
+      employeeId
+      employeeStatus
+      account
+      country
+      isDelete
+      organizationId
+      mobile
+      joiningDate
+      employeeAddress
+      qualification
+      access
+      createdAt
+      updatedAt
+      token
+    }
+  }
+`;
