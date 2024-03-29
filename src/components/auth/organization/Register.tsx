@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -24,18 +24,14 @@ import { useMutation } from "@apollo/client";
 import { REGISTER_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useToast } from "../../ui/use-toast";
-import {
-  ActionsTypes,
-  OrgAuthDispatch,
-} from "@/components/organization/AuthContext";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import {
-  CreateEmployeeCredentialMutationVariables,
   CreateOrganizationMutation,
   CreateOrganizationMutationVariables,
-  OrganizationResponse,
 } from "@/graphql/graphql";
+import { ActionsTypes, OrgAuthDispatch } from "@/components/admin/AuthContext";
 function AdminRegister() {
   const { toast } = useToast();
   const { dispatch } = useContext(OrgAuthDispatch);

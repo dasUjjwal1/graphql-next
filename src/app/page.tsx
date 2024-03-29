@@ -1,5 +1,6 @@
 import HomeHandler from "@/components/home";
 
-export default function Home() {
+function Page() {
   return <HomeHandler />;
 }
+export default Page;

@@ -8,10 +8,10 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 type MenuItems = {
-  id: string;
-  label: string;
+  id?: string;
+  label?: string;
   path: string;
-  icon: string[];
+  icon?: string[];
 };
 type Props = {
   menu: MenuItems[];
