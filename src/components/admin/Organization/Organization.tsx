@@ -118,7 +118,7 @@ const Organization = () => {
         </Select>
       ),
     }),
-    columnHelper.accessor("idActive", {
+    columnHelper.accessor("isActive", {
       header: () => "Status",
       cell: (info) => (
         <Switch

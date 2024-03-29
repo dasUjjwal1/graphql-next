@@ -219,8 +219,11 @@ export type OrganizationDetails = {
   financialYearStart?: Maybe<Scalars['String']['output']>;
   holiday?: Maybe<Array<OrgHoliday>>;
   id?: Maybe<Scalars['ObjectId']['output']>;
-  idActive: Scalars['Boolean']['output'];
+  isActive: Scalars['Boolean']['output'];
+  lastSubscribe: Scalars['DateTime']['output'];
+  lattitude?: Maybe<Scalars['Float']['output']>;
   logo?: Maybe<Scalars['String']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   notWorkingDays?: Maybe<Array<Scalars['Int']['output']>>;
   officeHour?: Maybe<Scalars['Int']['output']>;
   orgContact?: Maybe<Scalars['String']['output']>;
@@ -230,6 +233,7 @@ export type OrganizationDetails = {
   startTime: Scalars['Int']['output'];
   totalLeaveCount?: Maybe<Scalars['Int']['output']>;
   updatedAt: Scalars['DateTime']['output'];
+  workingModel?: Maybe<WorkingModel>;
 };
 
 export type OrganizationDetailsRegisterInput = {
@@ -237,13 +241,16 @@ export type OrganizationDetailsRegisterInput = {
   employeeCount: Scalars['Int']['input'];
   endTime: Scalars['Int']['input'];
   id?: InputMaybe<Scalars['ObjectId']['input']>;
+  lattitude?: InputMaybe<Scalars['Float']['input']>;
   logo?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
   officeHour?: InputMaybe<Scalars['Int']['input']>;
   orgContact?: InputMaybe<Scalars['String']['input']>;
   orgName: Scalars['String']['input'];
   orgType?: InputMaybe<Scalars['Int']['input']>;
   startTime: Scalars['Int']['input'];
   totalLeaveCount?: InputMaybe<Scalars['Int']['input']>;
+  workingModel?: InputMaybe<WorkingModel>;
 };
 
 export type OrganizationLogin = {
@@ -326,6 +333,13 @@ export type UpdateOrganizationsInput = {
   picturePath?: InputMaybe<Scalars['String']['input']>;
 };
 
+export enum WorkingModel {
+  Hybride = 'HYBRIDE',
+  Onsite = 'ONSITE',
+  Other = 'OTHER',
+  Remote = 'REMOTE'
+}
+
 export type Addressinput = {
   city?: InputMaybe<Scalars['String']['input']>;
   housenumber?: InputMaybe<Scalars['String']['input']>;
@@ -404,7 +418,7 @@ export type CreateOrganizationDetailsMutation = { __typename?: 'Mutation', creat
 export type GetAllOrganizationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllOrganizationQuery = { __typename?: 'RootQuery', getAllOrganization: Array<{ __typename?: 'OrganizationDetails', id?: any | null, orgName: string, orgId: any, idActive: boolean, employeeCount: number, orgType?: number | null, totalLeaveCount?: number | null, establishedOn?: any | null, documents?: Array<string> | null, logo?: string | null, officeHour?: number | null, startTime: number, endTime: number, financialYearStart?: string | null, financialYearEnd?: string | null, depertment?: number | null, notWorkingDays?: Array<number> | null, orgContact?: string | null, createdAt: any, updatedAt: any, address?: { __typename?: 'OrgAddress', city?: string | null, street?: string | null, housenumber?: string | null, state?: string | null, pin?: string | null } | null, holiday?: Array<{ __typename?: 'OrgHoliday', id?: any | null, name?: string | null, date?: any | null }> | null }> };
+export type GetAllOrganizationQuery = { __typename?: 'RootQuery', getAllOrganization: Array<{ __typename?: 'OrganizationDetails', id?: any | null, orgName: string, orgId: any, isActive: boolean, employeeCount: number, orgType?: number | null, totalLeaveCount?: number | null, establishedOn?: any | null, documents?: Array<string> | null, logo?: string | null, officeHour?: number | null, startTime: number, endTime: number, financialYearStart?: string | null, financialYearEnd?: string | null, depertment?: number | null, notWorkingDays?: Array<number> | null, orgContact?: string | null, createdAt: any, updatedAt: any, address?: { __typename?: 'OrgAddress', city?: string | null, street?: string | null, housenumber?: string | null, state?: string | null, pin?: string | null } | null, holiday?: Array<{ __typename?: 'OrgHoliday', id?: any | null, name?: string | null, date?: any | null }> | null }> };
 
 
 export const CreateEmployeeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateEmployee"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EmployeeRegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createEmployee"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}]}]}}]} as unknown as DocumentNode<CreateEmployeeMutation, CreateEmployeeMutationVariables>;
@@ -415,4 +429,4 @@ export const LoginOrganizationDocument = {"kind":"Document","definitions":[{"kin
 export const CreateRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RoleInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createRole"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}]}]}}]} as unknown as DocumentNode<CreateRoleMutation, CreateRoleMutationVariables>;
 export const GetAllRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"parent"}},{"kind":"Field","name":{"kind":"Name","value":"access"}}]}}]}}]} as unknown as DocumentNode<GetAllRoleQuery, GetAllRoleQueryVariables>;
 export const CreateOrganizationDetailsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOrganizationDetails"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrganizationDetailsRegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOrganizationDetails"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}]}]}}]} as unknown as DocumentNode<CreateOrganizationDetailsMutation, CreateOrganizationDetailsMutationVariables>;
-export const GetAllOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllOrganization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllOrganization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgName"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"idActive"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"street"}},{"kind":"Field","name":{"kind":"Name","value":"housenumber"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"pin"}}]}},{"kind":"Field","name":{"kind":"Name","value":"employeeCount"}},{"kind":"Field","name":{"kind":"Name","value":"orgType"}},{"kind":"Field","name":{"kind":"Name","value":"totalLeaveCount"}},{"kind":"Field","name":{"kind":"Name","value":"establishedOn"}},{"kind":"Field","name":{"kind":"Name","value":"holiday"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"date"}}]}},{"kind":"Field","name":{"kind":"Name","value":"documents"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}},{"kind":"Field","name":{"kind":"Name","value":"officeHour"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"financialYearStart"}},{"kind":"Field","name":{"kind":"Name","value":"financialYearEnd"}},{"kind":"Field","name":{"kind":"Name","value":"depertment"}},{"kind":"Field","name":{"kind":"Name","value":"notWorkingDays"}},{"kind":"Field","name":{"kind":"Name","value":"orgContact"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetAllOrganizationQuery, GetAllOrganizationQueryVariables>;
+export const GetAllOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllOrganization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllOrganization"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"orgName"}},{"kind":"Field","name":{"kind":"Name","value":"orgId"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}},{"kind":"Field","name":{"kind":"Name","value":"address"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"street"}},{"kind":"Field","name":{"kind":"Name","value":"housenumber"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"pin"}}]}},{"kind":"Field","name":{"kind":"Name","value":"employeeCount"}},{"kind":"Field","name":{"kind":"Name","value":"orgType"}},{"kind":"Field","name":{"kind":"Name","value":"totalLeaveCount"}},{"kind":"Field","name":{"kind":"Name","value":"establishedOn"}},{"kind":"Field","name":{"kind":"Name","value":"holiday"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"date"}}]}},{"kind":"Field","name":{"kind":"Name","value":"documents"}},{"kind":"Field","name":{"kind":"Name","value":"logo"}},{"kind":"Field","name":{"kind":"Name","value":"officeHour"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"financialYearStart"}},{"kind":"Field","name":{"kind":"Name","value":"financialYearEnd"}},{"kind":"Field","name":{"kind":"Name","value":"depertment"}},{"kind":"Field","name":{"kind":"Name","value":"notWorkingDays"}},{"kind":"Field","name":{"kind":"Name","value":"orgContact"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetAllOrganizationQuery, GetAllOrganizationQueryVariables>;

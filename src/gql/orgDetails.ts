@@ -11,7 +11,7 @@ export const GET_ALL_ORGANIZATION = gql`
       id
       orgName
       orgId
-      idActive
+      isActive
       address {
         city
         street

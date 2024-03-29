@@ -65,7 +65,6 @@ type EmployeeAttendance {
 input EmployeeLoginInput {
   employeeEmail: String!
   employeePassword: String!
-  employeeRole: String!
 }
 
 input EmployeeRegisterInput {
@@ -154,7 +153,11 @@ type OrganizationDetails {
   id: ObjectId
   orgName: String!
   orgId: ObjectId!
-  idActive: Boolean!
+  isActive: Boolean!
+  lastSubscribe: DateTime!
+  lattitude: Float
+  longitude: Float
+  workingModel: WorkingModel
   address: OrgAddress
   employeeCount: Int!
   orgType: Int
@@ -187,6 +190,9 @@ input OrganizationDetailsRegisterInput {
   officeHour: Int
   startTime: Int!
   endTime: Int!
+  workingModel: WorkingModel
+  lattitude: Float
+  longitude: Float
 }
 
 input OrganizationLogin {
@@ -251,6 +257,13 @@ input UpdateOrganizationsInput {
   picturePath: String
   paymentStructure: PayStructureStatus
   address: orgaddressinput
+}
+
+enum WorkingModel {
+  ONSITE
+  HYBRIDE
+  REMOTE
+  OTHER
 }
 
 input addressinput {

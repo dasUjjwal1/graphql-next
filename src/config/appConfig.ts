@@ -27,4 +27,10 @@ export const AppConfig = {
     { label: "Employee", value: 5 },
     { label: "Payroll", value: 10 },
   ],
+  WORKING_MODE: [
+    { label: "ONSITE", value: "ONSITE" },
+    { label: "HYBRIDE", value: "HYBRIDE" },
+    { label: "REMOTE", value: "REMOTE" },
+    { label: "OTHER", value: "OTHER" },
+  ],
 };

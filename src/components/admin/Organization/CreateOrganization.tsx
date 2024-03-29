@@ -244,70 +244,42 @@ const CreateOrganization = ({
                   </FormItem>
                 )}
               />
-              <h4 className="col-span-12 font-bold text-sm border-l-8 pl-3 my-3 border-blue-600">
-                Organization address
-              </h4>
+
               <FormField
                 control={form.control}
-                name="address.street"
+                name="orgType"
                 render={({ field }) => (
                   <FormItem className="col-span-3">
-                    <FormLabel>Street Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Street Name" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address.city"
-                render={({ field }) => (
-                  <FormItem className="col-span-3">
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="City" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address.housenumber"
-                render={({ field }) => (
-                  <FormItem className="col-span-3">
-                    <FormLabel>Building No.</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Building No." {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address.state"
-                render={({ field }) => (
-                  <FormItem className="col-span-3">
-                    <FormLabel>State</FormLabel>
-                    <FormControl>
-                      <Input placeholder="State" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address.pin"
-                render={({ field }) => (
-                  <FormItem className="col-span-3">
-                    <FormLabel>PIN No.</FormLabel>
-                    <FormControl>
-                      <Input placeholder="PIN No." {...field} />
-                    </FormControl>
+                    <FormLabel>Working Mode</FormLabel>
+                    <Select onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select organization type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {AppConfig.WORKING_MODE.map((item) => (
+                          <SelectItem
+                            key={item.value}
+                            value={item.value.toString()}
+                          >
+                            {item.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
             </>
+            {
+              <>
+                <h4 className="col-span-12 font-bold text-sm border-l-8 pl-3 my-3 border-blue-600">
+                  Organization address
+                </h4>
+              </>
+            }
             <DrawerFooter className="col-span-12 flex items-center justify-end flex-row">
               <Button variant="outline" size="icon" type="button">
                 <ResetIcon className="h-4 w-4" />
