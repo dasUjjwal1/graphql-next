@@ -9,7 +9,7 @@ import {
 import SignIn from "./SignIn";
 function ApplicationAuth() {
   return (
-    <div className="h-full w-full flex items-center justify-center">
+    <div className="h-full w-full flex items-center justify-center container">
       <Card className="w-full lg:w-1/3 grid items-center">
         <CardHeader>
           <CardTitle className="text-3xl">

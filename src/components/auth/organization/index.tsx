@@ -13,7 +13,7 @@ import {
 function AdminAuth() {
   const [login, setLogin] = useState<"login" | "register">("register");
   return (
-    <div className="h-full w-full flex items-center justify-center">
+    <div className="h-full container w-full flex items-center justify-center">
       <Card className="w-full lg:w-1/3 grid items-center">
         <div className="col-span-1">
           {login === "register" ? (
