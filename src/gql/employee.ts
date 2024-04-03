@@ -14,11 +14,13 @@ export const GET_ALL_EMPLOYEE_BY_ORG_ID = gql`
         employeeEmail
         profileImage
         employeeType
-        depertment
+        department
         employeeRole
         employeeId
         employeeStatus
-        account
+        accountNo
+        bankName
+        ifscCode
         employeePassword
         country
         isDelete
@@ -28,14 +30,15 @@ export const GET_ALL_EMPLOYEE_BY_ORG_ID = gql`
         employeeAddress
         qualification
         access
+        documents
         createdAt
         updatedAt
       }
+      totalCount
       pagination {
         limit
         offset
       }
-      totalCount
     }
   }
 `;
@@ -47,11 +50,13 @@ export const LOG_IN_EMPLOYEE = gql`
       employeeEmail
       profileImage
       employeeType
-      depertment
+      department
       employeeRole
       employeeId
       employeeStatus
-      account
+      accountNo
+      bankName
+      ifscCode
       country
       isDelete
       organizationId
@@ -60,6 +65,7 @@ export const LOG_IN_EMPLOYEE = gql`
       employeeAddress
       qualification
       access
+      documents
       createdAt
       updatedAt
       token

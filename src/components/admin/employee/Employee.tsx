@@ -4,7 +4,6 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import CreateEmployeeCredential from "./components/CreateEmployee";
 import {
   Employee,
-  GetAllOrganizationDocument,
   GetAllOrganizationQuery,
   GetEmployeeListByOrgIdQuery,
   GetEmployeeListByOrgIdQueryVariables,
@@ -119,8 +118,8 @@ const EmployeeComponent = () => {
         header: () => "Name",
         cell: (info) => info.getValue(),
       }),
-      columnHelper.accessor("depertment", {
-        header: () => "Depertment",
+      columnHelper.accessor("department", {
+        header: () => "Department",
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor("mobile", {

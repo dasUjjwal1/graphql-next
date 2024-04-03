@@ -29,11 +29,13 @@ type Employee {
   employeeEmail: String!
   profileImage: String
   employeeType: Int
-  depertment: String
+  department: String
   employeeRole: String
-  employeeId: Int
+  employeeId: String
   employeeStatus: Boolean
-  account: String
+  accountNo: String
+  bankName: String
+  ifscCode: String
   employeePassword: String!
   country: Int
   isDelete: Boolean
@@ -43,6 +45,7 @@ type Employee {
   employeeAddress: JSON
   qualification: JSON
   access: JSON
+  documents: JSON
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -59,7 +62,7 @@ type EmployeeAttendance {
   orgId: String!
   clockIn: DateTime!
   clockOut: DateTime
-  createdAt: DateTime!
+  createdAt: NaiveDate!
 }
 
 input EmployeeLoginInput {
@@ -73,6 +76,11 @@ input EmployeeRegisterInput {
   organizationId: String!
   employeeRole: String
   access: JSON
+}
+
+input GetAttendanceByDates {
+  startDate: DateTime
+  endDate: DateTime
 }
 
 type GetEmployeeByOrgIdResponse {
@@ -102,11 +110,13 @@ type LoginResponse {
   employeeEmail: String!
   profileImage: String
   employeeType: Int
-  depertment: String
+  department: String
   employeeRole: String
-  employeeId: Int
+  employeeId: String
   employeeStatus: Boolean
-  account: String
+  accountNo: String
+  bankName: String
+  ifscCode: String
   country: Int
   isDelete: Boolean
   organizationId: String!
@@ -115,6 +125,7 @@ type LoginResponse {
   employeeAddress: JSON
   qualification: JSON
   access: JSON
+  documents: JSON
   createdAt: DateTime
   updatedAt: DateTime
   token: String!
@@ -123,8 +134,8 @@ type LoginResponse {
 type Mutation {
   createEmployee(body: EmployeeRegisterInput!): Int!
   createPermission(body: EmployeeAccess!): String!
-  createAttendence: EmployeeAttendance!
-  updateAttendence: EmployeeAttendance!
+  createAttendance: EmployeeAttendance!
+  updateAttendance(attendanceId: Int!): EmployeeAttendance!
   createOrganization(body: OrganizationRegister!): OrganizationResponse!
   createRole(body: RoleInput!): String!
   updateRoleById(body: RoleInput!): String!
@@ -132,6 +143,17 @@ type Mutation {
   createOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
   updateOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
 }
+
+"""
+ISO 8601 calendar date without timezone.
+Format: %Y-%m-%d
+
+# Examples
+
+* `1994-11-13`
+* `2000-02-24`
+"""
+scalar NaiveDate
 
 scalar ObjectId
 
@@ -155,7 +177,7 @@ type OrganizationDetails {
   orgId: ObjectId!
   isActive: Boolean!
   lastSubscribe: DateTime!
-  lattitude: Float
+  latitude: Float
   longitude: Float
   workingModel: WorkingModel
   address: OrgAddress
@@ -171,7 +193,7 @@ type OrganizationDetails {
   endTime: Int!
   financialYearStart: String
   financialYearEnd: String
-  depertment: Int
+  department: Int
   notWorkingDays: [Int!]
   orgContact: String
   createdAt: DateTime!
@@ -191,7 +213,7 @@ input OrganizationDetailsRegisterInput {
   startTime: Int!
   endTime: Int!
   workingModel: WorkingModel
-  lattitude: Float
+  latitude: Float
   longitude: Float
 }
 
@@ -247,6 +269,7 @@ type RootQuery {
   getEmployeeListByOrgId(
     body: GetEmployeeCriteria!
   ): GetEmployeeByOrgIdResponse!
+  getAttendanceByDate(body: GetAttendanceByDates!): [EmployeeAttendance!]!
   loginOrganization(body: OrganizationLogin!): OrganizationResponse!
   getAllRole: [Role!]
   getAllOrganization: [OrganizationDetails!]!

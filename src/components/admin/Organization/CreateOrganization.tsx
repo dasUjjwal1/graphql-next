@@ -42,7 +42,7 @@ import {
   ReloadIcon,
   ResetIcon,
 } from "@radix-ui/react-icons";
-import Map from "@/components/map";
+import { MapComponent } from "@/components/map/MapComponent";
 const CreateOrganization = ({
   Trigger,
   refetch,
@@ -119,11 +119,11 @@ const CreateOrganization = ({
       {...(open && { open: open })}
     >
       <Trigger />
-      <DrawerContent>
+      <DrawerContent className="overflow-auto">
         <DrawerHeader>
           <DrawerTitle>Create Organization</DrawerTitle>
           <DrawerDescription>
-            Data would not be lost untill you reset
+            Data would not be lost until you reset
           </DrawerDescription>
         </DrawerHeader>
         <Form {...form}>
@@ -279,27 +279,10 @@ const CreateOrganization = ({
                 <h4 className="col-span-12 font-bold text-sm border-l-8 pl-3 my-3 border-blue-600">
                   Organization address
                 </h4>
-                <Suspense>
-                  <Map
-                    width="800"
-                    height="400"
-                    center={DEFAULT_CENTER}
-                    zoom={12}
-                  >
-                    {({ TileLayer, Marker, Popup }) => (
-                      <>
-                        <TileLayer
-                          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        />
-                        <Marker position={DEFAULT_CENTER}>
-                          <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
-                          </Popup>
-                        </Marker>
-                      </>
-                    )}
-                  </Map>
+                <Suspense fallback={null}>
+                  <div data-vaul-no-drag className="w-full col-span-8">
+                    <MapComponent />
+                  </div>
                 </Suspense>
               </>
             }

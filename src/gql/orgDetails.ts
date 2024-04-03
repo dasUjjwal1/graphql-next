@@ -12,6 +12,10 @@ export const GET_ALL_ORGANIZATION = gql`
       orgName
       orgId
       isActive
+      lastSubscribe
+      latitude
+      longitude
+      workingModel
       address {
         city
         street
@@ -35,7 +39,7 @@ export const GET_ALL_ORGANIZATION = gql`
       endTime
       financialYearStart
       financialYearEnd
-      depertment
+      department
       notWorkingDays
       orgContact
       createdAt
