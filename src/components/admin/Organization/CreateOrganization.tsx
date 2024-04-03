@@ -115,6 +115,7 @@ const CreateOrganization = ({
   const DEFAULT_CENTER = [38.907132, -77.036546];
   return (
     <Drawer
+      snapPoints={[0.6, 0.5, 0.8]}
       {...(setModal && { onOpenChange: (e: any) => setModal(e) })}
       {...(open && { open: open })}
     >
