@@ -24,6 +24,7 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
+  DrawerOverlay,
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { FC, ReactNode, Suspense, useMemo } from "react";
@@ -115,12 +116,14 @@ const CreateOrganization = ({
   const DEFAULT_CENTER = [38.907132, -77.036546];
   return (
     <Drawer
-      snapPoints={[0.6, 0.5, 0.8]}
+      // dismissible={false}
+      // snapPoints={[0.9]}
       {...(setModal && { onOpenChange: (e: any) => setModal(e) })}
       {...(open && { open: open })}
     >
       <Trigger />
-      <DrawerContent className="overflow-auto">
+
+      <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Create Organization</DrawerTitle>
           <DrawerDescription>
@@ -131,7 +134,7 @@ const CreateOrganization = ({
           <form
             autoComplete={"off"}
             onSubmit={form.handleSubmit(onSubmit)}
-            className="p-4 border grid grid-cols-12 gap-2 h-full items-start"
+            className="p-4 grid grid-cols-12 gap-2 items-start"
           >
             <>
               <h4 className="col-span-12 font-bold text-sm border-l-8 pl-3 my-3 border-blue-600">
@@ -177,6 +180,7 @@ const CreateOrganization = ({
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="employeeCount"
@@ -249,7 +253,7 @@ const CreateOrganization = ({
 
               <FormField
                 control={form.control}
-                name="orgType"
+                name="workingModel"
                 render={({ field }) => (
                   <FormItem className="col-span-3">
                     <FormLabel>Working Mode</FormLabel>
@@ -275,18 +279,72 @@ const CreateOrganization = ({
                 )}
               />
             </>
-            {
-              <>
-                <h4 className="col-span-12 font-bold text-sm border-l-8 pl-3 my-3 border-blue-600">
-                  Organization address
-                </h4>
-                <Suspense fallback={null}>
-                  <div data-vaul-no-drag className="w-full col-span-8">
-                    <MapComponent />
-                  </div>
-                </Suspense>
-              </>
-            }
+
+            <h4 className="col-span-12 font-bold text-sm border-l-8 pl-3 my-3 border-blue-600">
+              Organization address
+            </h4>
+            <FormField
+              control={form.control}
+              name="address.housenumber"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>Building No.</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Building No." {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address.street"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>Street Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Street Name" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address.city"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input placeholder="City" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="address.state"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>State</FormLabel>
+                  <FormControl>
+                    <Input placeholder="State" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address.pin"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>PIN No.</FormLabel>
+                  <FormControl>
+                    <Input placeholder="PIN No." {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
             <DrawerFooter className="col-span-12 flex items-center justify-end flex-row">
               <Button variant="outline" size="icon" type="button">
                 <ResetIcon className="h-4 w-4" />
