@@ -26,7 +26,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { FC, ReactNode } from "react";
+import { FC, useContext } from "react";
 import { CREATE_ORG_DETAILS } from "@/gql/orgDetails";
 import { useMutation } from "@apollo/client";
 import {
@@ -42,6 +42,7 @@ import {
   ReloadIcon,
   ResetIcon,
 } from "@radix-ui/react-icons";
+import { OrgAuthContext } from "../AuthContext";
 const CreateOrganization = ({
   Trigger,
   refetch,
@@ -53,11 +54,12 @@ const CreateOrganization = ({
   open?: boolean;
   setModal?: any;
 }) => {
+  const state = useContext(OrgAuthContext);
   const [mutation, { loading }] = useMutation(CREATE_ORG_DETAILS, {
     onCompleted: (data: CreateOrganizationDetailsMutation) => {
       toast({
         title: "Success",
-        description: data.createOrganizationDetails,
+        description: data.createOrganizationDetails.message,
         variant: "default",
       });
       refetch && refetch();
@@ -68,6 +70,11 @@ const CreateOrganization = ({
         description: error.message,
         variant: "destructive",
       });
+    },
+    context: {
+      headers: {
+        authorization: state.token,
+      },
     },
   });
   const validationSchema = Yup.object().shape({
@@ -102,34 +109,33 @@ const CreateOrganization = ({
       orgName: value.orgName,
       endTime,
       logo: value.logo ? value.logo : null,
-      officeHour: endTime - startTime,
       orgContact: value?.orgContact ? value?.orgContact : null,
-      totalLeaveCount: value?.totalLeaveCount
-        ? Number(value.totalLeaveCount)
-        : null,
       orgType: value.orgType ? Number(value.orgType) : null,
     };
     mutation({ variables: { body: requestBody } });
   };
-
+  const DEFAULT_CENTER = [38.907132, -77.036546];
   return (
     <Drawer
+      // dismissible={false}
+      // snapPoints={[0.9]}
       {...(setModal && { onOpenChange: (e: any) => setModal(e) })}
       {...(open && { open: open })}
     >
       <Trigger />
+
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Create Organization</DrawerTitle>
           <DrawerDescription>
-            Data would not be lost untill you reset
+            Data would not be lost until you reset
           </DrawerDescription>
         </DrawerHeader>
         <Form {...form}>
           <form
             autoComplete={"off"}
             onSubmit={form.handleSubmit(onSubmit)}
-            className="p-4 border grid grid-cols-12 gap-2 h-full items-start"
+            className="p-4 grid grid-cols-12 gap-2 items-start"
           >
             <>
               <h4 className="col-span-12 font-bold text-sm border-l-8 pl-3 my-3 border-blue-600">
@@ -175,6 +181,7 @@ const CreateOrganization = ({
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="employeeCount"
@@ -244,70 +251,101 @@ const CreateOrganization = ({
                   </FormItem>
                 )}
               />
-              <h4 className="col-span-12 font-bold text-sm border-l-8 pl-3 my-3 border-blue-600">
-                Organization address
-              </h4>
+
               <FormField
                 control={form.control}
-                name="address.street"
+                name="workingModel"
                 render={({ field }) => (
                   <FormItem className="col-span-3">
-                    <FormLabel>Street Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Street Name" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address.city"
-                render={({ field }) => (
-                  <FormItem className="col-span-3">
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="City" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address.housenumber"
-                render={({ field }) => (
-                  <FormItem className="col-span-3">
-                    <FormLabel>Building No.</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Building No." {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address.state"
-                render={({ field }) => (
-                  <FormItem className="col-span-3">
-                    <FormLabel>State</FormLabel>
-                    <FormControl>
-                      <Input placeholder="State" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address.pin"
-                render={({ field }) => (
-                  <FormItem className="col-span-3">
-                    <FormLabel>PIN No.</FormLabel>
-                    <FormControl>
-                      <Input placeholder="PIN No." {...field} />
-                    </FormControl>
+                    <FormLabel>Working Mode</FormLabel>
+                    <Select onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select organization type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {AppConfig.WORKING_MODE.map((item) => (
+                          <SelectItem
+                            key={item.value}
+                            value={item.value.toString()}
+                          >
+                            {item.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
             </>
+
+            <h4 className="col-span-12 font-bold text-sm border-l-8 pl-3 my-3 border-blue-600">
+              Organization address
+            </h4>
+            <FormField
+              control={form.control}
+              name="address.housenumber"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>Building No.</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Building No." {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address.street"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>Street Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Street Name" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address.city"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input placeholder="City" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="address.state"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>State</FormLabel>
+                  <FormControl>
+                    <Input placeholder="State" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address.pin"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormLabel>PIN No.</FormLabel>
+                  <FormControl>
+                    <Input placeholder="PIN No." {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
             <DrawerFooter className="col-span-12 flex items-center justify-end flex-row">
               <Button variant="outline" size="icon" type="button">
                 <ResetIcon className="h-4 w-4" />

@@ -6,6 +6,7 @@ schema {
 enum Access {
   EMPLOYEE
   PAYROLL
+  EMPLOYEE_CREDENTIAL
 }
 
 type Address {
@@ -23,17 +24,24 @@ The input/output is a string in RFC3339 format.
 """
 scalar DateTime
 
+type DocumentAdmin {
+  identityProof: String
+  addressProof: String
+}
+
 type Employee {
   id: Int!
   employeeName: String
   employeeEmail: String!
   profileImage: String
   employeeType: Int
-  depertment: String
+  department: String
   employeeRole: String
-  employeeId: Int
+  employeeId: String
   employeeStatus: Boolean
-  account: String
+  accountNo: String
+  bankName: String
+  ifscCode: String
   employeePassword: String!
   country: Int
   isDelete: Boolean
@@ -43,6 +51,7 @@ type Employee {
   employeeAddress: JSON
   qualification: JSON
   access: JSON
+  documents: JSON
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -59,13 +68,12 @@ type EmployeeAttendance {
   orgId: String!
   clockIn: DateTime!
   clockOut: DateTime
-  createdAt: DateTime!
+  createdAt: NaiveDate!
 }
 
 input EmployeeLoginInput {
   employeeEmail: String!
   employeePassword: String!
-  employeeRole: String!
 }
 
 input EmployeeRegisterInput {
@@ -74,6 +82,11 @@ input EmployeeRegisterInput {
   organizationId: String!
   employeeRole: String
   access: JSON
+}
+
+input GetAttendanceByDates {
+  startDate: DateTime
+  endDate: DateTime
 }
 
 type GetEmployeeByOrgIdResponse {
@@ -103,11 +116,13 @@ type LoginResponse {
   employeeEmail: String!
   profileImage: String
   employeeType: Int
-  depertment: String
+  department: String
   employeeRole: String
-  employeeId: Int
+  employeeId: String
   employeeStatus: Boolean
-  account: String
+  accountNo: String
+  bankName: String
+  ifscCode: String
   country: Int
   isDelete: Boolean
   organizationId: String!
@@ -116,6 +131,7 @@ type LoginResponse {
   employeeAddress: JSON
   qualification: JSON
   access: JSON
+  documents: JSON
   createdAt: DateTime
   updatedAt: DateTime
   token: String!
@@ -123,16 +139,31 @@ type LoginResponse {
 
 type Mutation {
   createEmployee(body: EmployeeRegisterInput!): Int!
-  createPermission(body: EmployeeAccess!): String!
-  createAttendence: EmployeeAttendance!
-  updateAttendence: EmployeeAttendance!
+  createPermission(body: EmployeeAccess!): SuccessMessage!
+  createAttendance: EmployeeAttendance!
+  updateAttendance(attendanceId: Int!): EmployeeAttendance!
   createOrganization(body: OrganizationRegister!): OrganizationResponse!
   createRole(body: RoleInput!): String!
   updateRoleById(body: RoleInput!): String!
   updateOrganization(body: UpdateOrganizationsInput!): String!
-  createOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
-  updateOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
+  createOrganizationDetails(
+    body: OrganizationDetailsRegisterInput!
+  ): SuccessMessage!
+  updateOrganizationDetails(
+    body: OrganizationDetailsRegisterInput!
+  ): SuccessMessage!
 }
+
+"""
+ISO 8601 calendar date without timezone.
+Format: %Y-%m-%d
+
+# Examples
+
+* `1994-11-13`
+* `2000-02-24`
+"""
+scalar NaiveDate
 
 scalar ObjectId
 
@@ -154,7 +185,11 @@ type OrganizationDetails {
   id: ObjectId
   orgName: String!
   orgId: ObjectId!
-  idActive: Boolean!
+  isActive: Boolean!
+  lastSubscribe: DateTime!
+  latitude: Float
+  longitude: Float
+  workingModel: WorkingModel
   address: OrgAddress
   employeeCount: Int!
   orgType: Int
@@ -163,12 +198,11 @@ type OrganizationDetails {
   holiday: [OrgHoliday!]
   documents: [String!]
   logo: String
-  officeHour: Int
   startTime: Int!
   endTime: Int!
   financialYearStart: String
   financialYearEnd: String
-  depertment: Int
+  department: Int
   notWorkingDays: [Int!]
   orgContact: String
   createdAt: DateTime!
@@ -181,12 +215,11 @@ input OrganizationDetailsRegisterInput {
   orgName: String!
   employeeCount: Int!
   orgType: Int
-  totalLeaveCount: Int
   orgContact: String
   logo: String
-  officeHour: Int
   startTime: Int!
   endTime: Int!
+  workingModel: WorkingModel
 }
 
 input OrganizationLogin {
@@ -202,9 +235,9 @@ input OrganizationRegister {
 }
 
 type OrganizationResponse {
-  id: ObjectId!
   name: String!
   email: String!
+  isActive: Boolean!
   isAdmin: Boolean!
   mobile: String
   picturePath: String
@@ -212,7 +245,10 @@ type OrganizationResponse {
   location: Int!
   address: Address
   roles: [Role!]
+  verification: DocumentAdmin
   lastSubscribe: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   token: String!
 }
 
@@ -241,9 +277,14 @@ type RootQuery {
   getEmployeeListByOrgId(
     body: GetEmployeeCriteria!
   ): GetEmployeeByOrgIdResponse!
+  getAttendanceByDate(body: GetAttendanceByDates!): [EmployeeAttendance!]!
   loginOrganization(body: OrganizationLogin!): OrganizationResponse!
   getAllRole: [Role!]
   getAllOrganization: [OrganizationDetails!]!
+}
+
+type SuccessMessage {
+  message: String!
 }
 
 input UpdateOrganizationsInput {
@@ -251,6 +292,13 @@ input UpdateOrganizationsInput {
   picturePath: String
   paymentStructure: PayStructureStatus
   address: orgaddressinput
+}
+
+enum WorkingModel {
+  ONSITE
+  HYBRID
+  REMOTE
+  OTHER
 }
 
 input addressinput {

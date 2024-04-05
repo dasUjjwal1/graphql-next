@@ -2,7 +2,9 @@ import { gql } from "@apollo/client";
 
 export const CREATE_ORG_DETAILS = gql`
   mutation CreateOrganizationDetails($body: OrganizationDetailsRegisterInput!) {
-    createOrganizationDetails(body: $body)
+    createOrganizationDetails(body: $body) {
+      message
+    }
   }
 `;
 export const GET_ALL_ORGANIZATION = gql`
@@ -11,7 +13,11 @@ export const GET_ALL_ORGANIZATION = gql`
       id
       orgName
       orgId
-      idActive
+      isActive
+      lastSubscribe
+      latitude
+      longitude
+      workingModel
       address {
         city
         street
@@ -30,12 +36,11 @@ export const GET_ALL_ORGANIZATION = gql`
       }
       documents
       logo
-      officeHour
       startTime
       endTime
       financialYearStart
       financialYearEnd
-      depertment
+      department
       notWorkingDays
       orgContact
       createdAt

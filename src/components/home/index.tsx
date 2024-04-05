@@ -1,9 +1,6 @@
 "use client";
-import Link from "next/link";
-import { Button } from "../ui/button";
 import Header from "../landing/Header";
 import Hero from "../landing/Hero";
-import Features from "../landing/Features";
 const HomeHandler = () => {
   return (
     <>

@@ -4,7 +4,6 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import CreateEmployeeCredential from "./components/CreateEmployee";
 import {
   Employee,
-  GetAllOrganizationDocument,
   GetAllOrganizationQuery,
   GetEmployeeListByOrgIdQuery,
   GetEmployeeListByOrgIdQueryVariables,
@@ -13,7 +12,9 @@ import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -65,6 +66,7 @@ const EmployeeComponent = () => {
       authorization: state.token,
     },
   };
+
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -115,17 +117,32 @@ const EmployeeComponent = () => {
         header: () => "Serial",
         cell: (info) => info.row.index + 1,
       }),
-      columnHelper.accessor("employeeName", {
-        header: () => "Name",
+      columnHelper.accessor("employeeEmail", {
+        header: () => "Email",
         cell: (info) => info.getValue(),
       }),
-      columnHelper.accessor("depertment", {
-        header: () => "Depertment",
-        cell: (info) => info.getValue(),
-      }),
-      columnHelper.accessor("mobile", {
-        header: () => "Mobile No.",
-        cell: (info) => info.getValue(),
+      columnHelper.accessor("employeeRole", {
+        header: () => "Role",
+        cell: (info) => {
+          const role = state?.adminAuth?.roles ?? [];
+          return (
+            <Select open={false} defaultValue={info.getValue()}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a fruit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Role</SelectLabel>
+                  {role.map((item) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          );
+        },
       }),
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -10,19 +10,32 @@ import {
   CardTitle,
 } from "../../ui/card";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@apollo/client";
+import { GET_ATTENDANCE_BY_DATE } from "@/gql/employee";
+import {
+  GetAllOrganizationQueryVariables,
+  GetAttendanceByDateQueryQuery,
+  GetAttendanceByDates,
+} from "@/graphql/graphql";
 
 const AttendanceCard = () => {
+  const {} = useQuery<
+    GetAttendanceByDateQueryQuery,
+    GetAllOrganizationQueryVariables
+  >(GET_ATTENDANCE_BY_DATE, {});
   return (
     <div className="grid grid-cols-2 gap-3 grid-flow-row p-3 w-full">
       <div className="grid gap-3 grid-cols-2 grid-flow-row auto-rows-max">
         <Card>
           <CardHeader className="flex  flex-row items-center justify-between">
             <div>
-              <CardDescription>Total Hours weekly</CardDescription>
+              <CardDescription className="mb-1">Hours Weekly</CardDescription>
               <CardTitle className="text-2xl">38H 45M</CardTitle>
             </div>
             <div>
-              <CardDescription>On Time Arrival</CardDescription>
+              <CardDescription className="mb-1">
+                On-Time Arrival
+              </CardDescription>
               <CardTitle className="text-2xl">60%</CardTitle>
             </div>
           </CardHeader>
