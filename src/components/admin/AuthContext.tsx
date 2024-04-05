@@ -1,8 +1,9 @@
 "use client";
+import { OrganizationResponse } from "@/graphql/graphql";
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 type AuthType = {
   menu: { id: string; label: string; path: string; icon: string[] }[];
-  adminAuth: any;
+  adminAuth: OrganizationResponse | null;
   token: any;
 };
 export enum ActionsTypes {

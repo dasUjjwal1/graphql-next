@@ -14,8 +14,8 @@ export const AppConfig = {
     { label: "Consumer Durable", value: 10 },
     { label: "FMGC", value: 11 },
     { label: "NBFC", value: 12 },
-    { label: "Marketing/Adertisement", value: 13 },
-    { label: "Pharma", value: 14 },
+    { label: "Marketing/Advertisement", value: 13 },
+    { label: "Parma", value: 14 },
     { label: "Media", value: 15 },
     { label: "Manufacturing", value: 16 },
     { label: "Trading", value: 17 },
@@ -26,10 +26,11 @@ export const AppConfig = {
   ACCESS: [
     { label: "Employee", value: 5 },
     { label: "Payroll", value: 10 },
+    { label: "Employee Credential", value: 15 },
   ],
   WORKING_MODE: [
     { label: "ONSITE", value: "ONSITE" },
-    { label: "HYBRIDE", value: "HYBRIDE" },
+    { label: "HYBRID", value: "HYBRID" },
     { label: "REMOTE", value: "REMOTE" },
     { label: "OTHER", value: "OTHER" },
   ],

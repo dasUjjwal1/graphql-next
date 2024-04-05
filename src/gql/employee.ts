@@ -72,3 +72,16 @@ export const LOG_IN_EMPLOYEE = gql`
     }
   }
 `;
+
+export const GET_ATTENDANCE_BY_DATE = gql`
+  query GetAttendanceByDateQuery($body: GetAttendanceByDates!) {
+    getAttendanceByDate(body: $body) {
+      id
+      employeeId
+      orgId
+      clockIn
+      clockOut
+      createdAt
+    }
+  }
+`;

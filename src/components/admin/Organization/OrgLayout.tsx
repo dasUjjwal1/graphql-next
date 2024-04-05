@@ -12,14 +12,14 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
   const pathName = usePathname();
   return (
     <>
-      <div className="container">
-        <ul className="flex">
+      <div className="container ">
+        <ul className="flex mb-3 gap-2">
           {menu.map((item, index) => (
             <li
-              className={`px-3 py-1 ${
+              className={`px-4 py-2 ${
                 pathName === item.path &&
-                "bg-blue-50 dark:bg-gray-600 text-blue-900 dark:text-blue-50 border-b-2 border-blue-600"
-              }  font-semibold rounded-sm `}
+                "bg-blue-100 dark:bg-gray-600 text-blue-900 dark:text-blue-100  font-bold"
+              }  rounded-sm `}
               key={index.toString()}
             >
               <Link className="text-sm" href={item.path}>
@@ -30,7 +30,6 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
         </ul>
         <hr className="mb-2" />
       </div>
-
       {children}
     </>
   );

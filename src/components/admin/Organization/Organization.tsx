@@ -78,12 +78,12 @@ const Organization = () => {
       cell: (info) => info.row.index + 1,
     }),
     columnHelper.accessor("orgName", {
-      header: () => "Org-name",
+      header: () => "Org-Name",
       cell: (info) => info.getValue(),
     }),
     columnHelper.display({
       id: "time",
-      header: "Office Time",
+      header: "Office-Time",
       cell: (props) => {
         const data = props.row.original as any;
         return (
@@ -97,9 +97,10 @@ const Organization = () => {
       },
     }),
     columnHelper.accessor("orgType", {
-      header: () => "Org-type",
+      header: () => "Org-Type",
       cell: (info) => (
         <Select
+          open={false}
           defaultValue={info.getValue() ? info.getValue()?.toString() : "0"}
         >
           <SelectTrigger className="w-[180px]">

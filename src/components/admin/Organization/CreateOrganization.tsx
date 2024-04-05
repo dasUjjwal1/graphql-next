@@ -24,10 +24,9 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
-  DrawerOverlay,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { FC, ReactNode, Suspense, useMemo } from "react";
+import { FC, useContext } from "react";
 import { CREATE_ORG_DETAILS } from "@/gql/orgDetails";
 import { useMutation } from "@apollo/client";
 import {
@@ -43,7 +42,7 @@ import {
   ReloadIcon,
   ResetIcon,
 } from "@radix-ui/react-icons";
-import { MapComponent } from "@/components/map/MapComponent";
+import { OrgAuthContext } from "../AuthContext";
 const CreateOrganization = ({
   Trigger,
   refetch,
@@ -55,11 +54,12 @@ const CreateOrganization = ({
   open?: boolean;
   setModal?: any;
 }) => {
+  const state = useContext(OrgAuthContext);
   const [mutation, { loading }] = useMutation(CREATE_ORG_DETAILS, {
     onCompleted: (data: CreateOrganizationDetailsMutation) => {
       toast({
         title: "Success",
-        description: data.createOrganizationDetails,
+        description: data.createOrganizationDetails.message,
         variant: "default",
       });
       refetch && refetch();
@@ -70,6 +70,11 @@ const CreateOrganization = ({
         description: error.message,
         variant: "destructive",
       });
+    },
+    context: {
+      headers: {
+        authorization: state.token,
+      },
     },
   });
   const validationSchema = Yup.object().shape({
@@ -104,11 +109,7 @@ const CreateOrganization = ({
       orgName: value.orgName,
       endTime,
       logo: value.logo ? value.logo : null,
-      officeHour: endTime - startTime,
       orgContact: value?.orgContact ? value?.orgContact : null,
-      totalLeaveCount: value?.totalLeaveCount
-        ? Number(value.totalLeaveCount)
-        : null,
       orgType: value.orgType ? Number(value.orgType) : null,
     };
     mutation({ variables: { body: requestBody } });

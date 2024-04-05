@@ -8,7 +8,7 @@ import {
   PlusCircledIcon,
 } from "@radix-ui/react-icons";
 import CreateRoleDialog from "./components/CreateRole";
-import { Loader2, RotateCcw, TrashIcon } from "lucide-react";
+import { InfoIcon, Loader2, RotateCcw, TrashIcon } from "lucide-react";
 import { useQuery } from "@apollo/client";
 import {
   Table,
@@ -29,6 +29,8 @@ import { GetAllRoleQuery } from "@/graphql/graphql";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -75,24 +77,38 @@ const RoleComponent = () => {
     }),
     columnHelper.accessor("access", {
       header: () => "Access",
-      cell: (info) =>
-        info.getValue() &&
-        AppConfig.ACCESS.map((item) => (
-          <div key={item.value} className="items-top flex space-x-2">
-            <Checkbox checked={info.getValue()?.includes(item.value)} />
-            <div className="grid gap-1.5 leading-none">
-              <label
-                htmlFor="terms1"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {item.label}
-              </label>
-              <p className="text-sm text-muted-foreground">
-                {/* You agree to our Terms of Service and Privacy Policy. */}
-              </p>
-            </div>
-          </div>
-        )),
+      cell: (info) => {
+        const getIndex = AppConfig.ACCESS.findIndex((it) =>
+          info.getValue()?.includes(it.value)
+        );
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <div className="flex space-x-1">
+                <Checkbox checked={true} />
+
+                <label
+                  htmlFor="terms1"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {AppConfig.ACCESS[getIndex].label}
+                </label>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Permissions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {AppConfig.ACCESS.map((item, index) => (
+                <DropdownMenuItem className="gap-2" key={index}>
+                  <Checkbox checked={info.getValue()?.includes(item.value)} />
+                  {item.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
     }),
     columnHelper.display({
       id: "actions",

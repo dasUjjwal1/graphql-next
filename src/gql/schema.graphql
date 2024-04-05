@@ -6,6 +6,7 @@ schema {
 enum Access {
   EMPLOYEE
   PAYROLL
+  EMPLOYEE_CREDENTIAL
 }
 
 type Address {
@@ -22,6 +23,11 @@ Implement the DateTime<Utc> scalar
 The input/output is a string in RFC3339 format.
 """
 scalar DateTime
+
+type DocumentAdmin {
+  identityProof: String
+  addressProof: String
+}
 
 type Employee {
   id: Int!
@@ -133,15 +139,19 @@ type LoginResponse {
 
 type Mutation {
   createEmployee(body: EmployeeRegisterInput!): Int!
-  createPermission(body: EmployeeAccess!): String!
+  createPermission(body: EmployeeAccess!): SuccessMessage!
   createAttendance: EmployeeAttendance!
   updateAttendance(attendanceId: Int!): EmployeeAttendance!
   createOrganization(body: OrganizationRegister!): OrganizationResponse!
   createRole(body: RoleInput!): String!
   updateRoleById(body: RoleInput!): String!
   updateOrganization(body: UpdateOrganizationsInput!): String!
-  createOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
-  updateOrganizationDetails(body: OrganizationDetailsRegisterInput!): String!
+  createOrganizationDetails(
+    body: OrganizationDetailsRegisterInput!
+  ): SuccessMessage!
+  updateOrganizationDetails(
+    body: OrganizationDetailsRegisterInput!
+  ): SuccessMessage!
 }
 
 """
@@ -188,7 +198,6 @@ type OrganizationDetails {
   holiday: [OrgHoliday!]
   documents: [String!]
   logo: String
-  officeHour: Int
   startTime: Int!
   endTime: Int!
   financialYearStart: String
@@ -206,15 +215,11 @@ input OrganizationDetailsRegisterInput {
   orgName: String!
   employeeCount: Int!
   orgType: Int
-  totalLeaveCount: Int
   orgContact: String
   logo: String
-  officeHour: Int
   startTime: Int!
   endTime: Int!
   workingModel: WorkingModel
-  latitude: Float
-  longitude: Float
 }
 
 input OrganizationLogin {
@@ -230,9 +235,9 @@ input OrganizationRegister {
 }
 
 type OrganizationResponse {
-  id: ObjectId!
   name: String!
   email: String!
+  isActive: Boolean!
   isAdmin: Boolean!
   mobile: String
   picturePath: String
@@ -240,7 +245,10 @@ type OrganizationResponse {
   location: Int!
   address: Address
   roles: [Role!]
+  verification: DocumentAdmin
   lastSubscribe: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   token: String!
 }
 
@@ -275,6 +283,10 @@ type RootQuery {
   getAllOrganization: [OrganizationDetails!]!
 }
 
+type SuccessMessage {
+  message: String!
+}
+
 input UpdateOrganizationsInput {
   mobile: String
   picturePath: String
@@ -284,7 +296,7 @@ input UpdateOrganizationsInput {
 
 enum WorkingModel {
   ONSITE
-  HYBRIDE
+  HYBRID
   REMOTE
   OTHER
 }
