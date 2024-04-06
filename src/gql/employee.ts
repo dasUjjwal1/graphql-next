@@ -74,8 +74,32 @@ export const LOG_IN_EMPLOYEE = gql`
 `;
 
 export const GET_ATTENDANCE_BY_DATE = gql`
-  query GetAttendanceByDateQuery($body: GetAttendanceByDates!) {
+  query GetAttendanceByDate($body: GetAttendanceByDates!) {
     getAttendanceByDate(body: $body) {
+      id
+      employeeId
+      orgId
+      clockIn
+      clockOut
+      createdAt
+    }
+  }
+`;
+export const CLOCK_IN = gql`
+  mutation CreateAttendance {
+    createAttendance {
+      id
+      employeeId
+      orgId
+      clockIn
+      clockOut
+      createdAt
+    }
+  }
+`;
+export const UPDATE_ATTENDANCE = gql`
+  mutation UpdateAttendance($attendanceId: Int!) {
+    updateAttendance(attendanceId: $attendanceId) {
       id
       employeeId
       orgId
