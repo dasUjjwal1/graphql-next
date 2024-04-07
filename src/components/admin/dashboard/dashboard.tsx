@@ -54,11 +54,11 @@ const AdminDashboard = () => {
   }
   return (
     <>
-      {data?.getAllOrganization ? (
+      {/* {data?.getAllOrganization?.length > 0 ? (
         <></>
-      ) : (
-        <CreateOrganization Trigger={Trigger} />
-      )}
+      ) : ( */}
+      <CreateOrganization Trigger={Trigger} />
+      {/* )} */}
     </>
   );
 };

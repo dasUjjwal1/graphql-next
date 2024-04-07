@@ -181,7 +181,7 @@ const EmployeeComponent = () => {
           onValueChange={(e) => {
             query({
               variables: {
-                body: { id: e, pagination: { limit: 10, offset: 1 } },
+                body: { id: e, pagination: { limit: 10, offset: 0 } },
               },
             });
           }}
@@ -228,7 +228,7 @@ const EmployeeComponent = () => {
             variables: {
               body: {
                 id: data?.getAllOrganization[0]?.id,
-                pagination: { limit: 3, offset: 0 },
+                pagination: { limit: 10, offset: 0 },
               },
             },
           })

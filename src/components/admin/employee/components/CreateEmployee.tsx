@@ -46,6 +46,7 @@ import { OrgAuthContext } from "../../AuthContext";
 const CreateEmployeeCredential = ({
   orgList,
   Trigger,
+  refetch,
 }: EmployeeCredentialFormTypes) => {
   const state = useContext(OrgAuthContext);
   const context = {
@@ -63,6 +64,7 @@ const CreateEmployeeCredential = ({
         description: data.createEmployee,
         variant: "default",
       });
+      refetch && refetch();
     },
     onError(error, clientOptions) {
       toast({
@@ -184,7 +186,7 @@ const CreateEmployeeCredential = ({
                   <Select onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select organization" />
+                        <SelectValue placeholder="Select Role" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

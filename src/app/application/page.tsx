@@ -1,10 +1,10 @@
-import AttendanceCard from "@/components/application/home/AttendenceCard";
 import Layout from "./layout";
+import Home from "@/components/application/home/Home";
 
 const Page = () => {
   return (
     <>
-      <AttendanceCard />
+      <Home />
     </>
   );
 };

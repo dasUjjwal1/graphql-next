@@ -82,8 +82,7 @@ export default function CreateRoleDialog({
   });
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("This field is required"),
-    parent: Yup.number().nullable(),
-    position: Yup.number().nullable(),
+    parent: Yup.string().nullable(),
   });
   const form = useForm<RoleInput>({
     defaultValues: {},
@@ -92,7 +91,7 @@ export default function CreateRoleDialog({
   const onSubmit = (value: RoleInput) => {
     const requestBody: RoleInput = {
       name: value.name,
-      access: value.access ? value.access : null,
+      access: value.access ? [value.access] : null,
       parent: value.parent ? value.parent : null,
       id: null,
     };
@@ -107,7 +106,7 @@ export default function CreateRoleDialog({
           <DrawerHeader>
             <DrawerTitle>Create Role</DrawerTitle>
             <DrawerDescription>
-              Data would not be lost untill you reset
+              Data would not be lost until you reset
             </DrawerDescription>
           </DrawerHeader>
           <Form {...form}>

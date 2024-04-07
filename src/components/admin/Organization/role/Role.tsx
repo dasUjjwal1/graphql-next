@@ -58,7 +58,7 @@ const RoleComponent = () => {
   });
   const Trigger = () => (
     <DrawerTrigger asChild>
-      <Button className=" flex gap-3 font-semibold " onClick={() => refetch()}>
+      <Button className=" flex gap-3 font-semibold ">
         <PlusCircledIcon />
         Create Role
       </Button>
@@ -85,16 +85,18 @@ const RoleComponent = () => {
         return (
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <div className="flex space-x-1">
-                <Checkbox checked={true} />
+              {getIndex >= 0 && (
+                <div className="flex space-x-1">
+                  <Checkbox checked={true} />
 
-                <label
-                  htmlFor="terms1"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {AppConfig.ACCESS[getIndex].label}
-                </label>
-              </div>
+                  <label
+                    htmlFor="terms1"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    {AppConfig.ACCESS[getIndex].label}
+                  </label>
+                </div>
+              )}
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Permissions</DropdownMenuLabel>
@@ -162,7 +164,7 @@ const RoleComponent = () => {
           <CreateRoleDialog
             Trigger={Trigger}
             refetch={refetch}
-            roles={data?.getAllRole ? data?.getAllRole : []}
+            roles={data?.getAllRole ?? []}
           />
         </div>
         <>
