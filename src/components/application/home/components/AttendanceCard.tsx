@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../ui/card";
+} from "../../../ui/card";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery } from "@apollo/client";
 import {
@@ -16,7 +16,6 @@ import {
   GET_ATTENDANCE_BY_DATE,
   UPDATE_ATTENDANCE,
 } from "@/gql/employee";
-
 import { startOfWeek, isToday, differenceInMinutes } from "date-fns";
 import {
   CreateAttendanceMutation,
@@ -27,15 +26,15 @@ import {
   UpdateAttendanceMutationVariables,
 } from "@/graphql/graphql";
 import { useContext, useReducer } from "react";
-import { UserAuthContext } from "../AuthContext";
+import { UserAuthContext } from "../../AuthContext";
 import { toast } from "@/components/ui/use-toast";
 import { produce } from "immer";
-import AttendanceCounter from "./components/AtendanceCounter";
+import AttendanceCounter from "./AttendanceCounter";
 type ClockState = {
   disable: boolean;
   clockIn: boolean;
   clockOut: boolean;
-  label: "Clock-In" | "Clock-Out";
+  label: "Clock - In" | "Clock - Out";
   totalMinutes: number;
   totalMinutesToday: number;
 };
@@ -55,7 +54,7 @@ const AttendanceCard = () => {
     disable: false,
     clockIn: true,
     clockOut: false,
-    label: "Clock-In",
+    label: "Clock - In",
     totalMinutes: 0,
     totalMinutesToday: 0,
   };
@@ -101,17 +100,20 @@ const AttendanceCard = () => {
           if (isToday(new Date(attendance?.createdAt))) {
             if (attendance?.clockOut) {
               setClock({ type: ClockAction.DISABLE, payload: true });
-              setClock({ type: ClockAction.LABEL, payload: "Clock-Out" });
+              setClock({ type: ClockAction.LABEL, payload: "Clock - In" });
               setClock({
                 type: ClockAction.CLOCK,
                 payload: { clockIn: false, clockOut: false },
               });
-            } else {
-              setClock({ type: ClockAction.LABEL, payload: "Clock-Out" });
+              const todayMinDiff = differenceInMinutes(
+                new Date(attendance.clockOut),
+                new Date(attendance.clockIn)
+              );
               setClock({
-                type: ClockAction.CLOCK,
-                payload: { clockIn: false, clockOut: true },
+                type: ClockAction.TODAY_TODAY,
+                payload: todayMinDiff,
               });
+            } else {
               const todayMinDiff = differenceInMinutes(
                 new Date(),
                 new Date(attendance.clockIn)
@@ -120,10 +122,15 @@ const AttendanceCard = () => {
                 type: ClockAction.TODAY_TODAY,
                 payload: todayMinDiff,
               });
+              setClock({ type: ClockAction.LABEL, payload: "Clock - Out" });
+              setClock({
+                type: ClockAction.CLOCK,
+                payload: { clockIn: false, clockOut: true },
+              });
             }
           } else {
             setClock({ type: ClockAction.DISABLE, payload: false });
-            setClock({ type: ClockAction.LABEL, payload: "Clock-In" });
+            setClock({ type: ClockAction.LABEL, payload: "Clock - In" });
           }
           produce(data?.getAttendanceByDate, (state) => {
             const total = state.reduce((acc, c) => {
@@ -144,6 +151,11 @@ const AttendanceCard = () => {
     CreateAttendanceMutationVariables
   >(CLOCK_IN, {
     onCompleted(data, clientOptions) {
+      setClock({ type: ClockAction.LABEL, payload: "Clock - Out" });
+      setClock({
+        type: ClockAction.CLOCK,
+        payload: { clockIn: false, clockOut: true },
+      });
       refetch();
     },
     onError(error, clientOptions) {
@@ -160,7 +172,7 @@ const AttendanceCard = () => {
     UpdateAttendanceMutationVariables
   >(UPDATE_ATTENDANCE, {
     onCompleted(data) {
-      setClock({ type: ClockAction.LABEL, payload: "Clock-Out" });
+      setClock({ type: ClockAction.LABEL, payload: "Clock - Out" });
       setClock({
         type: ClockAction.CLOCK,
         payload: { clockIn: false, clockOut: false },
@@ -177,120 +189,87 @@ const AttendanceCard = () => {
     context,
   });
   return (
-    <div className="grid grid-cols-2 gap-3 grid-flow-row p-3 w-full">
-      <div className="grid gap-3 grid-cols-2 grid-flow-row auto-rows-max">
-        <Card>
-          <CardHeader className="flex  flex-row items-center justify-between">
-            <div>
-              <CardDescription className="mb-1">Hours Weekly</CardDescription>
-              <CardTitle className="text-2xl">
-                {clock.totalMinutes
-                  ? Math.round(clock.totalMinutes / 60)
-                  : "00"}
-                H {clock.totalMinutes ? clock.totalMinutes % 60 : "00"}M
-              </CardTitle>
-            </div>
-            <div>
-              <CardDescription className="mb-1">
-                On-Time Arrival
-              </CardDescription>
-              <CardTitle className="text-2xl">60%</CardTitle>
-            </div>
-          </CardHeader>
+    <Card>
+      <CardHeader>
+        <CardTitle>Attendance</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-row items-center justify-between">
+        <div>
+          <CardDescription className="mb-1">Hours Weekly</CardDescription>
+          <CardTitle className="text-xl">
+            {clock.totalMinutes ? Math.round(clock.totalMinutes / 60) : 0}H{" "}
+            {clock.totalMinutes ? clock.totalMinutes % 60 : 0}M
+          </CardTitle>
+        </div>
+        <div>
+          <CardDescription className="mb-1">On-Time Arrival</CardDescription>
+          <CardTitle className="text-xl">60%</CardTitle>
+        </div>
+      </CardContent>
 
-          <CardFooter className="flex items-center justify-between">
-            <CardTitle>
-              {clock.clockIn ? (
-                "0H 0M"
-              ) : (
-                <>
-                  {clock.clockOut ? (
-                    <AttendanceCounter countMinutes={clock.totalMinutesToday} />
-                  ) : (
-                    (clock.totalMinutesToday
-                      ? Math.round(clock.totalMinutesToday / 60)
-                      : "00") +
-                    "H :" +
-                    (clock.totalMinutes ? clock.totalMinutes % 60 : "00") +
-                    "M"
-                  )}
-                </>
-              )}
-            </CardTitle>
-            <Button
-              onClick={() => {
-                if (clock.clockIn) {
-                  mutation();
-                } else {
-                  const attendanceList = data?.getAttendanceByDate[0];
-                  if (attendanceList) {
-                    if (isToday(new Date(attendanceList?.createdAt))) {
-                      clock.clockOut &&
-                        updateAttendanceMutation({
-                          variables: { attendanceId: attendanceList?.id },
-                        });
-                    } else {
-                      toast({
-                        variant: "destructive",
-                        title: "Error",
-                        description: "Invalid",
-                      });
-                    }
-                  } else {
-                    toast({
-                      variant: "destructive",
-                      title: "Error",
-                      description: "No data found",
+      <CardFooter className="flex items-end justify-between">
+        <div>
+          <CardDescription className="mb-1">Hours Today</CardDescription>
+          <CardTitle className="text-xl">
+            {clock.clockIn ? (
+              "0H 0M"
+            ) : (
+              <>
+                {clock.clockOut ? (
+                  <AttendanceCounter countMinutes={clock.totalMinutesToday} />
+                ) : (
+                  (clock.totalMinutesToday
+                    ? Math.round(clock.totalMinutesToday / 60)
+                    : 0) +
+                  "H " +
+                  (clock.totalMinutesToday ? clock.totalMinutesToday % 60 : 0) +
+                  "M"
+                )}
+              </>
+            )}
+          </CardTitle>
+        </div>
+        <Button
+          onClick={() => {
+            if (clock.clockIn) {
+              mutation();
+            } else {
+              const attendanceList = data?.getAttendanceByDate[0];
+              if (attendanceList) {
+                if (isToday(new Date(attendanceList?.createdAt))) {
+                  clock.clockOut &&
+                    updateAttendanceMutation({
+                      variables: { attendanceId: attendanceList?.id },
                     });
-                  }
+                } else {
+                  toast({
+                    variant: "destructive",
+                    title: "Error",
+                    description: "Invalid",
+                  });
                 }
-              }}
-              className="gap-2"
-              disabled={clock.disable}
-              variant={clock.clockOut ? "destructive" : "default"}
-            >
-              {loading ? (
-                <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <ClockIcon />
-              )}
-              {clock.label}
-            </Button>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
-
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
-
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
-
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
-      </div>
-      <div></div>
-    </div>
+              } else {
+                toast({
+                  variant: "destructive",
+                  title: "Error",
+                  description: "No data found",
+                });
+              }
+            }
+          }}
+          className="gap-2"
+          disabled={clock.disable}
+          variant={clock.clockOut ? "destructive" : "default"}
+        >
+          {loading ? (
+            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <ClockIcon />
+          )}
+          {clock.label}
+        </Button>
+      </CardFooter>
+    </Card>
   );
 };
 

@@ -16,7 +16,7 @@ const ApplicationIndex = (props: Props) => {
         <TopBar />
         <div className="flex h-full flex-grow">
           <ApplicationNavbar />
-          <div className="flex-grow p-3 pt-20">{props?.children}</div>
+          <div className="flex-grow p-2 pt-16">{props?.children}</div>
         </div>
       </>
     );

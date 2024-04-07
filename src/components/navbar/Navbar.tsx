@@ -20,7 +20,7 @@ export default function Navbar(props: Props) {
   const pathName = usePathname();
   return (
     <>
-      <nav className="h-full pt-16 px-2 overflow-y-auto shadow-md border-r">
+      <nav className="bg-primary text-primary-foreground h-full pt-16 px-2 overflow-y-auto shadow-md border-r">
         <ul className="h-full flex flex-col gap-3 p-0">
           {props?.menu?.map((item) => (
             <li className={"flex items-center justify-center "} key={item?.id}>
@@ -31,9 +31,8 @@ export default function Navbar(props: Props) {
                       href={item.path}
                       as={item.path}
                       className={`flex items-center ${
-                        pathName === item.path &&
-                        "dark:text-cyan-100 dark:bg-[#0c394a]"
-                      } rounded-xl h-10 w-10 justify-center hover:bg-secondary`}
+                        pathName === item.path && " dark:bg-[#282d2e]"
+                      } rounded-xl h-10 w-10 justify-center hover:bg-[#1f233f]`}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
