@@ -1,5 +1,4 @@
 "use client";
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -16,7 +15,6 @@ import { LOG_IN_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
 import { useToast } from "../../ui/use-toast";
-
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import {
@@ -24,9 +22,10 @@ import {
   LoginOrganizationQueryVariables,
   OrganizationLogin,
 } from "@/graphql/graphql";
-import { ActionsTypes, OrgAuthDispatch } from "@/components/admin/AuthContext";
+import { useAdminAuthStore } from "@/components/admin/AuthContext";
 function AdminSignIn() {
-  const { dispatch } = useContext(OrgAuthDispatch);
+  const { setDetails } = useAdminAuthStore((state) => state);
+
   const { toast } = useToast();
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -43,10 +42,7 @@ function AdminSignIn() {
         AppConfig.CREDENTIAL,
         JSON.stringify(data?.loginOrganization?.token)
       );
-      dispatch({
-        type: ActionsTypes.ADMINAUTH,
-        payload: data?.loginOrganization,
-      });
+      setDetails(data?.loginOrganization);
     },
     onError(error) {
       toast({

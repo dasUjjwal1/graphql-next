@@ -9,7 +9,7 @@ const ApplicationNavbar = () => {
   const { dispatch } = useContext(UserAuthDispatch);
   const getMenus = async () => {
     try {
-      const res = await fetch("/api/menu", {
+      const res = await fetch("/api/employee", {
         method: "GET",
       });
       const data = await res.json();
