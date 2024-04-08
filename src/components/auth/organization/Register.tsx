@@ -1,5 +1,4 @@
 "use client";
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -31,10 +30,11 @@ import {
   CreateOrganizationMutation,
   CreateOrganizationMutationVariables,
 } from "@/graphql/graphql";
-import { ActionsTypes, OrgAuthDispatch } from "@/components/admin/AuthContext";
+import { useAdminAuthStore } from "@/components/admin/AuthContext";
 function AdminRegister() {
+  const { setDetails } = useAdminAuthStore((state) => state);
+
   const { toast } = useToast();
-  const { dispatch } = useContext(OrgAuthDispatch);
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid Email")
@@ -52,10 +52,7 @@ function AdminRegister() {
         AppConfig.CREDENTIAL,
         JSON.stringify(data?.createOrganization?.token)
       );
-      dispatch({
-        type: ActionsTypes.ADMINAUTH,
-        payload: data?.createOrganization,
-      });
+      setDetails(data?.createOrganization);
     },
     onError(error) {
       toast({

@@ -16,7 +16,12 @@ import {
   GET_ATTENDANCE_BY_DATE,
   UPDATE_ATTENDANCE,
 } from "@/gql/employee";
-import { startOfWeek, isToday, differenceInMinutes } from "date-fns";
+import {
+  startOfWeek,
+  isToday,
+  differenceInMinutes,
+  lightFormat,
+} from "date-fns";
 import {
   CreateAttendanceMutation,
   CreateAttendanceMutationVariables,
@@ -92,7 +97,7 @@ const AttendanceCard = () => {
     GetAttendanceByDateQuery,
     GetAttendanceByDateQueryVariables
   >(GET_ATTENDANCE_BY_DATE, {
-    variables: { body: { startDate: monday } },
+    variables: { body: { startDate: lightFormat(monday, "yyyy-MM-dd") } },
     onCompleted(data) {
       if (data?.getAttendanceByDate) {
         if (data?.getAttendanceByDate?.length > 0) {
@@ -178,6 +183,17 @@ const AttendanceCard = () => {
         payload: { clockIn: false, clockOut: false },
       });
       setClock({ type: ClockAction.DISABLE, payload: true });
+      // const diff = differenceInMinutes(
+      //   new Date(data.updateAttendance.clockOut),
+      //   new Date(data.updateAttendance.clockIn)
+      // );
+      // const currentTime = clock.totalMinutes;
+      // setClock({ type: ClockAction.TOTAL, payload: currentTime + diff });
+      // setClock({
+      //   type: ClockAction.TODAY_TODAY,
+      //   payload: currentTime,
+      // });
+      refetch();
     },
     onError(error) {
       toast({

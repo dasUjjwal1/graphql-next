@@ -1,6 +1,5 @@
 "use client";
-
-import { OrgAuthContext } from "@/components/admin/AuthContext";
+import { useAdminAuthStore } from "@/components/admin/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -54,7 +53,7 @@ export default function CreateRoleDialog({
   roles,
   refetch,
 }: RoleFormTypes) {
-  const state = useContext(OrgAuthContext);
+  const { token } = useAdminAuthStore((state) => state);
   const [mutation, { loading }] = useMutation<
     CreateRoleMutation,
     CreateRoleMutationVariables
@@ -76,7 +75,7 @@ export default function CreateRoleDialog({
     },
     context: {
       headers: {
-        authorization: state.token,
+        authorization: token,
       },
     },
   });

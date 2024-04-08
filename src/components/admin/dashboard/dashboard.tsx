@@ -1,6 +1,5 @@
 "use client";
 import { useContext } from "react";
-import { OrgAuthContext } from "../AuthContext";
 
 import { Button } from "@/components/ui/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
@@ -11,8 +10,9 @@ import { GetAllOrganizationQuery } from "@/graphql/graphql";
 import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
+import { useAdminAuthStore } from "../AuthContext";
 const AdminDashboard = () => {
-  const state = useContext(OrgAuthContext);
+  const { token } = useAdminAuthStore((state) => state);
   const { data, loading } = useQuery<GetAllOrganizationQuery>(
     GET_ALL_ORGANIZATION,
     {
@@ -25,7 +25,7 @@ const AdminDashboard = () => {
       },
       context: {
         headers: {
-          authorization: state.token,
+          authorization: token,
         },
       },
     }

@@ -1,54 +1,75 @@
 "use client";
+import { createStore } from "zustand/vanilla";
+import { StoreApi, useStore } from "zustand";
+import { immer } from "zustand/middleware/immer";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { OrganizationResponse } from "@/graphql/graphql";
-import { Dispatch, ReactNode, createContext, useReducer } from "react";
-type AuthType = {
+import { ReactNode, createContext, useContext, useRef } from "react";
+type AdminAuthType = {
+  loaded: boolean;
   menu: { id: string; label: string; path: string; icon: string[] }[];
   adminAuth: OrganizationResponse | null;
   token: any;
 };
-export enum ActionsTypes {
-  MENU,
-  ADMINAUTH,
-}
-export type Actions = {
-  type: ActionsTypes.MENU | ActionsTypes.ADMINAUTH;
-  payload: any;
+type AdminAuthActions = {
+  setMenu: (payload: AdminAuthType["menu"]) => void;
+  setDetails: (data: OrganizationResponse | null) => void;
 };
-const initialState: AuthType = {
+type AdminSTore = AdminAuthType & AdminAuthActions;
+const AdminAuthInitialState: AdminAuthType = {
+  loaded: true,
   menu: [],
   adminAuth: null,
   token: null,
 };
-const reducer = (draft: AuthType, action: Actions) => {
-  switch (action.type) {
-    case ActionsTypes.MENU:
-      return { ...draft, menu: action.payload };
-    case ActionsTypes.ADMINAUTH:
-      return {
-        ...draft,
-        adminAuth: action.payload,
-        token: action.payload?.token,
-      };
-    default:
-      return draft;
-  }
-};
-export const OrgAuthContext = createContext<AuthType>({
-  menu: [],
-  adminAuth: null,
-  token: null,
-});
-export const OrgAuthDispatch = createContext<{ dispatch: Dispatch<Actions> }>({
-  dispatch: () => null,
-});
+export const createAdminStore = createStore<AdminSTore>()(
+  persist(
+    (set, get) => ({
+      ...AdminAuthInitialState,
+      setMenu: (payload) => {
+        set((state) => ({
+          ...get(),
+          menu: payload,
+        }));
+      },
+      setDetails: (data) => {
+        set((state) => ({
+          ...get(),
+          adminAuth: data,
+          token: data?.token ?? null,
+        }));
+      },
+    }),
+    {
+      name: "admin-storage", // name of the item in the storage (must be unique)
+      storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+    }
+  )
+);
+
+const OrgAuthContext = createContext<StoreApi<AdminSTore> | null>(null);
 
 export const OrgAuthProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const storeRef = useRef<StoreApi<AdminSTore>>();
+  if (!storeRef.current) {
+    storeRef.current = createAdminStore;
+  }
+
   return (
-    <OrgAuthContext.Provider value={state}>
-      <OrgAuthDispatch.Provider value={{ dispatch }}>
-        {children}
-      </OrgAuthDispatch.Provider>
+    <OrgAuthContext.Provider value={storeRef.current}>
+      {children}
     </OrgAuthContext.Provider>
   );
+};
+
+export const useAdminAuthStore = <T,>(
+  selector: (store: AdminSTore) => T
+): T => {
+  const orgAuthContext = useContext(OrgAuthContext);
+
+  if (!orgAuthContext) {
+    throw new Error(`Store must be use within StoreProvider`);
+  }
+
+  return useStore(orgAuthContext, selector);
 };

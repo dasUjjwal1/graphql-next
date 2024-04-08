@@ -21,7 +21,7 @@ export default function Navbar(props: Props) {
   return (
     <>
       <nav className="bg-primary text-primary-foreground h-full pt-16 px-2 overflow-y-auto shadow-md border-r">
-        <ul className="h-full flex flex-col gap-3 p-0">
+        <ul className="h-full flex flex-col gap-3 w-10 p-0">
           {props?.menu?.map((item) => (
             <li className={"flex items-center justify-center "} key={item?.id}>
               <TooltipProvider>

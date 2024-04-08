@@ -48,7 +48,6 @@ import {
 import { Loader2, PlusCircle, RefreshCcw, SearchIcon } from "lucide-react";
 import { DrawerTrigger } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { OrgAuthContext } from "../AuthContext";
 import { toast } from "@/components/ui/use-toast";
 import {
   Dialog,
@@ -58,18 +57,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useAdminAuthStore } from "../AuthContext";
 
 const EmployeeComponent = () => {
-  const state = useContext(OrgAuthContext);
+  const { token, adminAuth } = useAdminAuthStore((state) => state);
   const context = {
     headers: {
-      authorization: state.token,
+      authorization: token,
     },
   };
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 20,
   });
   const { data, loading: orgLoading } = useQuery<GetAllOrganizationQuery>(
     GET_ALL_ORGANIZATION,
@@ -105,7 +105,10 @@ const EmployeeComponent = () => {
         variables: {
           body: {
             id: data?.getAllOrganization[0]?.id,
-            pagination: { limit: 10, offset: 0 },
+            pagination: {
+              limit: pagination.pageSize,
+              offset: pagination.pageIndex * pagination.pageSize,
+            },
           },
         },
       });
@@ -124,7 +127,7 @@ const EmployeeComponent = () => {
       columnHelper.accessor("employeeRole", {
         header: () => "Role",
         cell: (info) => {
-          const role = state?.adminAuth?.roles ?? [];
+          const role = adminAuth?.roles ?? [];
           return (
             <Select open={false} defaultValue={info.getValue()}>
               <SelectTrigger className="w-[180px]">
@@ -187,7 +190,7 @@ const EmployeeComponent = () => {
           }}
           defaultValue={data?.getAllOrganization[0]?.id}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[280px]">
             <SelectValue placeholder="Select Organization" />
           </SelectTrigger>
           <SelectContent>
@@ -221,21 +224,36 @@ const EmployeeComponent = () => {
           </Dialog>
         </div>
       </div>
-      <Button
-        className="mt-2"
-        onClick={() =>
-          query({
-            variables: {
-              body: {
-                id: data?.getAllOrganization[0]?.id,
-                pagination: { limit: 10, offset: 0 },
+      <div className="flex mt-3 items-center justify-between">
+        <Button
+          onClick={() =>
+            query({
+              variables: {
+                body: {
+                  id: data?.getAllOrganization[0]?.id,
+                  pagination: { limit: 10, offset: 0 },
+                },
               },
-            },
-          })
-        }
-      >
-        <RefreshCcw className="w-4 h-4" />
-      </Button>
+            })
+          }
+        >
+          <RefreshCcw className="w-4 h-4" />
+        </Button>
+
+        <Select onValueChange={(e) => {}} defaultValue={"20"}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Organization" />
+          </SelectTrigger>
+          <SelectContent>
+            {[20, 30, 40, 50].map((pageSize) => (
+              <SelectItem key={pageSize} value={pageSize.toString()}>
+                {pageSize}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       <>
         <Table className="border mt-3 w-full">
           <TableHeader>
@@ -371,7 +389,7 @@ const EmployeeComponent = () => {
               </PaginationItem>
             )}
           </PaginationContent>
-          <Select onValueChange={(e) => {}} defaultValue={"10"}>
+          <Select onValueChange={(e) => {}} defaultValue={"20"}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select Organization" />
             </SelectTrigger>
