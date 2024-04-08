@@ -42,7 +42,7 @@ import {
   ReloadIcon,
   ResetIcon,
 } from "@radix-ui/react-icons";
-import { OrgAuthContext } from "../AuthContext";
+import { useAdminAuthStore } from "../AuthContext";
 const CreateOrganization = ({
   Trigger,
   refetch,
@@ -54,7 +54,7 @@ const CreateOrganization = ({
   open?: boolean;
   setModal?: any;
 }) => {
-  const state = useContext(OrgAuthContext);
+  const { token } = useAdminAuthStore((state) => state);
   const [mutation, { loading }] = useMutation(CREATE_ORG_DETAILS, {
     onCompleted: (data: CreateOrganizationDetailsMutation) => {
       toast({
@@ -73,7 +73,7 @@ const CreateOrganization = ({
     },
     context: {
       headers: {
-        authorization: state.token,
+        authorization: token,
       },
     },
   });

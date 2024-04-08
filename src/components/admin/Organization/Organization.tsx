@@ -47,10 +47,11 @@ import {
 import { AppConfig } from "@/config/appConfig";
 import { useContext, useState } from "react";
 import { toast } from "@/components/ui/use-toast";
-import { OrgAuthContext } from "../AuthContext";
 import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
+import { useAdminAuthStore } from "../AuthContext";
 const Organization = () => {
-  const state = useContext(OrgAuthContext);
+  const { token } = useAdminAuthStore((state) => state);
+
   const { data, loading, refetch } = useQuery<GetAllOrganizationQuery>(
     GET_ALL_ORGANIZATION,
     {
@@ -63,7 +64,7 @@ const Organization = () => {
       },
       context: {
         headers: {
-          authorization: state.token,
+          authorization: token,
         },
       },
     }

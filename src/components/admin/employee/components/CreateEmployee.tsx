@@ -9,7 +9,6 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import {
   Form,
@@ -39,19 +38,17 @@ import {
 import { EmployeeCredentialFormTypes } from "@/types/appTypes";
 import { useMutation, useQuery } from "@apollo/client";
 import { ResetIcon } from "@radix-ui/react-icons";
-import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import * as Yup from "yup";
-import { OrgAuthContext } from "../../AuthContext";
+import { useAdminAuthStore } from "../../AuthContext";
 const CreateEmployeeCredential = ({
   orgList,
   Trigger,
   refetch,
 }: EmployeeCredentialFormTypes) => {
-  const state = useContext(OrgAuthContext);
+  const { token } = useAdminAuthStore((state) => state);
   const context = {
     headers: {
-      authorization: state.token,
+      authorization: token,
     },
   };
   const [mutation, { loading, error }] = useMutation<

@@ -8,7 +8,7 @@ import {
   PlusCircledIcon,
 } from "@radix-ui/react-icons";
 import CreateRoleDialog from "./components/CreateRole";
-import { InfoIcon, Loader2, RotateCcw, TrashIcon } from "lucide-react";
+import { Loader2, RotateCcw, TrashIcon } from "lucide-react";
 import { useQuery } from "@apollo/client";
 import {
   Table,
@@ -37,11 +37,10 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AppConfig } from "@/config/appConfig";
-import { useContext } from "react";
-import { OrgAuthContext } from "../../AuthContext";
+import { useAdminAuthStore } from "../../AuthContext";
 
 const RoleComponent = () => {
-  const state = useContext(OrgAuthContext);
+  const { token } = useAdminAuthStore((state) => state);
   const { data, loading, refetch } = useQuery<GetAllRoleQuery>(GET_ALL_ROLE, {
     onError(error) {
       toast({
@@ -52,7 +51,7 @@ const RoleComponent = () => {
     },
     context: {
       headers: {
-        authorization: state.token,
+        authorization: token,
       },
     },
   });

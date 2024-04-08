@@ -1,28 +1,38 @@
 "use client";
 
-import { ReactNode, useContext } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import AdminAuth from "../auth/organization";
 import AdminNavbar from "./navbar";
-import { OrgAuthContext } from "./AuthContext";
-import TopBar from "../navbar/TopBar";
+import { useAdminAuthStore } from "./AuthContext";
+import TopBar from "./TopBar";
 
 type Props = {
   children: ReactNode;
 };
 const AdminIndexPage = (props: Props) => {
-  const state = useContext(OrgAuthContext);
-  if (state?.token) {
+  const { token } = useAdminAuthStore((state) => state);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    let effect = true;
+    if (effect) {
+      setLoaded(true);
+    }
+    return () => {
+      effect = false;
+    };
+  }, []);
+  if (token) {
     return (
       <>
         <TopBar />
-        <div className="flex h-full flex-grow">
+        <main className="flex h-full flex-grow">
           <AdminNavbar />
           <div className="flex-grow p-3 pt-20">{props?.children}</div>
-        </div>
+        </main>
       </>
     );
   }
-  return <AdminAuth />;
+  return loaded && <AdminAuth />;
 };
 
 export default AdminIndexPage;

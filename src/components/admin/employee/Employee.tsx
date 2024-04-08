@@ -48,7 +48,6 @@ import {
 import { Loader2, PlusCircle, RefreshCcw, SearchIcon } from "lucide-react";
 import { DrawerTrigger } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { OrgAuthContext } from "../AuthContext";
 import { toast } from "@/components/ui/use-toast";
 import {
   Dialog,
@@ -58,12 +57,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useAdminAuthStore } from "../AuthContext";
 
 const EmployeeComponent = () => {
-  const state = useContext(OrgAuthContext);
+  const { token, adminAuth } = useAdminAuthStore((state) => state);
   const context = {
     headers: {
-      authorization: state.token,
+      authorization: token,
     },
   };
 
@@ -124,7 +124,7 @@ const EmployeeComponent = () => {
       columnHelper.accessor("employeeRole", {
         header: () => "Role",
         cell: (info) => {
-          const role = state?.adminAuth?.roles ?? [];
+          const role = adminAuth?.roles ?? [];
           return (
             <Select open={false} defaultValue={info.getValue()}>
               <SelectTrigger className="w-[180px]">
