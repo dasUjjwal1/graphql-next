@@ -1,5 +1,4 @@
 "use client";
-
 import { useLazyQuery, useQuery } from "@apollo/client";
 import CreateEmployeeCredential from "./components/CreateEmployee";
 import {
@@ -28,7 +27,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ColumnDef,
   PaginationState,

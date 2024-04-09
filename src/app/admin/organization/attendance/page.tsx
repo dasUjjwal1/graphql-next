@@ -1,5 +1,7 @@
+import Policy from "@/components/admin/Organization/attendance/Policy";
+
 const Page = () => {
-  return <div>Page</div>;
+  return <Policy />;
 };
 
 export default Page;
