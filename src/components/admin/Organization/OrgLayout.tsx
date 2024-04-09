@@ -11,13 +11,13 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
   const pathName = usePathname();
   return (
     <>
-      <div className="container mb-3 shadow-sm border-b">
+      <div className="px-3 mb-3 shadow-sm border-b">
         <ul className="flex gap-2">
           {menu.map((item, index) => (
             <li
               className={`px-4 py-2 ${
                 pathName === item.path &&
-                "text-primary dark:text-blue-100 border-b-2"
+                "text-primary dark:text-blue-100 border-b-4"
               }  border-primary font-bold`}
               key={index.toString()}
             >
