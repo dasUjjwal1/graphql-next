@@ -11,7 +11,10 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
   const pathName = usePathname();
   return (
     <>
-      <div className="px-3 mb-3 shadow-sm border-b">
+      <div
+        className="px-3 mb-3 bg-[#f6f7fe] border-[#e5e7f8] border-b"
+        style={{ boxShadow: "0 2px 6px -2px rgba(0,106,194,0.2)" }}
+      >
         <ul className="flex gap-2">
           {menu.map((item, index) => (
             <li

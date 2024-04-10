@@ -21,20 +21,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronRightCircleIcon, LocateIcon } from "lucide-react";
+import OrgDetailsCard from "./components/OrgDetailsCard";
 
 const Policy = () => {
   return (
-    <div className="px-4">
+    <>
       <Tabs defaultValue="attendance" className="h-full">
-        <TabsList className="p-0 bg-transparent">
+        <TabsList className="bg-white border-b border-[#ebf0f6] w-full rounded-none">
           <TabsTrigger
-            className="rounded-none h-10 data-[state=active]:shadow-none box-border data-[state=active]:border-t-2 data-[state=active]:bg-slate-100 data-[state=active]:dark:bg-slate-800 data-[state=active]:border-popover-foreground"
+            className="rounded-none font-semibold h-10 data-[state=active]:shadow-none data-[state=active]:border-t-2 data-[state=active]:bg-[#f8f8ff] data-[state=active]:dark:bg-slate-800 data-[state=active]:border-x data-[state=active]:border-[#ebf0f6] data-[state=active]:border-t-primary"
             value="attendance"
           >
             Attendance
           </TabsTrigger>
           <TabsTrigger
-            className="rounded-none h-10 data-[state=active]:shadow-none box-border data-[state=active]:border-t data-[state=active]:bg-slate-100 data-[state=active]:border-popover-foreground"
+            className="rounded-none font-semibold h-10 data-[state=active]:shadow-none data-[state=active]:border-t-2 data-[state=active]:bg-[#f8f8ff] data-[state=active]:dark:bg-slate-800 data-[state=active]:border-x data-[state=active]:border-[#ebf0f6] data-[state=active]:border-t-primary"
             value="password"
           >
             Leave
@@ -42,26 +43,20 @@ const Policy = () => {
         </TabsList>
         <TabsContent
           value="attendance"
-          className="bg-slate-100 dark:bg-slate-800 m-0 flex-grow p-3"
+          className="m-0 flex-grow p-4"
+          style={{
+            backgroundImage: "linear-gradient(180deg, #f8f8ff 0%, #fff 100%)",
+          }}
         >
           <div className="grid grid-cols-12 gap-4">
-            <Card className="col-span-12 dark:bg-slate-700 rounded-xl">
-              <CardHeader>
-                <CardTitle>Qbent Technologies private ltd</CardTitle>
-                <CardDescription>Sector V, Kolkata</CardDescription>
-              </CardHeader>
-              <CardContent></CardContent>
-              <CardFooter className="flex justify-end">
-                <Button>Change</Button>
-              </CardFooter>
-            </Card>
+            <OrgDetailsCard />
             <Card className="col-span-4">
-              <CardHeader className="p-3 bg-blue-100 dark:bg-blue-800">
+              <CardHeader className=" bg-blue-100 dark:bg-blue-800">
                 <CardTitle className="border-l-4 pl-2 border-blue-500">
                   Clock-In policies
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-3 bg-blue-100 flex flex-col gap-4  w-full">
+              <CardContent className=" bg-blue-100 flex flex-col gap-4  w-full">
                 <CardDescription className="flex items-center justify-between">
                   Allow employees clock-in remotely <Checkbox id="terms" />
                 </CardDescription>
@@ -101,19 +96,19 @@ const Policy = () => {
                   <Checkbox id="terms" />
                 </CardDescription>
               </CardContent>
-              <CardFooter className="flex p-3 items-end justify-end bg-blue-100">
+              <CardFooter className="flex items-end justify-end bg-blue-100">
                 <Button className="bg-blue-500 border-b-4 border-blue-600 dark:text-blue-50 flex items-center gap-3">
                   Apply <ChevronRightCircleIcon className="w-4 h-4" />
                 </Button>
               </CardFooter>
             </Card>
             <Card className="col-span-4">
-              <CardHeader className="p-3 bg-violet-100 dark:bg-violet-800">
+              <CardHeader className=" bg-violet-100 dark:bg-violet-800">
                 <CardTitle className="border-l-4 pl-2 border-violet-500">
                   Clock-In policies
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-3 bg-violet-100  flex flex-col gap-4  w-full">
+              <CardContent className=" bg-violet-100  flex flex-col gap-4  w-full">
                 <CardDescription className="flex items-center justify-between">
                   Allow employees clock-in remotely{" "}
                   <Checkbox
@@ -157,7 +152,7 @@ const Policy = () => {
                   <Checkbox id="terms" />
                 </CardDescription>
               </CardContent>
-              <CardFooter className="flex p-3 items-end justify-end bg-violet-100">
+              <CardFooter className="flex  items-end justify-end bg-violet-100">
                 <Button className="bg-violet-500 border-b-4 border-violet-600 dark:text-violet-50 flex items-center gap-3">
                   Apply <ChevronRightCircleIcon className="w-4 h-4" />
                 </Button>
@@ -169,7 +164,7 @@ const Policy = () => {
           Change your password here.
         </TabsContent>
       </Tabs>
-    </div>
+    </>
   );
 };
 
