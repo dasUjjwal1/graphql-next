@@ -27,7 +27,7 @@ const Policy = () => {
   return (
     <>
       <Tabs defaultValue="attendance" className="h-full">
-        <TabsList className="bg-white border-b border-[#ebf0f6] w-full rounded-none">
+        <TabsList className="bg-white border-b border-[#ebf0f6] w-full rounded-none h-10">
           <TabsTrigger
             className="rounded-none font-semibold h-10 data-[state=active]:shadow-none data-[state=active]:border-t-2 data-[state=active]:bg-[#f8f8ff] data-[state=active]:dark:bg-slate-800 data-[state=active]:border-x data-[state=active]:border-[#ebf0f6] data-[state=active]:border-t-primary"
             value="attendance"

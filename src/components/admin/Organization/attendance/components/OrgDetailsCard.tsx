@@ -18,7 +18,13 @@ const OrgDetailsCard = ({ data }: Props) => {
     <Card className="col-span-12 dark:bg-slate-700 rounded-xl shadow-sm bg-transparent">
       <CardHeader>
         <CardTitle>{data?.orgName}</CardTitle>
-        <CardDescription>Sector V, Kolkata</CardDescription>
+        <CardDescription>
+          {data?.address?.housenumber +
+            "," +
+            data?.address?.street +
+            "," +
+            data?.address?.city}
+        </CardDescription>
       </CardHeader>
       <CardContent></CardContent>
       <CardFooter className="flex justify-end">
