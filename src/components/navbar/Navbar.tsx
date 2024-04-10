@@ -20,7 +20,7 @@ export default function Navbar(props: Props) {
   const pathName = usePathname();
   return (
     <>
-      <nav className="bg-primary text-primary-foreground h-screen pt-16 px-2 overflow-y-auto shadow-md border-r">
+      <nav className="bg-primary text-primary-foreground min-h-screen h-full fixed left-0 pt-16 px-2 overflow-y-auto shadow-md border-r">
         <ul className="h-full flex flex-col gap-3 w-10 p-0">
           {props?.menu?.map((item) => (
             <li className={"flex items-center justify-center "} key={item?.id}>

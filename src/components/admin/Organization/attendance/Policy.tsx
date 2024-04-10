@@ -26,6 +26,8 @@ import OrgDetailsCard from "./components/OrgDetailsCard";
 const Policy = () => {
   return (
     <>
+      <OrgDetailsCard />
+
       <Tabs defaultValue="attendance" className="h-full">
         <TabsList className="bg-white border-b border-[#ebf0f6] w-full rounded-none h-10">
           <TabsTrigger
@@ -49,7 +51,6 @@ const Policy = () => {
           }}
         >
           <div className="grid grid-cols-12 gap-4">
-            <OrgDetailsCard />
             <Card className="col-span-4">
               <CardHeader className=" bg-blue-100 dark:bg-blue-800">
                 <CardTitle className="border-l-4 pl-2 border-blue-500">
