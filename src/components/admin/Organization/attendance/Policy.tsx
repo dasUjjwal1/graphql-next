@@ -22,13 +22,38 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronRightCircleIcon, LocateIcon } from "lucide-react";
 import OrgDetailsCard from "./components/OrgDetailsCard";
+import { GetAllOrganizationQuery } from "@/graphql/graphql";
+import { useQuery } from "@apollo/client";
+import { useAdminAuthStore } from "../../AuthContext";
+import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
+import { toast } from "@/components/ui/use-toast";
 
 const Policy = () => {
+  const { token } = useAdminAuthStore((state) => state);
+  const { data, loading } = useQuery<GetAllOrganizationQuery>(
+    GET_ALL_ORGANIZATION,
+    {
+      onError(error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+      context: {
+        headers: {
+          authorization: token,
+        },
+      },
+    }
+  );
   return (
     <>
-      <OrgDetailsCard />
+      <div className="px-4 pb-2">
+        <OrgDetailsCard data={data?.getAllOrganization[0]} />
+      </div>
 
-      <Tabs defaultValue="attendance" className="h-full">
+      <Tabs defaultValue="attendance">
         <TabsList className="bg-white border-b border-[#ebf0f6] w-full rounded-none h-10">
           <TabsTrigger
             className="rounded-none font-semibold h-10 data-[state=active]:shadow-none data-[state=active]:border-t-2 data-[state=active]:bg-[#f8f8ff] data-[state=active]:dark:bg-slate-800 data-[state=active]:border-x data-[state=active]:border-[#ebf0f6] data-[state=active]:border-t-primary"
