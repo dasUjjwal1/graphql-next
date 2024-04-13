@@ -17,28 +17,49 @@ type Props = {
 const OrgDetailsCard = ({ data }: Props) => {
   return (
     <Card className="col-span-12 dark:bg-slate-700 ">
-      <CardHeader>
-        <CardTitle>{data?.orgName}</CardTitle>
-        <CardDescription>
-          {data?.address?.housenumber +
-            ", " +
-            data?.address?.street +
-            ", " +
-            data?.address?.city}
-        </CardDescription>
+      <CardHeader className="p-3 flex items-baseline justify-between flex-row">
+        <div>
+          <CardTitle>{data?.orgName}</CardTitle>
+          <CardDescription>
+            {data?.address?.housenumber +
+              ", " +
+              data?.address?.street +
+              ", " +
+              data?.address?.city}
+          </CardDescription>
+        </div>
+        <Button>Select</Button>
       </CardHeader>
-      <CardContent>
-        <CardTitle className="text-sm">Start time</CardTitle>
-        <CardDescription>
-          {addMinutes(
-            new Date(2014, 6, 10, 0, 0),
-            data?.startTime ?? 0
-          ).toLocaleTimeString()}
-        </CardDescription>
+      <CardContent className="grid grid-cols-4 gap-4 p-3">
+        <div className="col-span-1 bg-purple-500 p-3 rounded-lg">
+          <CardTitle className="text-sm text-white">Start time</CardTitle>
+          <CardDescription className="text-white">
+            {addMinutes(
+              new Date(2014, 6, 10, 0, 0),
+              data?.startTime ?? 0
+            ).toLocaleTimeString()}
+          </CardDescription>
+        </div>
+        <div className="col-span-1 bg-sky-500 rounded-lg p-3">
+          <CardTitle className="text-sm text-white">End time</CardTitle>
+          <CardDescription className="text-white">
+            {addMinutes(
+              new Date(2014, 6, 10, 0, 0),
+              data?.endTime ?? 0
+            ).toLocaleTimeString()}
+          </CardDescription>
+        </div>
+        <div className="col-span-1 bg-emerald-500 rounded-lg p-3">
+          <CardTitle className="text-sm text-white">Working days</CardTitle>
+          <CardDescription className="text-white">Mon - Fri</CardDescription>
+        </div>
+        <div className="col-span-1 bg-fuchsia-700 rounded-lg p-3">
+          <CardTitle className="text-sm text-white">Working Model</CardTitle>
+          <CardDescription className="text-white">
+            {data?.workingModel ?? "-"}
+          </CardDescription>
+        </div>
       </CardContent>
-      <CardFooter className="flex justify-end">
-        <Button>Change</Button>
-      </CardFooter>
     </Card>
   );
 };

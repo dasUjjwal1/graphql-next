@@ -1,7 +1,6 @@
 "use client";
 import {
   DotsVerticalIcon,
-  Pencil1Icon,
   PlusCircledIcon,
   TrashIcon,
 } from "@radix-ui/react-icons";
@@ -28,10 +27,7 @@ import {
 } from "../../ui/dropdown-menu";
 import { DrawerTrigger } from "../../ui/drawer";
 import CreateOrganization from "./CreateOrganization";
-import {
-  GetAllOrganizationDocument,
-  GetAllOrganizationQuery,
-} from "@/graphql/graphql";
+import { GetAllOrganizationQuery } from "@/graphql/graphql";
 import { useQuery } from "@apollo/client";
 import { Loader2, RotateCcw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
@@ -45,10 +41,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AppConfig } from "@/config/appConfig";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
 import { useAdminAuthStore } from "../AuthContext";
+import Link from "next/link";
 const Organization = () => {
   const { token } = useAdminAuthStore((state) => state);
 
@@ -132,7 +129,7 @@ const Organization = () => {
     columnHelper.display({
       id: "actions",
       header: "Edit",
-      cell: (props) => (
+      cell: (info) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost">
@@ -140,16 +137,9 @@ const Organization = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <Button
-              onClick={() => {
-                setModal(true);
-              }}
-              variant={"ghost"}
-              className="flex items-center justify-start gap-3 text-sm w-full"
-            >
-              <Pencil1Icon />
+            <Link href={`/admin/organization/${info.row.index}`}>
               Preview & Update
-            </Button>
+            </Link>
             <DropdownMenuSeparator />
             <Button
               onClick={() => {}}
@@ -178,7 +168,7 @@ const Organization = () => {
     </DrawerTrigger>
   );
   return (
-    <div className="container">
+    <div className="p-3">
       <div className="flex items-center justify-between">
         <Button onClick={() => refetch()}>
           <RotateCcw className="w-4 h-4" />
