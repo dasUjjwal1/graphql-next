@@ -26,12 +26,17 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { FC, useContext } from "react";
-import { CREATE_ORG_DETAILS } from "@/gql/orgDetails";
+import { FC } from "react";
+import {
+  CREATE_ORG_DETAILS,
+  UPDATE_ORGANIZATION_DETAILS,
+} from "@/gql/orgDetails";
 import { useMutation } from "@apollo/client";
 import {
   CreateOrganizationDetailsMutation,
   OrganizationDetailsRegisterInput,
+  UpdateOrganizationDetailsMutation,
+  UpdateOrganizationDetailsMutationVariables,
 } from "@/graphql/graphql";
 import { toast } from "@/components/ui/use-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -48,11 +53,15 @@ const CreateOrganization = ({
   refetch,
   open,
   setModal,
+  update = false,
+  data,
 }: {
   Trigger: FC;
   refetch?: () => void;
   open?: boolean;
   setModal?: any;
+  update?: boolean;
+  data?: UpdateOrganizationDetailsMutationVariables["body"];
 }) => {
   const { token } = useAdminAuthStore((state) => state);
   const [mutation, { loading }] = useMutation(CREATE_ORG_DETAILS, {
@@ -77,14 +86,63 @@ const CreateOrganization = ({
       },
     },
   });
+  const [updateOrgDetailsMutation] = useMutation<
+    UpdateOrganizationDetailsMutation,
+    UpdateOrganizationDetailsMutationVariables
+  >(UPDATE_ORGANIZATION_DETAILS, {
+    onCompleted: (data) => {
+      toast({
+        title: "Success",
+        description: data.updateOrganizationDetails.message,
+        variant: "default",
+      });
+      refetch && refetch();
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+    context: {
+      headers: {
+        authorization: token,
+      },
+    },
+  });
   const validationSchema = Yup.object().shape({
     orgName: Yup.string().required("This field is required"),
-    employeeCount: Yup.number().required("This field is required"),
+    employeeCount: Yup.number()
+      .nullable()
+      .min(0, "Invalid Number")
+      .required("This field is required"),
     endTime: Yup.string().required("This field is required"),
     startTime: Yup.string().required("This field is required"),
   });
   const form = useForm<OrganizationDetailsRegisterInput>({
-    defaultValues: {},
+    defaultValues: {
+      employeeCount: 0,
+      orgName: "",
+      orgContact: "",
+      address: { city: "", housenumber: "", pin: "", state: "", street: "" },
+      startTime: "",
+      endTime: "",
+      orgType: "",
+      workingModel: "",
+      ...(update && {
+        ...data,
+        startTime:
+          Math.round((data?.startTime ?? 0) / 60) +
+          ":" +
+          ((data?.startTime ?? 0) % 60),
+        endTime:
+          Math.round((data?.endTime ?? 0) / 60) +
+          ":" +
+          ((data?.endTime ?? 0) % 60),
+        orgType: data?.orgType ? data?.orgType.toString() : "",
+      }),
+    },
     resolver: yupResolver(validationSchema),
   });
   const onSubmit = (value: OrganizationDetailsRegisterInput) => {
@@ -112,7 +170,13 @@ const CreateOrganization = ({
       orgContact: value?.orgContact ? value?.orgContact : null,
       orgType: value.orgType ? Number(value.orgType) : null,
     };
-    mutation({ variables: { body: requestBody } });
+    if (!update) {
+      mutation({ variables: { body: requestBody } });
+    } else {
+      updateOrgDetailsMutation({
+        variables: { body: { ...requestBody, id: value?.id } },
+      });
+    }
   };
   const DEFAULT_CENTER = [38.907132, -77.036546];
   return (
@@ -126,7 +190,7 @@ const CreateOrganization = ({
 
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Create Organization</DrawerTitle>
+          <DrawerTitle>{update ? "Update" : "Create"} Organization</DrawerTitle>
           <DrawerDescription>
             Data would not be lost until you reset
           </DrawerDescription>
@@ -160,7 +224,11 @@ const CreateOrganization = ({
                 render={({ field }) => (
                   <FormItem className="col-span-3">
                     <FormLabel>Organization Type</FormLabel>
-                    <Select onValueChange={field.onChange}>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      defaultValue={form.getValues("orgType")}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select organization type" />
@@ -258,10 +326,14 @@ const CreateOrganization = ({
                 render={({ field }) => (
                   <FormItem className="col-span-3">
                     <FormLabel>Working Mode</FormLabel>
-                    <Select onValueChange={field.onChange}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={form.getValues("workingModel")}
+                    >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select organization type" />
+                          <SelectValue placeholder="Select working mode" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -347,7 +419,12 @@ const CreateOrganization = ({
             />
 
             <DrawerFooter className="col-span-12 flex items-center justify-end flex-row">
-              <Button variant="outline" size="icon" type="button">
+              <Button
+                variant="outline"
+                size="icon"
+                type="button"
+                onClick={() => form.reset()}
+              >
                 <ResetIcon className="h-4 w-4" />
               </Button>
               <Button type="submit" disabled={loading}>
@@ -359,7 +436,7 @@ const CreateOrganization = ({
                 Submit
               </Button>
 
-              <DrawerClose>
+              <DrawerClose asChild>
                 <Button type="button" variant="destructive">
                   Cancel
                 </Button>

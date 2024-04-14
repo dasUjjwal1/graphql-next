@@ -25,6 +25,7 @@ const documents = {
     "\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      parent\n      access\n    }\n  }\n": types.GetAllRoleDocument,
     "\n  mutation CreateOrganizationDetails($body: OrganizationDetailsRegisterInput!) {\n    createOrganizationDetails(body: $body) {\n      message\n    }\n  }\n": types.CreateOrganizationDetailsDocument,
     "\n  query GetAllOrganization {\n    getAllOrganization {\n      id\n      orgName\n      orgId\n      isActive\n      lastSubscribe\n      latitude\n      longitude\n      workingModel\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      employeeCount\n      orgType\n      totalLeaveCount\n      establishedOn\n      holiday {\n        id\n        name\n        date\n      }\n      documents\n      logo\n      startTime\n      endTime\n      financialYearStart\n      financialYearEnd\n      department\n      notWorkingDays\n      orgContact\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetAllOrganizationDocument,
+    "\n  mutation UpdateOrganizationDetails($body: OrganizationDetailsRegisterInput!) {\n    updateOrganizationDetails(body: $body) {\n      message\n    }\n  }\n": types.UpdateOrganizationDetailsDocument,
 };
 
 /**
@@ -89,6 +90,10 @@ export function graphql(source: "\n  mutation CreateOrganizationDetails($body: O
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetAllOrganization {\n    getAllOrganization {\n      id\n      orgName\n      orgId\n      isActive\n      lastSubscribe\n      latitude\n      longitude\n      workingModel\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      employeeCount\n      orgType\n      totalLeaveCount\n      establishedOn\n      holiday {\n        id\n        name\n        date\n      }\n      documents\n      logo\n      startTime\n      endTime\n      financialYearStart\n      financialYearEnd\n      department\n      notWorkingDays\n      orgContact\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query GetAllOrganization {\n    getAllOrganization {\n      id\n      orgName\n      orgId\n      isActive\n      lastSubscribe\n      latitude\n      longitude\n      workingModel\n      address {\n        city\n        street\n        housenumber\n        state\n        pin\n      }\n      employeeCount\n      orgType\n      totalLeaveCount\n      establishedOn\n      holiday {\n        id\n        name\n        date\n      }\n      documents\n      logo\n      startTime\n      endTime\n      financialYearStart\n      financialYearEnd\n      department\n      notWorkingDays\n      orgContact\n      createdAt\n      updatedAt\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateOrganizationDetails($body: OrganizationDetailsRegisterInput!) {\n    updateOrganizationDetails(body: $body) {\n      message\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateOrganizationDetails($body: OrganizationDetailsRegisterInput!) {\n    updateOrganizationDetails(body: $body) {\n      message\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

@@ -29,7 +29,7 @@ import { DrawerTrigger } from "../../ui/drawer";
 import CreateOrganization from "./CreateOrganization";
 import { GetAllOrganizationQuery } from "@/graphql/graphql";
 import { useQuery } from "@apollo/client";
-import { Loader2, RotateCcw } from "lucide-react";
+import { Edit2, Edit3, Loader2, RotateCcw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import {
   Select,
@@ -96,26 +96,12 @@ const Organization = () => {
     }),
     columnHelper.accessor("orgType", {
       header: () => "Org-Type",
-      cell: (info) => (
-        <Select
-          open={false}
-          defaultValue={info.getValue() ? info.getValue()?.toString() : "0"}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a fruit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Not Selected</SelectLabel>
-              {AppConfig.ORGANIZATION_TYPE.map((item) => (
-                <SelectItem key={item.value} value={item.value.toString()}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      ),
+      cell: (info) => {
+        const value = AppConfig.ORGANIZATION_TYPE.find(
+          (item) => item.value === info.getValue()
+        )?.label;
+        return value ?? "";
+      },
     }),
     columnHelper.accessor("isActive", {
       header: () => "Status",
@@ -137,8 +123,11 @@ const Organization = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <Link href={`/admin/organization/${info.row.index}`}>
-              Preview & Update
+            <Link
+              className="px-3 py-1 flex items-center flex-row gap-2"
+              href={`/admin/organization/${info.row.index}`}
+            >
+              <Edit3 className="w-4 h-4" /> Preview & Update
             </Link>
             <DropdownMenuSeparator />
             <Button
