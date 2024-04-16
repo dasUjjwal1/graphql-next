@@ -1,7 +1,7 @@
 "use client";
 
 import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
-import { GetAllOrganizationQuery } from "@/graphql/graphql";
+import { GetAllOrganizationQuery, WorkingModel } from "@/graphql/graphql";
 import { useQuery } from "@apollo/client";
 import { useAdminAuthStore } from "../../AuthContext";
 import {
@@ -112,7 +112,10 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
               <CardTitle className="text-sm text-green-950">
                 Working Model
               </CardTitle>
-              <CardDescription>{orgData?.workingModel ?? "-"}</CardDescription>
+              <CardDescription>
+                {/* {orgData?.workingModel ?? "-"} */}
+                {Object.keys(WorkingModel)[orgData?.workingModel ?? 0]}
+              </CardDescription>
             </div>
             {/* <h3 className="col-span-12 font-semibold pl-2 border-l-8 border-primary">
               Other Details

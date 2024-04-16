@@ -141,6 +141,7 @@ const CreateOrganization = ({
           ":" +
           ((data?.endTime ?? 0) % 60),
         orgType: data?.orgType ? data?.orgType.toString() : "",
+        workingModel: data?.workingModel ? data?.workingModel.toString() : "",
       }),
     },
     resolver: yupResolver(validationSchema),

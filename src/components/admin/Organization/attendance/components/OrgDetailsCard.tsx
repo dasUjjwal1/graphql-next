@@ -5,11 +5,10 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { OrganizationDetails } from "@/graphql/graphql";
+import { OrganizationDetails, WorkingModel } from "@/graphql/graphql";
 import { addMinutes } from "date-fns";
 type Props = {
   data?: OrganizationDetails;
@@ -31,32 +30,36 @@ const OrgDetailsCard = ({ data }: Props) => {
         <Button>Select</Button>
       </CardHeader>
       <CardContent className="grid grid-cols-4 gap-4 p-3">
-        <div className="col-span-1 bg-purple-500 p-3 rounded-lg">
-          <CardTitle className="text-sm text-white">Start time</CardTitle>
-          <CardDescription className="text-white">
+        <div className="col-span-1 bg-purple-200 p-3 rounded-lg">
+          <CardTitle className="text-sm text-purple-700 ">Start time</CardTitle>
+          <CardDescription>
             {addMinutes(
               new Date(2014, 6, 10, 0, 0),
               data?.startTime ?? 0
             ).toLocaleTimeString()}
           </CardDescription>
         </div>
-        <div className="col-span-1 bg-sky-500 rounded-lg p-3">
-          <CardTitle className="text-sm text-white">End time</CardTitle>
-          <CardDescription className="text-white">
+        <div className="col-span-1 bg-sky-200 rounded-lg p-3">
+          <CardTitle className="text-sm text-sky-700 ">End time</CardTitle>
+          <CardDescription>
             {addMinutes(
               new Date(2014, 6, 10, 0, 0),
               data?.endTime ?? 0
             ).toLocaleTimeString()}
           </CardDescription>
         </div>
-        <div className="col-span-1 bg-emerald-500 rounded-lg p-3">
-          <CardTitle className="text-sm text-white">Working days</CardTitle>
-          <CardDescription className="text-white">Mon - Fri</CardDescription>
+        <div className="col-span-1 bg-emerald-200 rounded-lg p-3">
+          <CardTitle className="text-sm text-emerald-700 ">
+            Working days
+          </CardTitle>
+          <CardDescription>Mon - Fri</CardDescription>
         </div>
-        <div className="col-span-1 bg-fuchsia-700 rounded-lg p-3">
-          <CardTitle className="text-sm text-white">Working Model</CardTitle>
-          <CardDescription className="text-white">
-            {data?.workingModel ?? "-"}
+        <div className="col-span-1 bg-fuchsia-200 rounded-lg p-3">
+          <CardTitle className="text-sm text-fuchsia-700 ">
+            Working Model
+          </CardTitle>
+          <CardDescription>
+            {Object.keys(WorkingModel)[data?.workingModel ?? 1]}
           </CardDescription>
         </div>
       </CardContent>
