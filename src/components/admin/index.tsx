@@ -27,7 +27,7 @@ const AdminIndexPage = (props: Props) => {
         <TopBar />
         <main className="flex h-full flex-grow">
           <AdminNavbar />
-          <div className="flex-grow ml-12 pt-14">{props?.children}</div>
+          <div className="flex-grow ml-14 pt-14">{props?.children}</div>
         </main>
       </>
     );

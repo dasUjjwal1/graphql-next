@@ -48,3 +48,10 @@ export const GET_ALL_ORGANIZATION = gql`
     }
   }
 `;
+export const UPDATE_ORGANIZATION_DETAILS = gql`
+  mutation UpdateOrganizationDetails($body: OrganizationDetailsRegisterInput!) {
+    updateOrganizationDetails(body: $body) {
+      message
+    }
+  }
+`;

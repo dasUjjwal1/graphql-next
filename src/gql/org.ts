@@ -88,3 +88,8 @@ export const GET_ALL_ROLE = gql`
     }
   }
 `;
+export const UPDATE_ROLE = gql`
+  mutation UpdateRoleById($body: RoleInput!) {
+    updateRoleById(body: $body)
+  }
+`;

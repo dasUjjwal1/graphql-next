@@ -1,7 +1,6 @@
 "use client";
 import {
   DotsVerticalIcon,
-  Pencil1Icon,
   PlusCircledIcon,
   TrashIcon,
 } from "@radix-ui/react-icons";
@@ -28,12 +27,9 @@ import {
 } from "../../ui/dropdown-menu";
 import { DrawerTrigger } from "../../ui/drawer";
 import CreateOrganization from "./CreateOrganization";
-import {
-  GetAllOrganizationDocument,
-  GetAllOrganizationQuery,
-} from "@/graphql/graphql";
+import { GetAllOrganizationQuery } from "@/graphql/graphql";
 import { useQuery } from "@apollo/client";
-import { Loader2, RotateCcw } from "lucide-react";
+import { Edit2, Edit3, Loader2, RotateCcw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import {
   Select,
@@ -45,10 +41,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AppConfig } from "@/config/appConfig";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { GET_ALL_ORGANIZATION } from "@/gql/orgDetails";
 import { useAdminAuthStore } from "../AuthContext";
+import Link from "next/link";
 const Organization = () => {
   const { token } = useAdminAuthStore((state) => state);
 
@@ -99,26 +96,12 @@ const Organization = () => {
     }),
     columnHelper.accessor("orgType", {
       header: () => "Org-Type",
-      cell: (info) => (
-        <Select
-          open={false}
-          defaultValue={info.getValue() ? info.getValue()?.toString() : "0"}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a fruit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Not Selected</SelectLabel>
-              {AppConfig.ORGANIZATION_TYPE.map((item) => (
-                <SelectItem key={item.value} value={item.value.toString()}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      ),
+      cell: (info) => {
+        const value = AppConfig.ORGANIZATION_TYPE.find(
+          (item) => item.value === info.getValue()
+        )?.label;
+        return value ?? "";
+      },
     }),
     columnHelper.accessor("isActive", {
       header: () => "Status",
@@ -132,7 +115,7 @@ const Organization = () => {
     columnHelper.display({
       id: "actions",
       header: "Edit",
-      cell: (props) => (
+      cell: (info) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost">
@@ -140,16 +123,12 @@ const Organization = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <Button
-              onClick={() => {
-                setModal(true);
-              }}
-              variant={"ghost"}
-              className="flex items-center justify-start gap-3 text-sm w-full"
+            <Link
+              className="px-3 py-1 flex items-center flex-row gap-2"
+              href={`/admin/organization/${info.row.index}`}
             >
-              <Pencil1Icon />
-              Preview & Update
-            </Button>
+              <Edit3 className="w-4 h-4" /> Preview & Update
+            </Link>
             <DropdownMenuSeparator />
             <Button
               onClick={() => {}}
@@ -178,7 +157,7 @@ const Organization = () => {
     </DrawerTrigger>
   );
   return (
-    <div className="container">
+    <div className="p-3">
       <div className="flex items-center justify-between">
         <Button onClick={() => refetch()}>
           <RotateCcw className="w-4 h-4" />
