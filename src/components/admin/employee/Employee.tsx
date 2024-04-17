@@ -127,23 +127,10 @@ const EmployeeComponent = () => {
         header: () => "Role",
         cell: (info) => {
           const role = adminAuth?.roles ?? [];
-          return (
-            <Select open={false} defaultValue={info.getValue()}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a fruit" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Role</SelectLabel>
-                  {role.map((item) => (
-                    <SelectItem key={item.id} value={item.id}>
-                      {item.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+          const roleName = role.find((item) =>
+            item.id?.includes(info.getValue())
           );
+          return roleName ? roleName?.name : "";
         },
       }),
     ],
@@ -177,7 +164,7 @@ const EmployeeComponent = () => {
     );
   };
   return (
-    <div className="container">
+    <div className="p-3">
       <div className="flex items-center justify-between">
         <Select
           onValueChange={(e) => {

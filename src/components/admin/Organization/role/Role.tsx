@@ -151,7 +151,7 @@ const RoleComponent = () => {
   });
   return (
     <>
-      <div className="container">
+      <div className="p-3">
         <div className="flex items-center justify-between">
           <Button
             onClick={() => {

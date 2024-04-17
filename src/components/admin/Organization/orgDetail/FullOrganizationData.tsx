@@ -87,7 +87,7 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
             />
           </CardHeader>
           <CardContent className="grid grid-cols-12 gap-4">
-            <div className="col-span-3 bg-violet-200 border border-violet-300 text-violet-900 p-3 rounded-lg">
+            <div className="col-span-3 bg-violet-100 border border-violet-200 text-violet-900 p-3 rounded-lg">
               <CardTitle className="text-sm ">Start time</CardTitle>
               <CardDescription>
                 {addMinutes(
@@ -96,7 +96,7 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
                 ).toLocaleTimeString()}
               </CardDescription>
             </div>
-            <div className="col-span-3 bg-blue-200 border border-blue-300  text-blue-800 rounded-lg p-3">
+            <div className="col-span-3 bg-blue-100 border border-blue-200  text-blue-800 rounded-lg p-3">
               <CardTitle className="text-sm">End time</CardTitle>
               <CardDescription>
                 {addMinutes(
@@ -105,14 +105,14 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
                 ).toLocaleTimeString()}
               </CardDescription>
             </div>
-            <div className="col-span-3 bg-slate-200 border border-slate-300 rounded-lg p-3">
-              <CardTitle className="text-sm text-bg-slate-800">
+            <div className="col-span-3 bg-sky-100 border border-sky-200 rounded-lg p-3">
+              <CardTitle className="text-sm text-sky-500">
                 Working days
               </CardTitle>
               <CardDescription>Mon - Fri</CardDescription>
             </div>
-            <div className="col-span-3 bg-green-200 border border-green-300 rounded-lg p-3">
-              <CardTitle className="text-sm text-green-950">
+            <div className="col-span-3 bg-green-100 border border-green-200 rounded-lg p-3">
+              <CardTitle className="text-sm text-green-600">
                 Working Model
               </CardTitle>
               <CardDescription>
@@ -123,13 +123,19 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
             {/* <h3 className="col-span-12 font-semibold pl-2 border-l-8 border-primary">
               Other Details
             </h3> */}
-            <div className="col-span-3 bg-blue-200 border border-blue-300 p-3 rounded-lg">
-              <CardTitle className="text-blue-800 text-sm">
+            <div className="col-span-3 bg-blue-100 border border-blue-200 p-3 rounded-lg">
+              <CardTitle className="text-blue-500 text-sm">
                 Estimated Employee
               </CardTitle>
               <CardDescription>{orgData?.employeeCount ?? "-"}</CardDescription>
             </div>
-            <div className="col-span-3 bg-purple-200 border border-purple-300 p-3 rounded-lg">
+            <div className="col-span-3 bg-cyan-50 border border-cyan-200 p-3 rounded-lg">
+              <CardTitle className="text-cyan-600 text-sm">
+                Contact No.
+              </CardTitle>
+              <CardDescription>{orgData?.orgContact ?? "-"}</CardDescription>
+            </div>
+            <div className="col-span-3 bg-purple-100 border border-purple-300 p-3 rounded-lg">
               <CardTitle className="text-purple-800 text-sm">
                 Organization Type
               </CardTitle>
@@ -138,12 +144,6 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
                   (eml) => eml.value === orgData?.orgType
                 )?.label ?? "-"}
               </CardDescription>{" "}
-            </div>
-            <div className="col-span-3 bg-cyan-100 border border-cyan-200 p-3 rounded-lg">
-              <CardTitle className="text-bg-cyan-800 text-sm">
-                Contact No.
-              </CardTitle>
-              <CardDescription>{orgData?.orgContact ?? "-"}</CardDescription>
             </div>
           </CardContent>
         </Card>
