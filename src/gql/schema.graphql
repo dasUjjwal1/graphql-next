@@ -39,6 +39,7 @@ type Employee {
   employeeRole: String
   employeeId: String
   employeeStatus: Boolean
+  employeeDob: NaiveDate
   accountNo: String
   bankName: String
   ifscCode: String
@@ -67,8 +68,19 @@ type EmployeeAttendance {
   employeeId: Int!
   orgId: String!
   clockIn: DateTime!
+  latitude: Float
+  longitude: Float
+  isRemote: Boolean
   clockOut: DateTime
   createdAt: NaiveDate!
+}
+
+input EmployeeAttendanceUpdateInput {
+  latitude: Float
+  longitude: Float
+  isRemote: Boolean
+  clockIn: DateTime
+  clockOut: DateTime
 }
 
 input EmployeeLoginInput {
@@ -85,8 +97,8 @@ input EmployeeRegisterInput {
 }
 
 input GetAttendanceByDates {
-  startDate: DateTime
-  endDate: DateTime
+  startDate: NaiveDate
+  endDate: NaiveDate
 }
 
 type GetEmployeeByOrgIdResponse {
@@ -122,6 +134,7 @@ type LoginResponse {
   employeeStatus: Boolean
   accountNo: String
   bankName: String
+  employeeDob: NaiveDate
   ifscCode: String
   country: Int
   isDelete: Boolean
@@ -140,7 +153,7 @@ type LoginResponse {
 type Mutation {
   createEmployee(body: EmployeeRegisterInput!): Int!
   createPermission(body: EmployeeAccess!): SuccessMessage!
-  createAttendance: EmployeeAttendance!
+  createAttendance(body: EmployeeAttendanceUpdateInput!): EmployeeAttendance!
   updateAttendance(attendanceId: Int!): EmployeeAttendance!
   createOrganization(body: OrganizationRegister!): OrganizationResponse!
   createRole(body: RoleInput!): String!
@@ -151,6 +164,12 @@ type Mutation {
   ): SuccessMessage!
   updateOrganizationDetails(
     body: OrganizationDetailsRegisterInput!
+  ): SuccessMessage!
+  updateOrganizationDetailsAttendancePolicy(
+    body: OrganizationAttendancePolicyInput!
+  ): SuccessMessage!
+  updateOrganizationDetailsLeavePolicy(
+    body: OrganizationLeavePolicyInput!
   ): SuccessMessage!
 }
 
@@ -181,6 +200,16 @@ type OrgHoliday {
   date: DateTime
 }
 
+input OrganizationAttendancePolicyInput {
+  id: ObjectId
+  remoteClockIn: Boolean
+  locationRequired: Boolean
+  gracePeriod: Int
+  latitude: Float
+  longitude: Float
+  applyToAll: Boolean
+}
+
 type OrganizationDetails {
   id: ObjectId
   orgName: String!
@@ -189,7 +218,7 @@ type OrganizationDetails {
   lastSubscribe: DateTime!
   latitude: Float
   longitude: Float
-  workingModel: WorkingModel
+  workingModel: Int
   address: OrgAddress
   employeeCount: Int!
   orgType: Int
@@ -205,6 +234,11 @@ type OrganizationDetails {
   department: Int
   notWorkingDays: [Int!]
   orgContact: String
+  paidLeavePm: Int
+  sickLeavePm: Int
+  remoteClockIn: Boolean
+  locationRequired: Boolean
+  gracePeriod: Int
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -220,6 +254,14 @@ input OrganizationDetailsRegisterInput {
   startTime: Int!
   endTime: Int!
   workingModel: WorkingModel
+}
+
+input OrganizationLeavePolicyInput {
+  id: ObjectId
+  totalLeaveCount: Int
+  paidLeavePm: Int
+  sickLeavePm: Int
+  applyToAll: Boolean
 }
 
 input OrganizationLogin {

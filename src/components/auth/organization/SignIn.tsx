@@ -38,10 +38,6 @@ function AdminSignIn() {
     LoginOrganizationQueryVariables
   >(LOG_IN_ORGANIZATION, {
     onCompleted: (data) => {
-      sessionStorage.setItem(
-        AppConfig.CREDENTIAL,
-        JSON.stringify(data?.loginOrganization?.token)
-      );
       setDetails(data?.loginOrganization);
     },
     onError(error) {

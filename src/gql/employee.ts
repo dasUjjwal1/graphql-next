@@ -86,12 +86,15 @@ export const GET_ATTENDANCE_BY_DATE = gql`
   }
 `;
 export const CLOCK_IN = gql`
-  mutation CreateAttendance {
-    createAttendance {
+  mutation CreateAttendance($body: EmployeeAttendanceUpdateInput!) {
+    createAttendance(body: $body) {
       id
       employeeId
       orgId
       clockIn
+      latitude
+      longitude
+      isRemote
       clockOut
       createdAt
     }
@@ -104,6 +107,9 @@ export const UPDATE_ATTENDANCE = gql`
       employeeId
       orgId
       clockIn
+      latitude
+      longitude
+      isRemote
       clockOut
       createdAt
     }

@@ -49,12 +49,15 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
   if (orgData) {
     return (
       <div className="px-3">
-        <Link
-          className="p-3 flex items-center gap-2"
-          href={"/admin/organization"}
-        >
-          <ArrowLeft className="h-5 w-5" /> Back
-        </Link>
+        <div className="flex pb-3">
+          <Link
+            className="py-1 px-4 flex items-center gap-2"
+            href={"/admin/organization"}
+          >
+            <ArrowLeft className="bg-blue-300 border border-blue-400 text-blue-800 rounded-full p-1" />
+            Back
+          </Link>
+        </div>
 
         <Card className="bg-blue-50 rounded-lg">
           <CardHeader className="flex flex-row items-baseline justify-between">
@@ -84,7 +87,7 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
             />
           </CardHeader>
           <CardContent className="grid grid-cols-12 gap-4">
-            <div className="col-span-3 bg-violet-200 text-violet-900 p-3 rounded-lg">
+            <div className="col-span-3 bg-violet-200 border border-violet-300 text-violet-900 p-3 rounded-lg">
               <CardTitle className="text-sm ">Start time</CardTitle>
               <CardDescription>
                 {addMinutes(
@@ -93,7 +96,7 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
                 ).toLocaleTimeString()}
               </CardDescription>
             </div>
-            <div className="col-span-3 bg-blue-200  text-blue-800 rounded-lg p-3">
+            <div className="col-span-3 bg-blue-200 border border-blue-300  text-blue-800 rounded-lg p-3">
               <CardTitle className="text-sm">End time</CardTitle>
               <CardDescription>
                 {addMinutes(
@@ -102,13 +105,13 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
                 ).toLocaleTimeString()}
               </CardDescription>
             </div>
-            <div className="col-span-3 bg-slate-200 rounded-lg p-3">
+            <div className="col-span-3 bg-slate-200 border border-slate-300 rounded-lg p-3">
               <CardTitle className="text-sm text-bg-slate-800">
                 Working days
               </CardTitle>
               <CardDescription>Mon - Fri</CardDescription>
             </div>
-            <div className="col-span-3 bg-green-200 rounded-lg p-3">
+            <div className="col-span-3 bg-green-200 border border-green-300 rounded-lg p-3">
               <CardTitle className="text-sm text-green-950">
                 Working Model
               </CardTitle>
@@ -120,13 +123,13 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
             {/* <h3 className="col-span-12 font-semibold pl-2 border-l-8 border-primary">
               Other Details
             </h3> */}
-            <div className="col-span-3 bg-blue-200 p-3 rounded-lg">
+            <div className="col-span-3 bg-blue-200 border border-blue-300 p-3 rounded-lg">
               <CardTitle className="text-blue-800 text-sm">
                 Estimated Employee
               </CardTitle>
               <CardDescription>{orgData?.employeeCount ?? "-"}</CardDescription>
             </div>
-            <div className="col-span-3 bg-purple-200 p-3 rounded-lg">
+            <div className="col-span-3 bg-purple-200 border border-purple-300 p-3 rounded-lg">
               <CardTitle className="text-purple-800 text-sm">
                 Organization Type
               </CardTitle>
@@ -136,8 +139,10 @@ const FullOrganizationData = ({ orgIndex }: { orgIndex: number }) => {
                 )?.label ?? "-"}
               </CardDescription>{" "}
             </div>
-            <div className="col-span-3 bg-gray-200 p-3 rounded-lg">
-              <CardTitle className="text-gray-800">Contact No.</CardTitle>
+            <div className="col-span-3 bg-cyan-100 border border-cyan-200 p-3 rounded-lg">
+              <CardTitle className="text-bg-cyan-800 text-sm">
+                Contact No.
+              </CardTitle>
               <CardDescription>{orgData?.orgContact ?? "-"}</CardDescription>
             </div>
           </CardContent>
