@@ -1,61 +1,70 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
 type MenuItems = {
   id?: string;
   label?: string;
   path: string;
   icon?: string[];
+  child?: MenuItems[];
 };
 type Props = {
   menu: MenuItems[];
 };
 export default function Navbar(props: Props) {
   const pathName = usePathname();
+  console.log(props.menu);
   return (
     <>
-      <nav className="bg-primary text-primary-foreground min-h-screen h-full fixed left-0 pt-16 px-2 overflow-y-auto shadow-md border-r">
-        <ul className="h-full flex flex-col gap-3 w-10 p-0">
+      <nav className="bg-[#212529] text-primary-foreground min-h-screen h-full fixed left-0 pt-16 px-2 overflow-y-auto shadow-md border-r">
+        <ul className="h-full flex flex-col gap-3 w-60 p-0">
           {props?.menu?.map((item) => (
-            <li className={"flex items-center justify-center "} key={item?.id}>
-              <TooltipProvider>
+            <li key={item?.id}>
+              {item?.child ? (
+                item?.child?.map((elm) => (
+                  <Link
+                    href={elm.path}
+                    key={elm.id}
+                    as={elm.path}
+                    className={`flex items-center w-full gap-2 text-zinc-400 py-2`}
+                  >
+                    <span className="text-sm">{elm.label}</span>
+                  </Link>
+                ))
+              ) : (
+                <Link
+                  href={item.path}
+                  as={item.path}
+                  className={`flex items-center w-full gap-2 text-zinc-400 py-2`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="w-5 h-5"
+                    strokeWidth="1.6"
+                    stroke="currentColor"
+                  >
+                    {item?.icon?.map((elm, index) => (
+                      <path
+                        key={index}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d={elm}
+                      />
+                    ))}
+                  </svg>
+                  <span className="text-sm">{item.label}</span>
+                </Link>
+              )}
+              {/* <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger>
-                    <Link
-                      href={item.path}
-                      as={item.path}
-                      className={`flex items-center ${
-                        pathName === item.path && " dark:bg-[#282d2e]"
-                      } rounded-xl h-10 w-10 justify-center hover:bg-[#1f233f]`}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        className="w-5 h-5"
-                        strokeWidth="1.6"
-                        stroke="currentColor"
-                      >
-                        {item?.icon?.map((elm, index) => (
-                          <path
-                            key={index}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d={elm}
-                          />
-                        ))}
-                      </svg>
-                    </Link>
-                  </TooltipTrigger>
+                  <TooltipTrigger> */}
+
+              {/* </TooltipTrigger>
                   <TooltipContent side="right">{item.label}</TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
+              </TooltipProvider> */}
             </li>
           ))}
         </ul>
