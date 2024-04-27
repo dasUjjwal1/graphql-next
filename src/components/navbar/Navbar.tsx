@@ -16,8 +16,8 @@ export default function Navbar(props: Props) {
   console.log(props.menu);
   return (
     <>
-      <nav className="bg-[#212529] text-primary-foreground min-h-screen h-full fixed left-0 pt-16 px-2 overflow-y-auto shadow-md border-r">
-        <ul className="h-full flex flex-col gap-3 w-60 p-0">
+      <nav className="min-h-screen h-full fixed left-0 pt-16 px-2 overflow-y-auto shadow-sm border-r">
+        <ul className="h-full flex flex-col gap-3 w-52 p-0">
           {props?.menu?.map((item) => (
             <li key={item?.id}>
               {item?.child ? (
@@ -26,7 +26,7 @@ export default function Navbar(props: Props) {
                     href={elm.path}
                     key={elm.id}
                     as={elm.path}
-                    className={`flex items-center w-full gap-2 text-zinc-400 py-2`}
+                    className={`flex items-center w-full gap-2 text-gray-700 font-semibold py-2`}
                   >
                     <span className="text-sm">{elm.label}</span>
                   </Link>
@@ -35,7 +35,7 @@ export default function Navbar(props: Props) {
                 <Link
                   href={item.path}
                   as={item.path}
-                  className={`flex items-center w-full gap-2 text-zinc-400 py-2`}
+                  className={`flex items-center w-full gap-2 text-gray-700 font-semibold py-2`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
