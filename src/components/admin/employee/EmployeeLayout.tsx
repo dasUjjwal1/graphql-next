@@ -5,23 +5,20 @@ import { ReactNode } from "react";
 const EmployeeLayout = ({ children }: { children: ReactNode }) => {
   const menu = [
     { label: "Employee", path: "/admin/employee" },
-    { label: "Employee Tree", path: "/admin/employee/view" },
+    { label: "Department", path: "/admin/employee/department" },
     { label: "Policies", path: "/admin/employee/policy" },
   ];
   const pathName = usePathname();
   return (
     <>
-      <div
-        className="px-3 mb-3 bg-[#f6f7fe] border-[#e5e7f8] border-b"
-        style={{ boxShadow: "0 2px 6px -2px rgba(0,106,194,0.2)" }}
-      >
+      <div className="px-3 mb-3 bg-muted border-b">
         <ul className="flex gap-2">
           {menu.map((item, index) => (
             <li
               className={`px-4 py-2 ${
                 pathName === item.path &&
-                "text-primary dark:text-blue-100 border-b-4"
-              }  border-primary font-bold`}
+                "text-primary border-primary border-b-2"
+              } font-bold`}
               key={index.toString()}
             >
               <Link className="text-sm" href={item.path}>
