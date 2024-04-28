@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import { CREATE_EMPLOYEE_CREDENTIAL } from "@/gql/employee";
-import { GET_ALL_ROLE } from "@/gql/org";
+import { GET_ALL_ROLE } from "@/gql/user";
 import {
   CreateEmployeeMutation,
   CreateEmployeeMutationVariables,

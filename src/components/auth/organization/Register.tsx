@@ -20,17 +20,18 @@ import {
   SelectValue,
 } from "../../ui/select";
 import { useMutation } from "@apollo/client";
-import { REGISTER_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useToast } from "../../ui/use-toast";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import {
-  CreateOrganizationMutation,
-  CreateOrganizationMutationVariables,
-} from "@/graphql/graphql";
+
 import { useAdminAuthStore } from "@/components/admin/AuthContext";
+import {
+  CreateUserDocument,
+  CreateUserMutation,
+  CreateUserMutationVariables,
+} from "@/graphql/graphql";
 function AdminRegister() {
   const { setDetails } = useAdminAuthStore((state) => state);
 
@@ -44,15 +45,15 @@ function AdminRegister() {
     location: Yup.string().required("This field is required"),
   });
   const [mutation, { loading }] = useMutation<
-    CreateOrganizationMutation,
-    CreateOrganizationMutationVariables
-  >(REGISTER_ORGANIZATION, {
+    CreateUserMutation,
+    CreateUserMutationVariables
+  >(CreateUserDocument, {
     onCompleted: (data) => {
       sessionStorage.setItem(
         AppConfig.CREDENTIAL,
-        JSON.stringify(data?.createOrganization?.token)
+        JSON.stringify(data?.createUser?.token)
       );
-      setDetails(data?.createOrganization);
+      setDetails(data?.createUser);
     },
     onError(error) {
       toast({

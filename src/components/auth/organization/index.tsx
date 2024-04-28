@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "../../ui/button";
 import AdminRegister from "./Register";
-import AdminSignIn from "./SignIn";
+// import AdminSignIn from "./SignIn";
 import {
   Card,
   CardContent,
@@ -20,7 +20,7 @@ function AdminAuth() {
             <>
               <CardHeader>
                 <CardTitle className="text-3xl">
-                  Create new account<span className={"text-blue-600"}>.</span>
+                  Create new account<span className={"text-primary"}>.</span>
                 </CardTitle>
                 <CardDescription>Enter basic details</CardDescription>
               </CardHeader>
@@ -43,7 +43,7 @@ function AdminAuth() {
                 <CardDescription>Enter email & password</CardDescription>
               </CardHeader>
               <CardContent>
-                <AdminSignIn />
+                {/* <AdminSignIn /> */}
                 <p className="text-sm text-muted-foreground text-center">
                   Don`t have any account?
                   <Button onClick={() => setLogin("register")} variant={"link"}>

@@ -11,17 +11,11 @@ import {
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { LOG_IN_ORGANIZATION } from "@/gql/org";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
 import { useToast } from "../../ui/use-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import {
-  LoginOrganizationQuery,
-  LoginOrganizationQueryVariables,
-  OrganizationLogin,
-} from "@/graphql/graphql";
 import { useAdminAuthStore } from "@/components/admin/AuthContext";
 function AdminSignIn() {
   const { setDetails } = useAdminAuthStore((state) => state);
