@@ -28,8 +28,8 @@ export default function Navbar(props: Props) {
   const checkActivePath = useActivePath();
   return (
     <>
-      <nav className="min-h-screen h-full fixed left-0 pt-16 pr-2 overflow-y-auto shadow-sm border-r">
-        <ul className="h-full flex flex-col gap-3 w-52 p-0">
+      <nav className="min-h-screen h-full fixed left-0 pt-16 pr-2 overflow-y-auto border-r w-56">
+        <ul className="h-full flex flex-col gap-3 p-0">
           {props?.menu?.map((item) => (
             <li key={item?.id}>
               <Link
