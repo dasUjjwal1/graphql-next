@@ -26,6 +26,14 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+// import AddDepartment from "./AddDepartment";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const DepartmentList = () => {
   const columnHelper = createColumnHelper<any>();
@@ -80,6 +88,19 @@ const DepartmentList = () => {
   });
   return (
     <>
+      <div className="w-full flex items-center justify-between">
+        <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Theme" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="light">Light</SelectItem>
+            <SelectItem value="dark">Dark</SelectItem>
+            <SelectItem value="system">System</SelectItem>
+          </SelectContent>
+        </Select>
+        {/* <AddDepartment /> */}
+      </div>
       <Table className="mt-3 w-full">
         <TableHeader>
           {table.getHeaderGroups()?.map((headerGroup) => (

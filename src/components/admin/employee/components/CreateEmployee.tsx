@@ -61,7 +61,7 @@ const CreateEmployeeCredential = ({
         description: data.createEmployee,
         variant: "default",
       });
-      refetch && refetch();
+      c;
     },
     onError(error, clientOptions) {
       toast({
