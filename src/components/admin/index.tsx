@@ -21,13 +21,13 @@ const AdminIndexPage = (props: Props) => {
       effect = false;
     };
   }, []);
-  if (token) {
+  if (!token) {
     return (
       <>
         <TopBar />
         <main className="flex h-full flex-grow">
           <AdminNavbar />
-          <div className="flex-grow ml-14 pt-14">{props?.children}</div>
+          <div className="flex-grow ml-56 pt-14">{props?.children}</div>
         </main>
       </>
     );

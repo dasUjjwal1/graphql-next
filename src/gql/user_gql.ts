@@ -1,20 +1,23 @@
-import { gql } from "@apollo/client";
+import { graphql } from "@/graphql";
 
-export const REGISTER_ORGANIZATION = gql`
-  mutation CreateOrganization($body: OrganizationRegister!) {
-    createOrganization(body: $body) {
+export const CreateUser = graphql(`
+  mutation CreateUser($body: UserRegister!) {
+    createUser(body: $body) {
       name
       email
       isActive
       isAdmin
-      mobile
+      mobileNo
+      isDelete
+      gmtMinuteOffset
+      timeZone
       picturePath
       paymentStructure
       location
       address {
         city
         street
-        housenumber
+        houseNumber
         state
         pin
       }
@@ -34,23 +37,25 @@ export const REGISTER_ORGANIZATION = gql`
       token
     }
   }
-`;
-
-export const LOG_IN_ORGANIZATION = gql`
-  query LoginOrganization($body: OrganizationLogin!) {
-    loginOrganization(body: $body) {
+`);
+export const LoginUser = graphql(`
+  query LoginUser($body: UserLogin!) {
+    loginUser(body: $body) {
       name
       email
       isActive
       isAdmin
-      mobile
+      mobileNo
+      isDelete
+      gmtMinuteOffset
+      timeZone
       picturePath
       paymentStructure
       location
       address {
         city
         street
-        housenumber
+        houseNumber
         state
         pin
       }
@@ -70,26 +75,4 @@ export const LOG_IN_ORGANIZATION = gql`
       token
     }
   }
-`;
-
-export const CREATE_ROLE = gql`
-  mutation CreateRole($body: RoleInput!) {
-    createRole(body: $body)
-  }
-`;
-
-export const GET_ALL_ROLE = gql`
-  query GetAllRole {
-    getAllRole {
-      id
-      name
-      parent
-      access
-    }
-  }
-`;
-export const UPDATE_ROLE = gql`
-  mutation UpdateRoleById($body: RoleInput!) {
-    updateRoleById(body: $body)
-  }
-`;
+`);

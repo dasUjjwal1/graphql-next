@@ -1,11 +1,13 @@
 import EmployeeComponent from "@/components/admin/employee/Employee";
+import Layout from "./layout";
 
-const Employee = () => {
+const Page = () => {
   return (
     <>
       <EmployeeComponent />
     </>
   );
 };
+Page.getLayout = (page: any) => <Layout>{page}</Layout>;
 
-export default Employee;
+export default Page;

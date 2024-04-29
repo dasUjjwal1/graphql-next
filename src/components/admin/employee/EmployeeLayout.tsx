@@ -2,11 +2,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
-const OrgLayout = ({ children }: { children: ReactNode }) => {
+const EmployeeLayout = ({ children }: { children: ReactNode }) => {
   const menu = [
-    { label: "Organization", path: "/admin/organization" },
-    { label: "Role", path: "/admin/organization/role" },
-    { label: "Attendance", path: "/admin/organization/attendance" },
+    { label: "Employee", path: "/admin/employee" },
+    { label: "Department", path: "/admin/employee/department" },
+    { label: "Policies", path: "/admin/employee/policy" },
   ];
   const pathName = usePathname();
   return (
@@ -33,4 +33,4 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default OrgLayout;
+export default EmployeeLayout;

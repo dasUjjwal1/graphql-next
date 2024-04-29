@@ -13,7 +13,7 @@ import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Login } from "@/types/authType";
-import { LOG_IN_ORGANIZATION } from "@/gql/org";
+import { LOG_IN_ORGANIZATION } from "@/gql/user";
 import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
 import {

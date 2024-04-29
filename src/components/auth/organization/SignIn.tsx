@@ -11,18 +11,12 @@ import {
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { LOG_IN_ORGANIZATION } from "@/gql/org";
-import { AppConfig } from "@/config/appConfig";
 import { useLazyQuery } from "@apollo/client";
 import { useToast } from "../../ui/use-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import {
-  LoginOrganizationQuery,
-  LoginOrganizationQueryVariables,
-  OrganizationLogin,
-} from "@/graphql/graphql";
 import { useAdminAuthStore } from "@/components/admin/AuthContext";
+import { LoginUserDocument, UserLogin } from "@/graphql/graphql";
 function AdminSignIn() {
   const { setDetails } = useAdminAuthStore((state) => state);
 
@@ -33,12 +27,9 @@ function AdminSignIn() {
       .required("This field is required"),
     password: Yup.string().required("This field is required"),
   }).required();
-  const [mutation, { loading }] = useLazyQuery<
-    LoginOrganizationQuery,
-    LoginOrganizationQueryVariables
-  >(LOG_IN_ORGANIZATION, {
+  const [mutation, { loading }] = useLazyQuery(LoginUserDocument, {
     onCompleted: (data) => {
-      setDetails(data?.loginOrganization);
+      setDetails(data?.loginUser);
     },
     onError(error) {
       toast({
@@ -48,7 +39,7 @@ function AdminSignIn() {
       });
     },
   });
-  const form = useForm<OrganizationLogin>({
+  const form = useForm<UserLogin>({
     defaultValues: {
       email: "",
       password: "",
@@ -56,7 +47,7 @@ function AdminSignIn() {
     resolver: yupResolver(validationSchema),
   });
 
-  function onSubmit(value: OrganizationLogin) {
+  function onSubmit(value: UserLogin) {
     mutation({ variables: { body: value } });
   }
   return (
@@ -65,14 +56,13 @@ function AdminSignIn() {
         <form
           autoComplete={"off"}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-3"
+          className="space-y-4"
         >
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder="Email" {...field} />
                 </FormControl>
@@ -85,7 +75,6 @@ function AdminSignIn() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
