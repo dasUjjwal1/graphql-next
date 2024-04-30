@@ -107,7 +107,12 @@ const DepartmentList = () => {
             <TableRow key={headerGroup.id}>
               {headerGroup.headers?.map((header, index) => {
                 return (
-                  <TableHead className="px-4 text-right" key={header.id}>
+                  <TableHead
+                    className={
+                      "px-4 " + (index === 0 ? "text-left" : "text-right")
+                    }
+                    key={header.id}
+                  >
                     {!header.isPlaceholder &&
                       flexRender(
                         header.column.columnDef.header,

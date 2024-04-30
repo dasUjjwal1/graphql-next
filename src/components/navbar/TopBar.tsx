@@ -17,7 +17,7 @@ const TopBar = () => {
       <div className="px-4 w-full flex items-center gap-4 justify-end">
         <div className="flex w-full max-w-sm items-center space-x-2">
           <Input type="email" placeholder="Email" />
-          <Button type="submit">
+          <Button type="submit" className="bg-primary-foreground">
             <SearchIcon className="w-4 h-4" />
           </Button>
         </div>
