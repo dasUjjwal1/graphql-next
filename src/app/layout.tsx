@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Cabin } from "next/font/google";
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
 import { ReactNode } from "react";
 import { ThemeProvider } from "@/provider/ThemeProvider";
 import ApolloGqlProvider from "@/provider/ApolloProvider";
@@ -16,17 +14,11 @@ export const fontSans = Cabin({
 });
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        <ThemeProvider attribute="class" defaultTheme="light">
+    <html lang="en" className="dark">
+      <body>
+        <ThemeProvider>
           <ApolloGqlProvider>{children}</ApolloGqlProvider>
         </ThemeProvider>
-        <Toaster />
       </body>
     </html>
   );
