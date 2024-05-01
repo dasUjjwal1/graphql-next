@@ -89,7 +89,7 @@ const DepartmentList = () => {
   return (
     <>
       <div className="w-full flex items-center justify-between">
-        <Select>
+        {/* <Select>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Theme" />
           </SelectTrigger>
@@ -98,7 +98,7 @@ const DepartmentList = () => {
             <SelectItem value="dark">Dark</SelectItem>
             <SelectItem value="system">System</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
         {/* <AddDepartment /> */}
       </div>
       <Table className="mt-3 w-full">

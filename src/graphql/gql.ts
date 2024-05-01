@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  mutation AddDepartment($body: DepartmentCreateInput!) {\n    addDepartment(body: $body) {\n      message\n    }\n  }\n": types.AddDepartmentDocument,
+    "\n  query GetAllDepartmentByOrgId($getAllDepartmentByOrgIdId: ObjectId!) {\n    getAllDepartmentByOrgId(id: $getAllDepartmentByOrgIdId) {\n      id\n      name\n    }\n  }\n": types.GetAllDepartmentByOrgIdDocument,
     "\n  mutation CreateUser($body: UserRegister!) {\n    createUser(body: $body) {\n      name\n      email\n      isActive\n      isAdmin\n      mobileNo\n      isDelete\n      gmtMinuteOffset\n      timeZone\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        houseNumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        parent\n        access\n      }\n      verification {\n        identityProof\n        addressProof\n      }\n      lastSubscribe\n      createdAt\n      updatedAt\n      token\n    }\n  }\n": types.CreateUserDocument,
     "\n  query LoginUser($body: UserLogin!) {\n    loginUser(body: $body) {\n      name\n      email\n      isActive\n      isAdmin\n      mobileNo\n      isDelete\n      gmtMinuteOffset\n      timeZone\n      picturePath\n      paymentStructure\n      location\n      address {\n        city\n        street\n        houseNumber\n        state\n        pin\n      }\n      roles {\n        id\n        name\n        parent\n        access\n      }\n      verification {\n        identityProof\n        addressProof\n      }\n      lastSubscribe\n      createdAt\n      updatedAt\n      token\n    }\n  }\n": types.LoginUserDocument,
 };
@@ -36,6 +37,10 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation AddDepartment($body: DepartmentCreateInput!) {\n    addDepartment(body: $body) {\n      message\n    }\n  }\n"): (typeof documents)["\n  mutation AddDepartment($body: DepartmentCreateInput!) {\n    addDepartment(body: $body) {\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetAllDepartmentByOrgId($getAllDepartmentByOrgIdId: ObjectId!) {\n    getAllDepartmentByOrgId(id: $getAllDepartmentByOrgIdId) {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  query GetAllDepartmentByOrgId($getAllDepartmentByOrgIdId: ObjectId!) {\n    getAllDepartmentByOrgId(id: $getAllDepartmentByOrgIdId) {\n      id\n      name\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

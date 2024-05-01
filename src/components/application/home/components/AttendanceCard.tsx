@@ -11,25 +11,14 @@ import {
 } from "../../../ui/card";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-  CLOCK_IN,
-  GET_ATTENDANCE_BY_DATE,
-  UPDATE_ATTENDANCE,
-} from "@/gql/employee";
+
 import {
   startOfWeek,
   isToday,
   differenceInMinutes,
   lightFormat,
 } from "date-fns";
-import {
-  CreateAttendanceMutation,
-  CreateAttendanceMutationVariables,
-  GetAttendanceByDateQuery,
-  GetAttendanceByDateQueryVariables,
-  UpdateAttendanceMutation,
-  UpdateAttendanceMutationVariables,
-} from "@/graphql/graphql";
+
 import { useContext, useReducer } from "react";
 import { UserAuthContext } from "../../AuthContext";
 import { toast } from "@/components/ui/use-toast";
@@ -93,117 +82,117 @@ const AttendanceCard = () => {
     },
   };
   const monday = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const { data, refetch } = useQuery<
-    GetAttendanceByDateQuery,
-    GetAttendanceByDateQueryVariables
-  >(GET_ATTENDANCE_BY_DATE, {
-    variables: { body: { startDate: lightFormat(monday, "yyyy-MM-dd") } },
-    onCompleted(data) {
-      if (data?.getAttendanceByDate) {
-        if (data?.getAttendanceByDate?.length > 0) {
-          const attendance = data?.getAttendanceByDate[0];
-          if (isToday(new Date(attendance?.createdAt))) {
-            if (attendance?.clockOut) {
-              setClock({ type: ClockAction.DISABLE, payload: true });
-              setClock({ type: ClockAction.LABEL, payload: "Clock - In" });
-              setClock({
-                type: ClockAction.CLOCK,
-                payload: { clockIn: false, clockOut: false },
-              });
-              const todayMinDiff = differenceInMinutes(
-                new Date(attendance.clockOut),
-                new Date(attendance.clockIn)
-              );
-              setClock({
-                type: ClockAction.TODAY_TODAY,
-                payload: todayMinDiff,
-              });
-            } else {
-              const todayMinDiff = differenceInMinutes(
-                new Date(),
-                new Date(attendance.clockIn)
-              );
-              setClock({
-                type: ClockAction.TODAY_TODAY,
-                payload: todayMinDiff,
-              });
-              setClock({ type: ClockAction.LABEL, payload: "Clock - Out" });
-              setClock({
-                type: ClockAction.CLOCK,
-                payload: { clockIn: false, clockOut: true },
-              });
-            }
-          } else {
-            setClock({ type: ClockAction.DISABLE, payload: false });
-            setClock({ type: ClockAction.LABEL, payload: "Clock - In" });
-          }
-          produce(data?.getAttendanceByDate, (state) => {
-            const total = state.reduce((acc, c) => {
-              const difference = c?.clockOut
-                ? differenceInMinutes(new Date(c.clockOut), new Date(c.clockIn))
-                : 0;
-              return acc + difference;
-            }, 0);
-            setClock({ type: ClockAction.TOTAL, payload: total });
-          });
-        }
-      }
-    },
-    context,
-  });
-  const [mutation, { loading }] = useMutation<
-    CreateAttendanceMutation,
-    CreateAttendanceMutationVariables
-  >(CLOCK_IN, {
-    onCompleted(data, clientOptions) {
-      setClock({ type: ClockAction.LABEL, payload: "Clock - Out" });
-      setClock({
-        type: ClockAction.CLOCK,
-        payload: { clockIn: false, clockOut: true },
-      });
-      refetch();
-    },
-    onError(error, clientOptions) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-      });
-    },
-    context,
-  });
-  const [updateAttendanceMutation] = useMutation<
-    UpdateAttendanceMutation,
-    UpdateAttendanceMutationVariables
-  >(UPDATE_ATTENDANCE, {
-    onCompleted(data) {
-      setClock({ type: ClockAction.LABEL, payload: "Clock - Out" });
-      setClock({
-        type: ClockAction.CLOCK,
-        payload: { clockIn: false, clockOut: false },
-      });
-      setClock({ type: ClockAction.DISABLE, payload: true });
-      // const diff = differenceInMinutes(
-      //   new Date(data.updateAttendance.clockOut),
-      //   new Date(data.updateAttendance.clockIn)
-      // );
-      // const currentTime = clock.totalMinutes;
-      // setClock({ type: ClockAction.TOTAL, payload: currentTime + diff });
-      // setClock({
-      //   type: ClockAction.TODAY_TODAY,
-      //   payload: currentTime,
-      // });
-      refetch();
-    },
-    onError(error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-      });
-    },
-    context,
-  });
+  // const { data, refetch } = useQuery<
+  //   GetAttendanceByDateQuery,
+  //   GetAttendanceByDateQueryVariables
+  // >(GET_ATTENDANCE_BY_DATE, {
+  //   variables: { body: { startDate: lightFormat(monday, "yyyy-MM-dd") } },
+  //   onCompleted(data) {
+  //     if (data?.getAttendanceByDate) {
+  //       if (data?.getAttendanceByDate?.length > 0) {
+  //         const attendance = data?.getAttendanceByDate[0];
+  //         if (isToday(new Date(attendance?.createdAt))) {
+  //           if (attendance?.clockOut) {
+  //             setClock({ type: ClockAction.DISABLE, payload: true });
+  //             setClock({ type: ClockAction.LABEL, payload: "Clock - In" });
+  //             setClock({
+  //               type: ClockAction.CLOCK,
+  //               payload: { clockIn: false, clockOut: false },
+  //             });
+  //             const todayMinDiff = differenceInMinutes(
+  //               new Date(attendance.clockOut),
+  //               new Date(attendance.clockIn)
+  //             );
+  //             setClock({
+  //               type: ClockAction.TODAY_TODAY,
+  //               payload: todayMinDiff,
+  //             });
+  //           } else {
+  //             const todayMinDiff = differenceInMinutes(
+  //               new Date(),
+  //               new Date(attendance.clockIn)
+  //             );
+  //             setClock({
+  //               type: ClockAction.TODAY_TODAY,
+  //               payload: todayMinDiff,
+  //             });
+  //             setClock({ type: ClockAction.LABEL, payload: "Clock - Out" });
+  //             setClock({
+  //               type: ClockAction.CLOCK,
+  //               payload: { clockIn: false, clockOut: true },
+  //             });
+  //           }
+  //         } else {
+  //           setClock({ type: ClockAction.DISABLE, payload: false });
+  //           setClock({ type: ClockAction.LABEL, payload: "Clock - In" });
+  //         }
+  //         produce(data?.getAttendanceByDate, (state) => {
+  //           const total = state.reduce((acc, c) => {
+  //             const difference = c?.clockOut
+  //               ? differenceInMinutes(new Date(c.clockOut), new Date(c.clockIn))
+  //               : 0;
+  //             return acc + difference;
+  //           }, 0);
+  //           setClock({ type: ClockAction.TOTAL, payload: total });
+  //         });
+  //       }
+  //     }
+  //   },
+  //   context,
+  // });
+  // const [mutation, { loading }] = useMutation<
+  //   CreateAttendanceMutation,
+  //   CreateAttendanceMutationVariables
+  // >(CLOCK_IN, {
+  //   onCompleted(data, clientOptions) {
+  //     setClock({ type: ClockAction.LABEL, payload: "Clock - Out" });
+  //     setClock({
+  //       type: ClockAction.CLOCK,
+  //       payload: { clockIn: false, clockOut: true },
+  //     });
+  //     refetch();
+  //   },
+  //   onError(error, clientOptions) {
+  //     toast({
+  //       variant: "destructive",
+  //       title: "Error",
+  //       description: error.message,
+  //     });
+  //   },
+  //   context,
+  // });
+  // const [updateAttendanceMutation] = useMutation<
+  //   UpdateAttendanceMutation,
+  //   UpdateAttendanceMutationVariables
+  // >(UPDATE_ATTENDANCE, {
+  //   onCompleted(data) {
+  //     setClock({ type: ClockAction.LABEL, payload: "Clock - Out" });
+  //     setClock({
+  //       type: ClockAction.CLOCK,
+  //       payload: { clockIn: false, clockOut: false },
+  //     });
+  //     setClock({ type: ClockAction.DISABLE, payload: true });
+  //     // const diff = differenceInMinutes(
+  //     //   new Date(data.updateAttendance.clockOut),
+  //     //   new Date(data.updateAttendance.clockIn)
+  //     // );
+  //     // const currentTime = clock.totalMinutes;
+  //     // setClock({ type: ClockAction.TOTAL, payload: currentTime + diff });
+  //     // setClock({
+  //     //   type: ClockAction.TODAY_TODAY,
+  //     //   payload: currentTime,
+  //     // });
+  //     refetch();
+  //   },
+  //   onError(error) {
+  //     toast({
+  //       variant: "destructive",
+  //       title: "Error",
+  //       description: error.message,
+  //     });
+  //   },
+  //   context,
+  // });
   return (
     <Card>
       <CardHeader>
@@ -245,7 +234,7 @@ const AttendanceCard = () => {
             )}
           </CardTitle>
         </div>
-        <Button
+        {/* <Button
           onClick={() => {
             if (clock.clockIn) {
               mutation();
@@ -283,7 +272,7 @@ const AttendanceCard = () => {
             <ClockIcon />
           )}
           {clock.label}
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   );

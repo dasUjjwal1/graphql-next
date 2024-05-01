@@ -27,14 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
-import { CREATE_EMPLOYEE_CREDENTIAL } from "@/gql/employee";
-import { GET_ALL_ROLE } from "@/gql/user";
-import {
-  CreateEmployeeMutation,
-  CreateEmployeeMutationVariables,
-  EmployeeRegisterInput,
-  GetAllRoleQuery,
-} from "@/graphql/graphql";
+
 import { EmployeeCredentialFormTypes } from "@/types/appTypes";
 import { useMutation, useQuery } from "@apollo/client";
 import { ResetIcon } from "@radix-ui/react-icons";
@@ -51,41 +44,41 @@ const CreateEmployeeCredential = ({
       authorization: token,
     },
   };
-  const [mutation, { loading, error }] = useMutation<
-    CreateEmployeeMutation,
-    CreateEmployeeMutationVariables
-  >(CREATE_EMPLOYEE_CREDENTIAL, {
-    onCompleted(data, clientOptions) {
-      toast({
-        title: "Success",
-        description: data.createEmployee,
-        variant: "default",
-      });
-      c;
-    },
-    onError(error, clientOptions) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-    context,
-  });
-  const { data } = useQuery<GetAllRoleQuery>(GET_ALL_ROLE, {
-    onError(error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-    context,
-  });
-  const form = useForm<EmployeeRegisterInput>({
+  // const [mutation, { loading, error }] = useMutation<
+  //   CreateEmployeeMutation,
+  //   CreateEmployeeMutationVariables
+  // >(CREATE_EMPLOYEE_CREDENTIAL, {
+  //   onCompleted(data, clientOptions) {
+  //     toast({
+  //       title: "Success",
+  //       description: data.createEmployee,
+  //       variant: "default",
+  //     });
+  //     c;
+  //   },
+  //   onError(error, clientOptions) {
+  //     toast({
+  //       title: "Error",
+  //       description: error.message,
+  //       variant: "destructive",
+  //     });
+  //   },
+  //   context,
+  // });
+  // const { data } = useQuery<GetAllRoleQuery>(GET_ALL_ROLE, {
+  //   onError(error) {
+  //     toast({
+  //       title: "Error",
+  //       description: error.message,
+  //       variant: "destructive",
+  //     });
+  //   },
+  //   context,
+  // });
+  const form = useForm({
     defaultValues: {},
   });
-  const onSubmit = (value: EmployeeRegisterInput) => {
+  const onSubmit = (value) => {
     const role = JSON.parse(value.employeeRole as string);
     const requestBody = {
       employeeEmail: value.employeeEmail,
@@ -94,11 +87,11 @@ const CreateEmployeeCredential = ({
       employeeRole: role?.id,
       organizationId: value.organizationId,
     };
-    mutation({
-      variables: {
-        body: requestBody,
-      },
-    });
+    // mutation({
+    //   variables: {
+    //     body: requestBody,
+    //   },
+    // });
   };
 
   return (
@@ -187,11 +180,11 @@ const CreateEmployeeCredential = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {data?.getAllRole?.map((item) => (
+                      {/* {data?.getAllRole?.map((item) => (
                         <SelectItem key={item.id} value={JSON.stringify(item)}>
                           {item.name}
                         </SelectItem>
-                      ))}
+                      ))} */}
                     </SelectContent>
                   </Select>
                   <FormMessage />
