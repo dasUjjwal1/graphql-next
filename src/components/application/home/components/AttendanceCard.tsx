@@ -1,27 +1,9 @@
 "use client";
-import { ClockIcon, ReloadIcon } from "@radix-ui/react-icons";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../../../ui/card";
-import { Button } from "@/components/ui/button";
-import { useMutation, useQuery } from "@apollo/client";
-
-import {
-  startOfWeek,
-  isToday,
-  differenceInMinutes,
-  lightFormat,
-} from "date-fns";
+import { startOfWeek } from "date-fns";
 
 import { useContext, useReducer } from "react";
 import { UserAuthContext } from "../../AuthContext";
-import { toast } from "@/components/ui/use-toast";
 import { produce } from "immer";
 import AttendanceCounter from "./AttendanceCounter";
 type ClockState = {
@@ -194,87 +176,88 @@ const AttendanceCard = () => {
   //   context,
   // });
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Attendance</CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-row items-center justify-between">
-        <div>
-          <CardDescription className="mb-1">Hours Weekly</CardDescription>
-          <CardTitle className="text-xl">
-            {clock.totalMinutes ? Math.round(clock.totalMinutes / 60) : 0}H{" "}
-            {clock.totalMinutes ? clock.totalMinutes % 60 : 0}M
-          </CardTitle>
-        </div>
-        <div>
-          <CardDescription className="mb-1">On-Time Arrival</CardDescription>
-          <CardTitle className="text-xl">60%</CardTitle>
-        </div>
-      </CardContent>
+    <></>
+    // <Card>
+    //   <CardHeader>
+    //     <CardTitle>Attendance</CardTitle>
+    //   </CardHeader>
+    //   <CardContent className="flex flex-row items-center justify-between">
+    //     <div>
+    //       <CardDescription className="mb-1">Hours Weekly</CardDescription>
+    //       <CardTitle className="text-xl">
+    //         {clock.totalMinutes ? Math.round(clock.totalMinutes / 60) : 0}H{" "}
+    //         {clock.totalMinutes ? clock.totalMinutes % 60 : 0}M
+    //       </CardTitle>
+    //     </div>
+    //     <div>
+    //       <CardDescription className="mb-1">On-Time Arrival</CardDescription>
+    //       <CardTitle className="text-xl">60%</CardTitle>
+    //     </div>
+    //   </CardContent>
 
-      <CardFooter className="flex items-end justify-between">
-        <div>
-          <CardDescription className="mb-1">Hours Today</CardDescription>
-          <CardTitle className="text-xl">
-            {clock.clockIn ? (
-              "0H 0M"
-            ) : (
-              <>
-                {clock.clockOut ? (
-                  <AttendanceCounter countMinutes={clock.totalMinutesToday} />
-                ) : (
-                  (clock.totalMinutesToday
-                    ? Math.round(clock.totalMinutesToday / 60)
-                    : 0) +
-                  "H " +
-                  (clock.totalMinutesToday ? clock.totalMinutesToday % 60 : 0) +
-                  "M"
-                )}
-              </>
-            )}
-          </CardTitle>
-        </div>
-        {/* <Button
-          onClick={() => {
-            if (clock.clockIn) {
-              mutation();
-            } else {
-              const attendanceList = data?.getAttendanceByDate[0];
-              if (attendanceList) {
-                if (isToday(new Date(attendanceList?.createdAt))) {
-                  clock.clockOut &&
-                    updateAttendanceMutation({
-                      variables: { attendanceId: attendanceList?.id },
-                    });
-                } else {
-                  toast({
-                    variant: "destructive",
-                    title: "Error",
-                    description: "Invalid",
-                  });
-                }
-              } else {
-                toast({
-                  variant: "destructive",
-                  title: "Error",
-                  description: "No data found",
-                });
-              }
-            }
-          }}
-          className="gap-2"
-          disabled={clock.disable}
-          variant={clock.clockOut ? "destructive" : "default"}
-        >
-          {loading ? (
-            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <ClockIcon />
-          )}
-          {clock.label}
-        </Button> */}
-      </CardFooter>
-    </Card>
+    //   <CardFooter className="flex items-end justify-between">
+    //     <div>
+    //       <CardDescription className="mb-1">Hours Today</CardDescription>
+    //       <CardTitle className="text-xl">
+    //         {clock.clockIn ? (
+    //           "0H 0M"
+    //         ) : (
+    //           <>
+    //             {clock.clockOut ? (
+    //               <AttendanceCounter countMinutes={clock.totalMinutesToday} />
+    //             ) : (
+    //               (clock.totalMinutesToday
+    //                 ? Math.round(clock.totalMinutesToday / 60)
+    //                 : 0) +
+    //               "H " +
+    //               (clock.totalMinutesToday ? clock.totalMinutesToday % 60 : 0) +
+    //               "M"
+    //             )}
+    //           </>
+    //         )}
+    //       </CardTitle>
+    //     </div>
+    //  <Button
+    //     onClick={() => {
+    //       if (clock.clockIn) {
+    //         mutation();
+    //       } else {
+    //         const attendanceList = data?.getAttendanceByDate[0];
+    //         if (attendanceList) {
+    //           if (isToday(new Date(attendanceList?.createdAt))) {
+    //             clock.clockOut &&
+    //               updateAttendanceMutation({
+    //                 variables: { attendanceId: attendanceList?.id },
+    //               });
+    //           } else {
+    //             toast({
+    //               variant: "destructive",
+    //               title: "Error",
+    //               description: "Invalid",
+    //             });
+    //           }
+    //         } else {
+    //           toast({
+    //             variant: "destructive",
+    //             title: "Error",
+    //             description: "No data found",
+    //           });
+    //         }
+    //       }
+    //     }}
+    //     className="gap-2"
+    //     disabled={clock.disable}
+    //     variant={clock.clockOut ? "destructive" : "default"}
+    //   >
+    //     {loading ? (
+    //       <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+    //     ) : (
+    //       <ClockIcon />
+    //     )}
+    //     {clock.label}
+    //   </Button>
+    //   </CardFooter>
+    // </Card>
   );
 };
 

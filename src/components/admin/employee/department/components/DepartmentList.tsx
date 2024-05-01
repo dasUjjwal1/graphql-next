@@ -1,39 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  DotsVerticalIcon,
-  Pencil1Icon,
-  TrashIcon,
-} from "@radix-ui/react-icons";
 import {
   createColumnHelper,
-  flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 // import AddDepartment from "./AddDepartment";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const DepartmentList = () => {
   const columnHelper = createColumnHelper<any>();
@@ -48,38 +20,38 @@ const DepartmentList = () => {
       cell: (info) => info.getValue(),
     }),
 
-    columnHelper.display({
-      id: "actions",
-      header: "Options",
-      cell: (props) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost">
-              <DotsVerticalIcon />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <Button
-              onClick={() => {}}
-              variant={"ghost"}
-              className="flex items-center justify-start gap-3 text-sm w-full"
-            >
-              <Pencil1Icon />
-              Preview & Update
-            </Button>
-            <DropdownMenuSeparator />
-            <Button
-              onClick={() => {}}
-              variant={"ghost"}
-              className="flex items-center justify-start gap-3 w-full text-sm"
-            >
-              <TrashIcon />
-              Delete
-            </Button>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
-    }),
+    // columnHelper.display({
+    //   id: "actions",
+    //   header: "Options",
+    //   cell: (props) => (
+    //     <DropdownMenu>
+    //       <DropdownMenuTrigger asChild>
+    //         <Button variant="ghost">
+    //           <DotsVerticalIcon />
+    //         </Button>
+    //       </DropdownMenuTrigger>
+    //       <DropdownMenuContent>
+    //         <Button
+    //           onClick={() => {}}
+    //           variant={"ghost"}
+    //           className="flex items-center justify-start gap-3 text-sm w-full"
+    //         >
+    //           <Pencil1Icon />
+    //           Preview & Update
+    //         </Button>
+    //         <DropdownMenuSeparator />
+    //         <Button
+    //           onClick={() => {}}
+    //           variant={"ghost"}
+    //           className="flex items-center justify-start gap-3 w-full text-sm"
+    //         >
+    //           <TrashIcon />
+    //           Delete
+    //         </Button>
+    //       </DropdownMenuContent>
+    //     </DropdownMenu>
+    //   ),
+    // }),
   ];
   const table = useReactTable({
     data: [],
@@ -101,7 +73,7 @@ const DepartmentList = () => {
         </Select> */}
         {/* <AddDepartment /> */}
       </div>
-      <Table className="mt-3 w-full">
+      {/* <Table className="mt-3 w-full">
         <TableHeader>
           {table.getHeaderGroups()?.map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -155,7 +127,7 @@ const DepartmentList = () => {
             )}
           </>
         </TableBody>
-      </Table>
+      </Table> */}
     </>
   );
 };
