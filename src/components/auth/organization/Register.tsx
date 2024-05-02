@@ -6,7 +6,7 @@ import { CreateUserDocument } from "@/graphql/graphql";
 import { RegisterProps } from "@/types/authType";
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
 function AdminRegister() {
@@ -50,7 +50,7 @@ function AdminRegister() {
   return (
     <>
       <form
-        className="flex flex-col gap-4 lg:w-1/3"
+        className="flex flex-col gap-4 w-full"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <Controller
@@ -79,9 +79,15 @@ function AdminRegister() {
           control={form.control}
           rules={{ required: true }}
           render={({ field }) => (
-            <Input label="Name" placeholder="Enter your name" {...field} />
+            <Input
+              label="Password"
+              type="password"
+              placeholder="Enter your name"
+              {...field}
+            />
           )}
         />
+        <Button color="primary">Create</Button>
       </form>
     </>
   );

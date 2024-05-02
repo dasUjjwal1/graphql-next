@@ -21,7 +21,7 @@ const AdminIndexPage = (props: Props) => {
       effect = false;
     };
   }, []);
-  if (token) {
+  if (!token) {
     return (
       <>
         <TopBar />
