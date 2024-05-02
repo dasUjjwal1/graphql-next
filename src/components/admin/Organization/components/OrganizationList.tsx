@@ -1,6 +1,12 @@
 "use client";
 
 import {
+  GetAllOrganizationDocument,
+  GetAllOrganizationQuery,
+  Organization,
+} from "@/graphql/graphql";
+import { useQuery } from "@apollo/client";
+import {
   Button,
   Chip,
   Dropdown,
@@ -14,9 +20,17 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useCallback } from "react";
-
+import { Key, useCallback } from "react";
+import { useAdminAuthStore } from "../../AuthContext";
+type Keys = keyof Organization;
 const OrganizationList = () => {
+  const { token } = useAdminAuthStore((state) => state);
+  const context = {
+    headers: {
+      authorization: token,
+    },
+  };
+  const { data, loading } = useQuery(GetAllOrganizationDocument, { context });
   const statusColorMap = {
     active: "success",
     paused: "danger",
@@ -29,68 +43,16 @@ const OrganizationList = () => {
     { name: "ACTIONS", uid: "actions" },
   ];
 
-  const users = [
-    {
-      id: 1,
-      name: "Tony Reichert",
-      role: "CEO",
-      team: "Management",
-      status: "active",
-      age: "29",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-      email: "tony.reichert@example.com",
-    },
-    {
-      id: 2,
-      name: "Zoey Lang",
-      role: "Technical Lead",
-      team: "Development",
-      status: "paused",
-      age: "25",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-      email: "zoey.lang@example.com",
-    },
-    {
-      id: 3,
-      name: "Jane Fisher",
-      role: "Senior Developer",
-      team: "Development",
-      status: "active",
-      age: "22",
-      avatar: "https://i.pravatar.cc/150?u=a04258114e29026702d",
-      email: "jane.fisher@example.com",
-    },
-    {
-      id: 4,
-      name: "William Howard",
-      role: "Community Manager",
-      team: "Marketing",
-      status: "vacation",
-      age: "28",
-      avatar: "https://i.pravatar.cc/150?u=a048581f4e29026701d",
-      email: "william.howard@example.com",
-    },
-    {
-      id: 5,
-      name: "Kristen Copper",
-      role: "Sales Manager",
-      team: "Sales",
-      status: "active",
-      age: "24",
-      avatar: "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
-      email: "kristen.cooper@example.com",
-    },
-  ];
-  const renderCell = useCallback((user: any, columnKey: any) => {
-    const cellValue = user[columnKey];
+  const renderCell = useCallback((item: Organization, columnKey: any) => {
+    const cellValue = item[columnKey];
 
     switch (columnKey) {
-      case "role":
+      case "address":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
+            {/* <p className="text-bold text-sm capitalize">{cellValue.}</p> */}
             <p className="text-bold text-sm capitalize text-default-400">
-              {user.team}
+              {item.address?.city}
             </p>
           </div>
         );
@@ -152,7 +114,7 @@ const OrganizationList = () => {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={users}>
+        <TableBody items={data?.getAllOrganization ?? []}>
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (
