@@ -81,6 +81,7 @@ export const GetAllOrganization = graphql(`
   query GetAllOrganization {
     getAllOrganization {
       id
+      name
       userId
       isActive
       lastSubscribe

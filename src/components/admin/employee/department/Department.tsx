@@ -1,11 +1,10 @@
 "use client";
 
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import DepartmentList from "./components/DepartmentList";
 import {
   GetAllDepartmentByOrgIdDocument,
   GetAllOrganizationDocument,
-  GetAllOrganizationQuery,
 } from "@/graphql/graphql";
 import { Select, SelectItem, Skeleton } from "@nextui-org/react";
 import { useAdminAuthStore } from "../../AuthContext";
@@ -17,10 +16,21 @@ const Department = () => {
       authorization: token,
     },
   };
-  const {} = useQuery(GetAllDepartmentByOrgIdDocument);
+  const [query] = useLazyQuery(GetAllDepartmentByOrgIdDocument);
   const { data = { getAllOrganization: [] }, loading } = useQuery(
     GetAllOrganizationDocument,
-    { context, onError(error) {} }
+    {
+      context,
+      onError(error) {},
+      onCompleted(data) {
+        data?.getAllOrganization[0]?.id &&
+          query({
+            variables: {
+              getAllDepartmentByOrgIdId: data?.getAllOrganization[0]?.id,
+            },
+          });
+      },
+    }
   );
   return (
     <>
@@ -34,12 +44,11 @@ const Department = () => {
           <Select
             isRequired
             placeholder="Select an organization"
-            defaultSelectedKeys={["cat"]}
             className="max-w-xs"
           >
             {data?.getAllOrganization?.map((item) => (
               <SelectItem key={item.id} value={item.id}>
-                {item.id}
+                {item.name}
               </SelectItem>
             ))}
           </Select>

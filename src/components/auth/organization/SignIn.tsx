@@ -66,7 +66,9 @@ function AdminSignIn() {
             />
           )}
         />
-        <Button color="primary">Create</Button>
+        <Button isLoading={loading} color="primary" type="submit">
+          Create
+        </Button>
       </form>
     </>
   );
