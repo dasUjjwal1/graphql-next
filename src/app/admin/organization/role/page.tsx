@@ -1,11 +1,5 @@
-import RoleComponent from "@/components/admin/Organization/role/Role";
-
 const Role = () => {
-  return (
-    <>
-      <RoleComponent />
-    </>
-  );
+  return <></>;
 };
 
 export default Role;
