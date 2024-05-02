@@ -11,7 +11,7 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
   const pathName = usePathname();
   return (
     <>
-      <div className="px-3 mb-3 bg-muted border-b">
+      <div className="px-3 mb-3 bg-muted">
         <ul className="flex gap-2">
           {menu.map((item, index) => (
             <li

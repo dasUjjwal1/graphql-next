@@ -76,3 +76,47 @@ export const LoginUser = graphql(`
     }
   }
 `);
+
+export const GetAllOrganization = graphql(`
+  query GetAllOrganization {
+    getAllOrganization {
+      id
+      userId
+      isActive
+      lastSubscribe
+      latitude
+      longitude
+      workingModel
+      address {
+        city
+        street
+        buildingNumber
+        state
+        pin
+      }
+      employeeCount
+      totalLeaveCount
+      holiday {
+        id
+        name
+        date
+      }
+      documents
+      startTime
+      endTime
+      department {
+        id
+        name
+      }
+      notWorkingDays
+      orgContact
+      paidLeavePm
+      sickLeavePm
+      remoteClockIn
+      locationRequired
+      gracePeriod
+      createdAt
+      updatedAt
+    }
+  }
+`);
