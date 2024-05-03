@@ -28,19 +28,19 @@ type Props = {
     getButtonProps: (props?: any) => any;
     getDisclosureProps: (props?: any) => any;
   };
+  onSubmit: (val: OrganizationRegisterInput) => void;
 };
 const CreateOrganization = (props: Props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Organization name is required"),
     startTime: Yup.string().required("This field is required"),
+    endTime: Yup.string().required("This field is required"),
   });
   const form = useForm<OrganizationRegisterInput>({
     defaultValues: {},
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit = (value: OrganizationRegisterInput) => {
-    console.log(value);
-  };
+
   return (
     <div>
       <Modal
@@ -55,7 +55,7 @@ const CreateOrganization = (props: Props) => {
               <ModalHeader className="flex flex-col gap-1">
                 Create Organization
               </ModalHeader>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
+              <form onSubmit={form.handleSubmit(props.onSubmit)}>
                 <ModalBody className="lg:grid grid-cols-3">
                   <Controller
                     name="name"
@@ -67,11 +67,10 @@ const CreateOrganization = (props: Props) => {
                       <Input
                         label="Organization Name"
                         {...field}
-                        {...(Boolean(errors.name) &&
-                          touchedFields.name && {
-                            isInvalid: true,
-                            errorMessage: errors.name?.message,
-                          })}
+                        {...(Boolean(errors.name) && {
+                          isInvalid: true,
+                          errorMessage: errors.name?.message,
+                        })}
                         endContent={
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -130,8 +129,8 @@ const CreateOrganization = (props: Props) => {
                       //   }
                       // />
                       <Select label="Select working model" {...field}>
-                        {Object.keys(WorkingModel).map((elm) => (
-                          <SelectItem key={elm} value={elm.toUpperCase()}>
+                        {Object.values(WorkingModel).map((elm) => (
+                          <SelectItem key={elm} value={elm}>
                             {elm}
                           </SelectItem>
                         ))}
@@ -148,18 +147,26 @@ const CreateOrganization = (props: Props) => {
                       <TimeInput
                         label="Start Time"
                         {...field}
-                        {...(Boolean(errors.name) &&
-                          touchedFields.name && {
-                            isRequired: true,
-                          })}
+                        {...(Boolean(errors.startTime) && {
+                          isRequired: true,
+                        })}
                       />
                     )}
                   />
                   <Controller
                     name="endTime"
                     control={form.control}
-                    render={({ field }) => (
-                      <TimeInput label="End Time" {...field} />
+                    render={({
+                      field,
+                      formState: { errors, touchedFields },
+                    }) => (
+                      <TimeInput
+                        label="End Time"
+                        {...field}
+                        {...(Boolean(errors.endTime) && {
+                          isRequired: true,
+                        })}
+                      />
                     )}
                   />
                   <Controller

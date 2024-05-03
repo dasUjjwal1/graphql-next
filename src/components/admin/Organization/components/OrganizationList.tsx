@@ -1,7 +1,6 @@
 "use client";
 
-import { GetAllOrganizationDocument, Organization } from "@/graphql/graphql";
-import { useQuery } from "@apollo/client";
+import { GetAllOrganizationQuery, Organization } from "@/graphql/graphql";
 import {
   Button,
   Chip,
@@ -9,6 +8,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -17,17 +17,14 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { useCallback } from "react";
-import { useAdminAuthStore } from "../../AuthContext";
 type Keys = keyof Organization;
-const OrganizationList = () => {
-  const { token } = useAdminAuthStore((state) => state);
-  const context = {
-    headers: {
-      authorization: token,
-    },
-  };
-  const { data, loading } = useQuery(GetAllOrganizationDocument, { context });
-
+const OrganizationList = ({
+  data,
+  loading,
+}: {
+  data: GetAllOrganizationQuery | undefined;
+  loading: boolean;
+}) => {
   const columns: { name: string; uid: Keys }[] = [
     { name: "NAME", uid: "name" },
     { name: "ADDRESS", uid: "address" },
@@ -56,7 +53,7 @@ const OrganizationList = () => {
             size="sm"
             variant="flat"
           >
-            {item.isActive}
+            {item.isActive ? "Active" : "Inactive"}
           </Chip>
         );
       case "id":
@@ -100,13 +97,39 @@ const OrganizationList = () => {
           {(column) => (
             <TableColumn
               key={column.uid}
-              align={column.uid === "id" ? "center" : "start"}
+              align={column.uid === "id" ? "end" : "start"}
             >
               {column.name}
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={data?.getAllOrganization ?? []}>
+        <TableBody
+          loadingContent={
+            <div className="w-full h-full py-6 px-3 bg-default-50">
+              <Skeleton className="rounded-lg h-14 w-full" />
+              <div className="w-full mt-3 flex gap-3">
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+              </div>
+              <div className="w-full mt-3 flex gap-3">
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+              </div>
+              <div className="w-full mt-3 flex gap-3">
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+              </div>
+            </div>
+          }
+          loadingState={loading ? "loading" : "idle"}
+          items={data?.getAllOrganization ?? []}
+        >
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (
