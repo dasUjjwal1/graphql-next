@@ -56,7 +56,6 @@ function AdminRegister() {
         <Controller
           name="name"
           control={form.control}
-          rules={{ required: true }}
           render={({ field }) => (
             <Input label="Name" placeholder="Enter your name" {...field} />
           )}
@@ -64,7 +63,6 @@ function AdminRegister() {
         <Controller
           name="email"
           control={form.control}
-          rules={{ required: true }}
           render={({ field }) => (
             <Input
               label="Email"

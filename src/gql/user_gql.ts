@@ -121,3 +121,11 @@ export const GetAllOrganization = graphql(`
     }
   }
 `);
+
+export const CreateOrganization = graphql(`
+  mutation CreateOrganization($body: OrganizationRegisterInput!) {
+    createOrganization(body: $body) {
+      message
+    }
+  }
+`);

@@ -43,7 +43,6 @@ function AdminSignIn() {
         <Controller
           name="email"
           control={form.control}
-          rules={{ required: true }}
           render={({ field }) => (
             <Input
               label="Email"
@@ -56,7 +55,6 @@ function AdminSignIn() {
         <Controller
           name="password"
           control={form.control}
-          rules={{ required: true }}
           render={({ field }) => (
             <Input
               label="Password"
