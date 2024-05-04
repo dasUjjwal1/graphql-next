@@ -56,20 +56,13 @@ function AdminRegister() {
         <Controller
           name="name"
           control={form.control}
-          render={({ field }) => (
-            <Input label="Name" placeholder="Enter your name" {...field} />
-          )}
+          render={({ field }) => <Input label="Name" {...field} />}
         />
         <Controller
           name="email"
           control={form.control}
           render={({ field }) => (
-            <Input
-              label="Email"
-              type="email"
-              placeholder="Enter your email"
-              {...field}
-            />
+            <Input label="Email" type="email" {...field} />
           )}
         />
         <Controller
@@ -77,12 +70,7 @@ function AdminRegister() {
           control={form.control}
           rules={{ required: true }}
           render={({ field }) => (
-            <Input
-              label="Password"
-              type="password"
-              placeholder="Enter your name"
-              {...field}
-            />
+            <Input label="Password" type="password" {...field} />
           )}
         />
         <Button color="primary">Create</Button>

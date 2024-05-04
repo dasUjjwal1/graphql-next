@@ -12,10 +12,11 @@ function AdminAuth() {
           {login === "register" ? "Create new account" : "Login"}
         </h3>
         {login === "login" ? <AdminSignIn /> : <AdminRegister />}
-        <p>
+        <p className="text-center pt-4">
           <Button
             color="primary"
             variant="flat"
+            className="bg-none"
             onClick={() =>
               setLogin((prev) => (prev === "login" ? "register" : "login"))
             }

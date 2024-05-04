@@ -129,3 +129,20 @@ export const CreateOrganization = graphql(`
     }
   }
 `);
+export const CreateRole = graphql(`
+  mutation CreateRole($body: RoleInput!) {
+    createRole(body: $body) {
+      message
+    }
+  }
+`);
+const GetAllRole = graphql(`
+  query GetAllRole {
+    getAllRole {
+      id
+      name
+      parent
+      access
+    }
+  }
+`);

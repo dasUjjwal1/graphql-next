@@ -44,24 +44,14 @@ function AdminSignIn() {
           name="email"
           control={form.control}
           render={({ field }) => (
-            <Input
-              label="Email"
-              type="email"
-              placeholder="Enter your email"
-              {...field}
-            />
+            <Input label="Email" type="email" {...field} />
           )}
         />
         <Controller
           name="password"
           control={form.control}
           render={({ field }) => (
-            <Input
-              label="Password"
-              type="password"
-              placeholder="Enter your name"
-              {...field}
-            />
+            <Input label="Password" type="password" {...field} />
           )}
         />
         <Button isLoading={loading} color="primary" type="submit">

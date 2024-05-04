@@ -1,6 +1,5 @@
 "use client";
-
-import { GetAllOrganizationQuery, Organization } from "@/graphql/graphql";
+import { GetAllRoleQuery, Role } from "@/graphql/graphql";
 import {
   Button,
   Chip,
@@ -16,71 +15,27 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { addMinutes } from "date-fns/addMinutes";
 import { useCallback } from "react";
-type Keys = keyof Organization;
-const OrganizationList = ({
+type Keys = keyof Role;
+
+const columns: { name: string; uid: Keys }[] = [
+  { name: "NAME", uid: "name" },
+  { name: "ASSIGN TO", uid: "parent" },
+  { name: "ACCESS", uid: "access" },
+  { name: "ACTIONS", uid: "id" },
+];
+const RoleList = ({
   data,
   loading,
 }: {
-  data: GetAllOrganizationQuery | undefined;
+  data: GetAllRoleQuery | undefined;
   loading: boolean;
 }) => {
-  const columns: { name: string; uid: Keys }[] = [
-    { name: "NAME", uid: "name" },
-    { name: "WORKING- TIME", uid: "startTime" },
-    { name: "ADDRESS", uid: "address" },
-    { name: "STATUS", uid: "isActive" },
-    { name: "ACTIONS", uid: "id" },
-  ];
-
-  const renderCell = useCallback((item: Organization, columnKey: Keys) => {
+  const renderCell = useCallback((item: Role, columnKey: Keys) => {
     switch (columnKey) {
-      case "address":
-        const data = item.address;
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">
-              {data?.buildingNumber}
-            </p>
-            <p className="text-bold text-sm capitalize text-default-400">
-              {data?.city}
-              {", "}
-              {data?.state}
-            </p>
-          </div>
-        );
-      case "startTime":
-        return (
-          <p>
-            {addMinutes(
-              new Date(2014, 6, 10, 0, 0),
-              item.startTime
-            ).toLocaleString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}{" "}
-            -{" "}
-            {addMinutes(
-              new Date(2014, 6, 10, 0, 0),
-              item.endTime
-            ).toLocaleString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
-        );
-      case "isActive":
-        return (
-          <Chip
-            className="capitalize"
-            color={item.isActive ? "success" : "danger"}
-            size="sm"
-            variant="flat"
-          >
-            {item.isActive ? "Active" : "Inactive"}
-          </Chip>
-        );
+      case "access":
+        return <p>{JSON.stringify(item.access)}</p>;
+
       case "id":
         return (
           <div className="relative flex justify-end items-center gap-2">
@@ -115,6 +70,7 @@ const OrganizationList = ({
         return item[columnKey];
     }
   }, []);
+
   return (
     <div>
       <Table aria-label="Example table with custom cells">
@@ -153,7 +109,7 @@ const OrganizationList = ({
             </div>
           }
           loadingState={loading ? "loading" : "idle"}
-          items={data?.getAllOrganization ?? []}
+          items={data?.getAllRole ?? []}
         >
           {(item) => (
             <TableRow key={item.id}>
@@ -168,4 +124,4 @@ const OrganizationList = ({
   );
 };
 
-export default OrganizationList;
+export default RoleList;

@@ -24,6 +24,9 @@ const Organization = () => {
   const modalState = useDisclosure();
   const { data, loading, refetch } = useQuery(GetAllOrganizationDocument, {
     context,
+    onError(error) {
+      toast.error(error.message);
+    },
   });
   const [mutation] = useMutation(CreateOrganizationDocument, {
     context,
