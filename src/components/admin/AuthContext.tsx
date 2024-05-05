@@ -1,19 +1,17 @@
 "use client";
 import { createStore } from "zustand/vanilla";
 import { StoreApi, useStore } from "zustand";
-import { immer } from "zustand/middleware/immer";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { OrganizationResponse } from "@/graphql/graphql";
 import { ReactNode, createContext, useContext, useRef } from "react";
 type AdminAuthType = {
   loaded: boolean;
   menu: { id: string; label: string; path: string; icon: string[] }[];
-  adminAuth: OrganizationResponse | null;
+  adminAuth: any | null;
   token: any;
 };
 type AdminAuthActions = {
   setMenu: (payload: AdminAuthType["menu"]) => void;
-  setDetails: (data: OrganizationResponse | null) => void;
+  setDetails: (data: any | null) => void;
 };
 type AdminSTore = AdminAuthType & AdminAuthActions;
 const AdminAuthInitialState: AdminAuthType = {

@@ -3,7 +3,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   overwrite: true,
   schema: "http://localhost:8000/rust-graphql",
-  documents: "src/**/*.ts",
+  documents: ["src/**/*.ts"],
   ignoreNoDocuments: true,
   generates: {
     "src/graphql/": {

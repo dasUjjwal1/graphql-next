@@ -28,7 +28,7 @@ export default function Navbar(props: Props) {
   const checkActivePath = useActivePath();
   return (
     <>
-      <nav className="min-h-screen h-full fixed left-0 pt-16 pr-2 overflow-y-auto dark:bg-muted border-r w-56">
+      <nav className="min-h-screen h-full fixed left-0 py-6 pr-2 overflow-y-auto dark:bg-card shadow-md w-56">
         <ul className="h-full flex flex-col gap-3 p-0">
           {props?.menu?.map((item) => (
             <li key={item?.id}>
@@ -37,9 +37,9 @@ export default function Navbar(props: Props) {
                 as={item.path}
                 className={`flex items-center w-full gap-2 ${
                   checkActivePath(item.path)
-                    ? "dark:bg-primary dark:text-primary-foreground"
+                    ? "dark:bg-sky-950 dark:text-primary-foreground"
                     : "dark:text-muted-foreground"
-                } font-semibold rounded-e-3xl p-3`}
+                }  rounded-e-3xl p-3`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@ export default function Navbar(props: Props) {
                     />
                   ))}
                 </svg>
-                <span className="text-sm">{item.label}</span>
+                <p className="text-sm">{item.label}</p>
               </Link>
             </li>
           ))}

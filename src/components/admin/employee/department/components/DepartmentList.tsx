@@ -1,31 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  DotsVerticalIcon,
-  Pencil1Icon,
-  TrashIcon,
-} from "@radix-ui/react-icons";
 import {
   createColumnHelper,
-  flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+// import AddDepartment from "./AddDepartment";
 
 const DepartmentList = () => {
   const columnHelper = createColumnHelper<any>();
@@ -40,38 +20,38 @@ const DepartmentList = () => {
       cell: (info) => info.getValue(),
     }),
 
-    columnHelper.display({
-      id: "actions",
-      header: "Options",
-      cell: (props) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost">
-              <DotsVerticalIcon />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <Button
-              onClick={() => {}}
-              variant={"ghost"}
-              className="flex items-center justify-start gap-3 text-sm w-full"
-            >
-              <Pencil1Icon />
-              Preview & Update
-            </Button>
-            <DropdownMenuSeparator />
-            <Button
-              onClick={() => {}}
-              variant={"ghost"}
-              className="flex items-center justify-start gap-3 w-full text-sm"
-            >
-              <TrashIcon />
-              Delete
-            </Button>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
-    }),
+    // columnHelper.display({
+    //   id: "actions",
+    //   header: "Options",
+    //   cell: (props) => (
+    //     <DropdownMenu>
+    //       <DropdownMenuTrigger asChild>
+    //         <Button variant="ghost">
+    //           <DotsVerticalIcon />
+    //         </Button>
+    //       </DropdownMenuTrigger>
+    //       <DropdownMenuContent>
+    //         <Button
+    //           onClick={() => {}}
+    //           variant={"ghost"}
+    //           className="flex items-center justify-start gap-3 text-sm w-full"
+    //         >
+    //           <Pencil1Icon />
+    //           Preview & Update
+    //         </Button>
+    //         <DropdownMenuSeparator />
+    //         <Button
+    //           onClick={() => {}}
+    //           variant={"ghost"}
+    //           className="flex items-center justify-start gap-3 w-full text-sm"
+    //         >
+    //           <TrashIcon />
+    //           Delete
+    //         </Button>
+    //       </DropdownMenuContent>
+    //     </DropdownMenu>
+    //   ),
+    // }),
   ];
   const table = useReactTable({
     data: [],
@@ -80,13 +60,31 @@ const DepartmentList = () => {
   });
   return (
     <>
-      <Table className="mt-3 w-full">
+      <div className="w-full flex items-center justify-between">
+        {/* <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Theme" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="light">Light</SelectItem>
+            <SelectItem value="dark">Dark</SelectItem>
+            <SelectItem value="system">System</SelectItem>
+          </SelectContent>
+        </Select> */}
+        {/* <AddDepartment /> */}
+      </div>
+      {/* <Table className="mt-3 w-full">
         <TableHeader>
           {table.getHeaderGroups()?.map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers?.map((header, index) => {
                 return (
-                  <TableHead className="px-4 text-right" key={header.id}>
+                  <TableHead
+                    className={
+                      "px-4 " + (index === 0 ? "text-left" : "text-right")
+                    }
+                    key={header.id}
+                  >
                     {!header.isPlaceholder &&
                       flexRender(
                         header.column.columnDef.header,
@@ -129,7 +127,7 @@ const DepartmentList = () => {
             )}
           </>
         </TableBody>
-      </Table>
+      </Table> */}
     </>
   );
 };

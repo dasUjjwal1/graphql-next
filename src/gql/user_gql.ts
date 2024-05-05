@@ -76,3 +76,73 @@ export const LoginUser = graphql(`
     }
   }
 `);
+
+export const GetAllOrganization = graphql(`
+  query GetAllOrganization {
+    getAllOrganization {
+      id
+      name
+      userId
+      isActive
+      lastSubscribe
+      latitude
+      longitude
+      workingModel
+      address {
+        city
+        street
+        buildingNumber
+        state
+        pin
+      }
+      employeeCount
+      totalLeaveCount
+      holiday {
+        id
+        name
+        date
+      }
+      documents
+      startTime
+      endTime
+      department {
+        id
+        name
+      }
+      notWorkingDays
+      orgContact
+      paidLeavePm
+      sickLeavePm
+      remoteClockIn
+      locationRequired
+      gracePeriod
+      createdAt
+      updatedAt
+    }
+  }
+`);
+
+export const CreateOrganization = graphql(`
+  mutation CreateOrganization($body: OrganizationRegisterInput!) {
+    createOrganization(body: $body) {
+      message
+    }
+  }
+`);
+export const CreateRole = graphql(`
+  mutation CreateRole($body: RoleInput!) {
+    createRole(body: $body) {
+      message
+    }
+  }
+`);
+const GetAllRole = graphql(`
+  query GetAllRole {
+    getAllRole {
+      id
+      name
+      parent
+      access
+    }
+  }
+`);

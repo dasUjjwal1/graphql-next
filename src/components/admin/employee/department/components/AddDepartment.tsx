@@ -1,44 +1,49 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { toast } from "@/components/ui/use-toast";
-import { AddDepartmentDocument } from "@/graphql/graphql";
-import { useMutation } from "@apollo/client";
+import { useAdminAuthStore } from "@/components/admin/AuthContext";
 
-const AddDepartment = () => {
-  const [mutation] = useMutation(AddDepartmentDocument, {
-    onCompleted: (data) => {
-      toast({
-        title: data.addDepartment.message,
-      });
-    },
-  });
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Add department</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="text-xl font-medium">
-            Add DepartmentQ
-          </DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
-  );
+const AddDepartment = ({
+  organizationId,
+  refetch,
+}: {
+  organizationId: string;
+  refetch?: () => void;
+}) => {
+  const { token } = useAdminAuthStore((state) => state);
+  // const context = {
+  //   headers: {
+  //     authorization: token,
+  //   },
+  // };
+  // const [mutation] = useMutation(AddDepartmentDocument, {
+  //   onCompleted: (data) => {
+  //     toast({
+  //       title: "Success",
+  //       description: data.addDepartment.message,
+  //       variant: "default",
+  //     });
+  //     refetch && refetch();
+  //   },
+  //   onError(error) {
+  //     toast({
+  //       title: "Error",
+  //       description: error.message,
+  //       variant: "destructive",
+  //     });
+  //   },
+  //   context,
+  // });
+  // const form = useForm<DepartmentCreateInput>({
+  //   defaultValues: {},
+  // });
+  // const onSubmit = (value: DepartmentCreateInput) => {
+  //   const requestBody: DepartmentCreateInput = {
+  //     name: value.name,
+  //     organizationId,
+  //   };
+  //   mutation({ variables: { body: requestBody } });
+  // };
+  return <></>;
 };
 
 export default AddDepartment;
