@@ -29,6 +29,7 @@ type Props = {
     getDisclosureProps: (props?: any) => any;
   };
   onSubmit: (val: OrganizationRegisterInput) => void;
+  loading: boolean;
 };
 const CreateOrganization = (props: Props) => {
   const validationSchema = Yup.object().shape({
@@ -321,7 +322,11 @@ const CreateOrganization = (props: Props) => {
                   <Button color="danger" variant="light" onPress={onClose}>
                     Close
                   </Button>
-                  <Button color="primary" type="submit">
+                  <Button
+                    color="primary"
+                    isLoading={props.loading}
+                    type="submit"
+                  >
                     Create
                   </Button>
                 </ModalFooter>

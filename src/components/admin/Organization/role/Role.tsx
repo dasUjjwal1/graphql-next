@@ -1,27 +1,77 @@
 "use client";
 
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import RoleList from "./components/RoleList";
-import { GetAllRoleDocument } from "@/graphql/graphql";
+import {
+  CreateRoleDocument,
+  GetAllRoleDocument,
+  Role,
+  RoleInput,
+  UpdateRoleByIdDocument,
+} from "@/graphql/graphql";
 import { useAdminAuthStore } from "../../AuthContext";
 import { toast } from "sonner";
-import { Button, useDisclosure } from "@nextui-org/react";
-
+import { Button, Modal, useDisclosure } from "@nextui-org/react";
+import CreateRole from "./components/CreateRole";
+import { useState } from "react";
+export type DataState = {
+  type: "CREATE" | "UPDATE";
+  data: Role | null;
+};
 const RoleDetails = () => {
   const modalState = useDisclosure();
-
+  const [dataState, setDataState] = useState<DataState>({
+    type: "CREATE",
+    data: null,
+  });
   const { token } = useAdminAuthStore((state) => state);
   const context = {
     headers: {
       authorization: token,
     },
   };
-  const { data, loading } = useQuery(GetAllRoleDocument, {
+  const { data, loading, refetch } = useQuery(GetAllRoleDocument, {
     context,
     onError(error) {
       toast.error(error.message);
     },
   });
+  const [mutation, { loading: createLoading }] = useMutation(
+    CreateRoleDocument,
+    {
+      context,
+      onCompleted(data) {
+        toast.success(data.createRole.message);
+        modalState.onClose();
+        refetch();
+      },
+      onError(error) {
+        toast.error(error.message);
+      },
+    }
+  );
+  const [updateMutation, { loading: updateLoading }] = useMutation(
+    UpdateRoleByIdDocument,
+    {
+      context,
+      onCompleted(data) {
+        toast.success(data.updateRoleById.message);
+        modalState.onClose();
+        refetch();
+      },
+      onError(error) {
+        toast.error(error.message);
+      },
+    }
+  );
+  const onSubmit = (val: RoleInput) => {
+    const requestBody: RoleInput = {
+      name: val.name,
+      access: val.access?.split(","),
+      parent: null,
+    };
+    mutation({ variables: { body: requestBody } });
+  };
   return (
     <>
       <div className="flex px-6 items-baseline justify-between pb-4">
@@ -49,7 +99,23 @@ const RoleDetails = () => {
           Create
         </Button>
       </div>
-      <RoleList data={data} loading={loading} />
+      <Modal
+        size="4xl"
+        isOpen={modalState.isOpen}
+        placement={"auto"}
+        onOpenChange={modalState.onOpenChange}
+      >
+        <CreateRole
+          roleList={data?.getAllRole ?? []}
+          loading={createLoading}
+          onSubmit={onSubmit}
+          formData={dataState.data}
+          type={dataState.type}
+        />
+      </Modal>
+      <div className="px-6">
+        <RoleList data={data} loading={loading} setDate={setDataState} />
+      </div>
     </>
   );
 };

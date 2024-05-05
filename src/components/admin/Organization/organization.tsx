@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Skeleton, useDisclosure } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
 import CreateOrganization from "./components/CreateOrganization";
 import OrganizationList from "./components/OrganizationList";
 import { useMutation, useQuery } from "@apollo/client";
@@ -28,17 +28,20 @@ const Organization = () => {
       toast.error(error.message);
     },
   });
-  const [mutation] = useMutation(CreateOrganizationDocument, {
-    context,
-    onCompleted(data) {
-      toast.success(data.createOrganization.message);
-      modalState.onClose();
-      refetch();
-    },
-    onError(error) {
-      toast.error(error.message);
-    },
-  });
+  const [mutation, { loading: createLoading }] = useMutation(
+    CreateOrganizationDocument,
+    {
+      context,
+      onCompleted(data) {
+        toast.success(data.createOrganization.message);
+        modalState.onClose();
+        refetch();
+      },
+      onError(error) {
+        toast.error(error.message);
+      },
+    }
+  );
   const onSubmit = (value: OrganizationRegisterInput) => {
     const startTime = differenceInMinutes(
       new Date("2014-10-10 " + value.startTime),
@@ -85,7 +88,11 @@ const Organization = () => {
       </div>
       <div className="px-6">
         <OrganizationList data={data} loading={loading} />
-        <CreateOrganization modalState={modalState} onSubmit={onSubmit} />
+        <CreateOrganization
+          loading={createLoading}
+          modalState={modalState}
+          onSubmit={onSubmit}
+        />
       </div>
     </>
   );

@@ -21,6 +21,7 @@ const documents = {
     "\n  mutation CreateOrganization($body: OrganizationRegisterInput!) {\n    createOrganization(body: $body) {\n      message\n    }\n  }\n": types.CreateOrganizationDocument,
     "\n  mutation CreateRole($body: RoleInput!) {\n    createRole(body: $body) {\n      message\n    }\n  }\n": types.CreateRoleDocument,
     "\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      parent\n      access\n    }\n  }\n": types.GetAllRoleDocument,
+    "\n  mutation UpdateRoleById($body: RoleInput!) {\n    updateRoleById(body: $body) {\n      message\n    }\n  }\n": types.UpdateRoleByIdDocument,
 };
 
 /**
@@ -69,6 +70,10 @@ export function graphql(source: "\n  mutation CreateRole($body: RoleInput!) {\n 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      parent\n      access\n    }\n  }\n"): (typeof documents)["\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      parent\n      access\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateRoleById($body: RoleInput!) {\n    updateRoleById(body: $body) {\n      message\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateRoleById($body: RoleInput!) {\n    updateRoleById(body: $body) {\n      message\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

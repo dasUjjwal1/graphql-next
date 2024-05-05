@@ -146,3 +146,10 @@ const GetAllRole = graphql(`
     }
   }
 `);
+export const UpdateRole = graphql(`
+  mutation UpdateRoleById($body: RoleInput!) {
+    updateRoleById(body: $body) {
+      message
+    }
+  }
+`);
