@@ -24,9 +24,10 @@ export const AppConfig = {
     { label: "Others", value: 20 },
   ],
   ACCESS: [
-    { label: "Employee", value: 5 },
-    { label: "Payroll", value: 10 },
-    { label: "Employee Credential", value: 15 },
+    { label: "None", value: 0, name: "NONE" },
+    { label: "Employee", value: 5, name: "EMPLOYEE" },
+    { label: "Payroll", value: 10, name: "PAYROLL" },
+    { label: "Employee Credential", value: 15, name: "EMPLOYEE_CREDENTIAL" },
   ],
   WORKING_MODE: [
     { label: "ONSITE", value: "ONSITE" },

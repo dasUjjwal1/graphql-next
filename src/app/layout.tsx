@@ -14,7 +14,7 @@ const cabin = Cabin({
 });
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body className={cabin.className}>
         <ThemeProvider>
           <ApolloGqlProvider>{children}</ApolloGqlProvider>

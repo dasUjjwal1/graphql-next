@@ -3,10 +3,11 @@ import { createStore } from "zustand/vanilla";
 import { StoreApi, useStore } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { ReactNode, createContext, useContext, useRef } from "react";
+import { LoginUserQuery } from "@/graphql/graphql";
 type AdminAuthType = {
   loaded: boolean;
   menu: { id: string; label: string; path: string; icon: string[] }[];
-  adminAuth: any | null;
+  adminAuth: LoginUserQuery["loginUser"] | null;
   token: any;
 };
 type AdminAuthActions = {
