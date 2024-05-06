@@ -20,8 +20,9 @@ const documents = {
     "\n  query GetAllOrganization {\n    getAllOrganization {\n      id\n      name\n      userId\n      isActive\n      lastSubscribe\n      latitude\n      longitude\n      workingModel\n      address {\n        city\n        street\n        buildingNumber\n        state\n        pin\n      }\n      employeeCount\n      totalLeaveCount\n      holiday {\n        id\n        name\n        date\n      }\n      documents\n      startTime\n      endTime\n      department {\n        id\n        name\n      }\n      notWorkingDays\n      orgContact\n      paidLeavePm\n      sickLeavePm\n      remoteClockIn\n      locationRequired\n      gracePeriod\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetAllOrganizationDocument,
     "\n  mutation CreateOrganization($body: OrganizationRegisterInput!) {\n    createOrganization(body: $body) {\n      message\n    }\n  }\n": types.CreateOrganizationDocument,
     "\n  mutation CreateRole($body: RoleInput!) {\n    createRole(body: $body) {\n      message\n    }\n  }\n": types.CreateRoleDocument,
-    "\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      parent\n      access\n    }\n  }\n": types.GetAllRoleDocument,
+    "\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      isDelete\n      parent\n      access\n    }\n  }\n": types.GetAllRoleDocument,
     "\n  mutation UpdateRoleById($body: RoleInput!) {\n    updateRoleById(body: $body) {\n      message\n    }\n  }\n": types.UpdateRoleByIdDocument,
+    "\n  mutation DeleteRoleById($body: ObjectId) {\n    deleteRoleById(body: $body) {\n      message\n    }\n  }\n": types.DeleteRoleByIdDocument,
 };
 
 /**
@@ -69,11 +70,15 @@ export function graphql(source: "\n  mutation CreateRole($body: RoleInput!) {\n 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      parent\n      access\n    }\n  }\n"): (typeof documents)["\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      parent\n      access\n    }\n  }\n"];
+export function graphql(source: "\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      isDelete\n      parent\n      access\n    }\n  }\n"): (typeof documents)["\n  query GetAllRole {\n    getAllRole {\n      id\n      name\n      isDelete\n      parent\n      access\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation UpdateRoleById($body: RoleInput!) {\n    updateRoleById(body: $body) {\n      message\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateRoleById($body: RoleInput!) {\n    updateRoleById(body: $body) {\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation DeleteRoleById($body: ObjectId) {\n    deleteRoleById(body: $body) {\n      message\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteRoleById($body: ObjectId) {\n    deleteRoleById(body: $body) {\n      message\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import RoleList from "./components/RoleList";
 import {
   CreateRoleDocument,
+  DeleteRoleByIdDocument,
   GetAllRoleDocument,
   Role,
   RoleInput,
@@ -64,6 +65,20 @@ const RoleDetails = () => {
       },
     }
   );
+  const [deleteMutation, { loading: deleteLoading }] = useMutation(
+    DeleteRoleByIdDocument,
+    {
+      context,
+      onCompleted(data) {
+        toast.success(data.deleteRoleById.message);
+        modalState.onClose();
+        refetch();
+      },
+      onError(error) {
+        toast.error(error.message);
+      },
+    }
+  );
   const onSubmit = (val: RoleInput) => {
     if (dataState.type === "CREATE") {
       const requestBody: RoleInput = {
@@ -81,6 +96,9 @@ const RoleDetails = () => {
       };
       updateMutation({ variables: { body: requestBody } });
     }
+  };
+  const deleteRole = (id: string) => {
+    deleteMutation({ variables: { body: id } });
   };
   return (
     <>
@@ -117,7 +135,7 @@ const RoleDetails = () => {
       >
         <CreateRole
           roleList={data?.getAllRole ?? []}
-          loading={createLoading}
+          loading={createLoading || updateLoading || deleteLoading}
           onSubmit={onSubmit}
           formData={dataState.data}
           type={dataState.type}
@@ -126,6 +144,7 @@ const RoleDetails = () => {
       <div className="px-6">
         <RoleList
           data={data}
+          deleteRole={deleteRole}
           onOpen={modalState.onOpen}
           loading={loading}
           setDataState={setDataState}

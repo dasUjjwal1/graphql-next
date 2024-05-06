@@ -31,11 +31,13 @@ const RoleList = ({
   loading,
   onOpen,
   setDataState,
+  deleteRole,
 }: {
   data: GetAllRoleQuery | undefined;
   loading: boolean;
   setDataState: Dispatch<SetStateAction<DataState>>;
   onOpen: () => void;
+  deleteRole: (id: string) => void;
 }) => {
   const handleEdit = (data: Role) => {
     onOpen();
@@ -145,6 +147,7 @@ const RoleList = ({
                     Edit
                   </DropdownItem>
                   <DropdownItem
+                    onPress={() => deleteRole(item.id)}
                     startContent={
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -212,13 +215,15 @@ const RoleList = ({
         loadingState={loading ? "loading" : "idle"}
         items={data?.getAllRole ?? []}
       >
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey as Keys)}</TableCell>
-            )}
-          </TableRow>
-        )}
+        {(item) =>
+          !item?.isDelete && (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey as Keys)}</TableCell>
+              )}
+            </TableRow>
+          )
+        }
       </TableBody>
     </Table>
   );

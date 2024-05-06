@@ -141,6 +141,7 @@ const GetAllRole = graphql(`
     getAllRole {
       id
       name
+      isDelete
       parent
       access
     }
@@ -149,6 +150,13 @@ const GetAllRole = graphql(`
 export const UpdateRole = graphql(`
   mutation UpdateRoleById($body: RoleInput!) {
     updateRoleById(body: $body) {
+      message
+    }
+  }
+`);
+const DeleteRoleById = graphql(`
+  mutation DeleteRoleById($body: ObjectId) {
+    deleteRoleById(body: $body) {
       message
     }
   }
