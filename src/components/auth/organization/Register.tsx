@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input } from "@nextui-org/react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as Yup from "yup";
 function AdminRegister() {
   const { setDetails } = useAdminAuthStore((state) => state);
@@ -28,7 +29,9 @@ function AdminRegister() {
       );
       setDetails(data?.createUser);
     },
-    onError(error) {},
+    onError(error) {
+      toast.error(error.message);
+    },
   });
   const form = useForm<RegisterProps>({
     defaultValues: {
@@ -56,24 +59,45 @@ function AdminRegister() {
         <Controller
           name="name"
           control={form.control}
-          render={({ field }) => <Input label="Name" {...field} />}
+          render={({ field, formState: { errors } }) => (
+            <Input
+              label="Name"
+              {...field}
+              isInvalid={Boolean(errors.name?.message)}
+              errorMessage={errors.name?.message}
+            />
+          )}
         />
         <Controller
           name="email"
           control={form.control}
-          render={({ field }) => (
-            <Input label="Email" type="email" {...field} />
+          render={({ field, formState: { errors } }) => (
+            <Input
+              label="Email"
+              type="email"
+              {...field}
+              isInvalid={Boolean(errors.email?.message)}
+              errorMessage={errors.email?.message}
+            />
           )}
         />
         <Controller
           name="password"
           control={form.control}
           rules={{ required: true }}
-          render={({ field }) => (
-            <Input label="Password" type="password" {...field} />
+          render={({ field, formState: { errors } }) => (
+            <Input
+              label="Password"
+              type="password"
+              {...field}
+              isInvalid={Boolean(errors.password?.message)}
+              errorMessage={errors.password?.message}
+            />
           )}
         />
-        <Button color="primary">Create</Button>
+        <Button color="primary" type="submit">
+          REGISTER
+        </Button>
       </form>
     </>
   );

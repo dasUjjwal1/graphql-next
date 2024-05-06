@@ -24,7 +24,7 @@ const RoleDetails = () => {
     type: "CREATE",
     data: null,
   });
-  const { token } = useAdminAuthStore((state) => state);
+  const { token, adminAuth } = useAdminAuthStore((state) => state);
   const context = {
     headers: {
       authorization: token,
@@ -65,12 +65,22 @@ const RoleDetails = () => {
     }
   );
   const onSubmit = (val: RoleInput) => {
-    const requestBody: RoleInput = {
-      name: val.name,
-      access: val.access?.split(","),
-      parent: null,
-    };
-    mutation({ variables: { body: requestBody } });
+    if (dataState.type === "CREATE") {
+      const requestBody: RoleInput = {
+        name: val.name,
+        access: val.access?.includes("NONE") ? null : val.access?.split(","),
+        parent: Boolean(val.parent) ? val.parent : null,
+      };
+      mutation({ variables: { body: requestBody } });
+    } else {
+      const requestBody: RoleInput = {
+        id: val.id,
+        name: val.name,
+        access: val.access?.includes("NONE") ? null : val.access?.split(","),
+        parent: Boolean(val.parent) ? val.parent : null,
+      };
+      updateMutation({ variables: { body: requestBody } });
+    }
   };
   return (
     <>
@@ -114,7 +124,12 @@ const RoleDetails = () => {
         />
       </Modal>
       <div className="px-6">
-        <RoleList data={data} loading={loading} setDate={setDataState} />
+        <RoleList
+          data={data}
+          onOpen={modalState.onOpen}
+          loading={loading}
+          setDataState={setDataState}
+        />
       </div>
     </>
   );

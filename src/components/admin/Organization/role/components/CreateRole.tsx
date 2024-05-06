@@ -1,9 +1,11 @@
 "use client";
 
+import { AppConfig } from "@/config/appConfig";
 import { Access, Role, RoleInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
+  Chip,
   Input,
   ModalBody,
   ModalContent,
@@ -11,7 +13,6 @@ import {
   ModalHeader,
   Select,
   SelectItem,
-  useDisclosure,
 } from "@nextui-org/react";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
@@ -24,8 +25,6 @@ type Props = {
   formData: Role | null;
 };
 const CreateRole = ({ type = "CREATE", ...props }: Props) => {
-  const modalState = useDisclosure();
-
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Role name is required"),
   });
@@ -40,7 +39,9 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
     <ModalContent>
       {(onClose) => (
         <>
-          <ModalHeader className="flex flex-col gap-1">Create Role</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">
+            {type === "CREATE" ? "Create" : "Update"} Role
+          </ModalHeader>
           <form onSubmit={form.handleSubmit(props.onSubmit)}>
             <ModalBody className="lg:grid grid-cols-3">
               <Controller
@@ -80,9 +81,9 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
                     selectionMode="multiple"
                     {...field}
                   >
-                    {Object.values(Access).map((elm) => (
-                      <SelectItem key={elm} value={elm}>
-                        {elm}
+                    {AppConfig.ACCESS.map((elm) => (
+                      <SelectItem key={elm.name} value={elm.name}>
+                        {elm.label}
                       </SelectItem>
                     ))}
                   </Select>
@@ -107,7 +108,7 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
                 Close
               </Button>
               <Button color="primary" isLoading={props.loading} type="submit">
-                Create
+                {type === "CREATE" ? "Create" : "Update"}
               </Button>
             </ModalFooter>
           </form>
