@@ -1,6 +1,11 @@
 "use client";
 
-import { GetAllOrganizationQuery, Organization } from "@/graphql/graphql";
+import {
+  GetAllOrganizationQuery,
+  Organization,
+  OrganizationRegisterInput,
+} from "@/graphql/graphql";
+import { DataState } from "@/types/appTypes";
 import {
   Button,
   Chip,
@@ -17,14 +22,20 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { addMinutes } from "date-fns/addMinutes";
-import { useCallback } from "react";
+import { format } from "date-fns/format";
+import { Dispatch, SetStateAction, useCallback } from "react";
 type Keys = keyof Organization;
 const OrganizationList = ({
   data,
   loading,
+  onOpen,
+  setDataState,
 }: {
   data: GetAllOrganizationQuery | undefined;
   loading: boolean;
+  setDataState: Dispatch<SetStateAction<DataState<OrganizationRegisterInput>>>;
+  onOpen: () => void;
+  // deleteRole: (id: string) => void;
 }) => {
   const columns: { name: string; uid: Keys }[] = [
     { name: "NAME", uid: "name" },
@@ -33,7 +44,15 @@ const OrganizationList = ({
     { name: "STATUS", uid: "isActive" },
     { name: "ACTIONS", uid: "id" },
   ];
-
+  const handleEdit = (data: OrganizationRegisterInput) => {
+    onOpen();
+    const requestBody: OrganizationRegisterInput = {
+      ...data,
+      endTime: addMinutes(new Date(2014, 6, 10, 0, 0), data.endTime),
+      startTime: addMinutes(new Date(2014, 6, 10, 0, 0), data.startTime),
+    };
+    setDataState((prev) => ({ ...prev, type: "UPDATE", data: requestBody }));
+  };
   const renderCell = useCallback((item: Organization, columnKey: Keys) => {
     switch (columnKey) {
       case "address":
@@ -103,9 +122,10 @@ const OrganizationList = ({
                   </svg>
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem onClick={() => handleEdit(item)}>
+                  Edit
+                </DropdownItem>
                 <DropdownItem>Delete</DropdownItem>
               </DropdownMenu>
             </Dropdown>

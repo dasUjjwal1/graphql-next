@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button, Modal, useDisclosure } from "@nextui-org/react";
 import CreateOrganization from "./components/CreateOrganization";
 import OrganizationList from "./components/OrganizationList";
 import { useMutation, useQuery } from "@apollo/client";
@@ -12,8 +12,16 @@ import {
 import { useAdminAuthStore } from "../AuthContext";
 import { toast } from "sonner";
 import { differenceInMinutes } from "date-fns/differenceInMinutes";
+import { useState } from "react";
+import { DataState } from "@/types/appTypes";
 
 const Organization = () => {
+  const [dataState, setDataState] = useState<
+    DataState<OrganizationRegisterInput>
+  >({
+    type: "CREATE",
+    data: null,
+  });
   const { token } = useAdminAuthStore((state) => state);
   const context = {
     headers: {
@@ -86,12 +94,27 @@ const Organization = () => {
           Create
         </Button>
       </div>
-      <div className="px-6">
-        <OrganizationList data={data} loading={loading} />
+      <Modal
+        size="4xl"
+        isOpen={modalState.isOpen}
+        placement={"auto"}
+        onOpenChange={modalState.onOpenChange}
+      >
         <CreateOrganization
           loading={createLoading}
-          modalState={modalState}
           onSubmit={onSubmit}
+          formData={dataState.data}
+          type={dataState.type}
+        />
+      </Modal>
+
+      <div className="px-6">
+        <OrganizationList
+          data={data}
+          loading={loading}
+          // deleteRole={deleteRole}
+          onOpen={modalState.onOpen}
+          setDataState={setDataState}
         />
       </div>
     </>

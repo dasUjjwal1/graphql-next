@@ -108,6 +108,7 @@ export type Mutation = {
   updateOrganizationDetailsAttendancePolicy: SuccessMessage;
   updateOrganizationDetailsLeavePolicy: SuccessMessage;
   updateRoleById: SuccessMessage;
+  updateUser: SuccessMessage;
 };
 
 
@@ -168,6 +169,11 @@ export type MutationUpdateOrganizationDetailsLeavePolicyArgs = {
 
 export type MutationUpdateRoleByIdArgs = {
   body: RoleInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  body: UpdateUsersInput;
 };
 
 export type OrgHoliday = {
@@ -235,6 +241,12 @@ export type OrganizationRegisterInput = {
   workingModel?: InputMaybe<WorkingModel>;
 };
 
+export enum PayStructureStatus {
+  Monthly = 'MONTHLY',
+  Weekly = 'WEEKLY',
+  Yearly = 'YEARLY'
+}
+
 export type Query = {
   __typename?: 'Query';
   getAllDepartmentByOrgId?: Maybe<Array<Department>>;
@@ -274,6 +286,13 @@ export type RoleInput = {
 export type SuccessMessage = {
   __typename?: 'SuccessMessage';
   message: Scalars['String']['output'];
+};
+
+export type UpdateUsersInput = {
+  address?: InputMaybe<User_Address_Input>;
+  mobileNo?: InputMaybe<Scalars['String']['input']>;
+  paymentStructure?: InputMaybe<PayStructureStatus>;
+  picturePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserAddress = {
@@ -331,6 +350,14 @@ export enum WorkingModel {
 export type Address_Input = {
   buildingNumber?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
+  pin?: InputMaybe<Scalars['String']['input']>;
+  state?: InputMaybe<Scalars['String']['input']>;
+  street?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type User_Address_Input = {
+  city?: InputMaybe<Scalars['String']['input']>;
+  houseNumber?: InputMaybe<Scalars['String']['input']>;
   pin?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
   street?: InputMaybe<Scalars['String']['input']>;
@@ -402,6 +429,13 @@ export type DeleteRoleByIdMutationVariables = Exact<{
 
 export type DeleteRoleByIdMutation = { __typename?: 'Mutation', deleteRoleById: { __typename?: 'SuccessMessage', message: string } };
 
+export type UpdateOrganizationMutationVariables = Exact<{
+  body: OrganizationRegisterInput;
+}>;
+
+
+export type UpdateOrganizationMutation = { __typename?: 'Mutation', updateOrganization: { __typename?: 'SuccessMessage', message: string } };
+
 
 export const AddDepartmentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddDepartment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DepartmentCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addDepartment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<AddDepartmentMutation, AddDepartmentMutationVariables>;
 export const GetAllDepartmentByOrgIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllDepartmentByOrgId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getAllDepartmentByOrgIdId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ObjectId"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllDepartmentByOrgId"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getAllDepartmentByOrgIdId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetAllDepartmentByOrgIdQuery, GetAllDepartmentByOrgIdQueryVariables>;
@@ -413,3 +447,4 @@ export const CreateRoleDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export const GetAllRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"isDelete"}},{"kind":"Field","name":{"kind":"Name","value":"parent"}},{"kind":"Field","name":{"kind":"Name","value":"access"}}]}}]}}]} as unknown as DocumentNode<GetAllRoleQuery, GetAllRoleQueryVariables>;
 export const UpdateRoleByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateRoleById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RoleInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateRoleById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<UpdateRoleByIdMutation, UpdateRoleByIdMutationVariables>;
 export const DeleteRoleByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteRoleById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ObjectId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteRoleById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<DeleteRoleByIdMutation, DeleteRoleByIdMutationVariables>;
+export const UpdateOrganizationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateOrganization"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrganizationRegisterInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateOrganization"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;

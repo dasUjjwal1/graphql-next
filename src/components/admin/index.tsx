@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import AdminAuth from "../auth/organization";
-import AdminNavbar from "./navbar";
+import AdminNavbar from "./AdminNavbar";
 import { useAdminAuthStore } from "./AuthContext";
 import TopBar from "./TopBar";
 

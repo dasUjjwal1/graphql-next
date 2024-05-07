@@ -1,4 +1,4 @@
-import Organization from "@/components/admin/Organization/organization";
+import Organization from "@/components/admin/Organization/Organization";
 import Layout from "./layout";
 
 const Page = () => {

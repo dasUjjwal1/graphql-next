@@ -4,11 +4,11 @@ import { Toaster } from "sonner";
 import { ThemeProvider as NextThemeProvider } from "next-themes";
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
-    <NextThemeProvider defaultTheme="dark">
-      <NextUIProvider>
+    <NextUIProvider>
+      <NextThemeProvider attribute="class" defaultTheme="dark">
         <Toaster />
         {children}
-      </NextUIProvider>
-    </NextThemeProvider>
+      </NextThemeProvider>
+    </NextUIProvider>
   );
 }

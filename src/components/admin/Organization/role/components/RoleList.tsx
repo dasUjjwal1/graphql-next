@@ -1,6 +1,7 @@
 "use client";
 import { AppConfig } from "@/config/appConfig";
 import { GetAllRoleQuery, Role } from "@/graphql/graphql";
+import { DataState } from "@/types/appTypes";
 import {
   Button,
   Chip,
@@ -17,7 +18,6 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { Dispatch, SetStateAction, useCallback } from "react";
-import { DataState } from "../Role";
 type Keys = keyof Role;
 
 const columns: { name: string; uid: Keys }[] = [
@@ -35,7 +35,7 @@ const RoleList = ({
 }: {
   data: GetAllRoleQuery | undefined;
   loading: boolean;
-  setDataState: Dispatch<SetStateAction<DataState>>;
+  setDataState: Dispatch<SetStateAction<DataState<Role>>>;
   onOpen: () => void;
   deleteRole: (id: string) => void;
 }) => {
@@ -153,7 +153,7 @@ const RoleList = ({
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="currentColor"
-                        className="w-5 h-5 text-danger bg-red-950 p-1 rounded-full"
+                        className="w-5 h-5 text-danger bg-danger-100 p-1 rounded-full"
                       >
                         <path
                           fillRule="evenodd"

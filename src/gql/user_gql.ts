@@ -161,3 +161,10 @@ const DeleteRoleById = graphql(`
     }
   }
 `);
+const UpdateOrganization = graphql(`
+  mutation UpdateOrganization($body: OrganizationRegisterInput!) {
+    updateOrganization(body: $body) {
+      message
+    }
+  }
+`);

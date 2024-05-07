@@ -15,13 +15,11 @@ import { toast } from "sonner";
 import { Button, Modal, useDisclosure } from "@nextui-org/react";
 import CreateRole from "./components/CreateRole";
 import { useState } from "react";
-export type DataState = {
-  type: "CREATE" | "UPDATE";
-  data: Role | null;
-};
+import { DataState } from "@/types/appTypes";
+
 const RoleDetails = () => {
   const modalState = useDisclosure();
-  const [dataState, setDataState] = useState<DataState>({
+  const [dataState, setDataState] = useState<DataState<Role>>({
     type: "CREATE",
     data: null,
   });
@@ -100,12 +98,16 @@ const RoleDetails = () => {
   const deleteRole = (id: string) => {
     deleteMutation({ variables: { body: id } });
   };
+  const handleDialog = () => {
+    modalState.onOpen();
+    setDataState((prev) => ({ ...prev, type: "CREATE" }));
+  };
   return (
     <>
       <div className="flex px-6 items-baseline justify-between pb-4">
         <h2 className="text-2xl font-bold">Role</h2>
         <Button
-          onPress={modalState.onOpen}
+          onPress={() => handleDialog()}
           color="primary"
           startContent={
             <svg
@@ -134,7 +136,11 @@ const RoleDetails = () => {
         onOpenChange={modalState.onOpenChange}
       >
         <CreateRole
-          roleList={data?.getAllRole ?? []}
+          roleList={
+            data?.getAllRole
+              ? data?.getAllRole?.filter((item) => !item.isDelete)
+              : []
+          }
           loading={createLoading || updateLoading || deleteLoading}
           onSubmit={onSubmit}
           formData={dataState.data}
