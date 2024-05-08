@@ -1,0 +1,156 @@
+mutation CreateUser($body: UserRegister!) {
+  createUser(body: $body) {
+    name
+    email
+    isActive
+    isAdmin
+    mobileNo
+    isDelete
+    gmtMinuteOffset
+    timeZone
+    picturePath
+    paymentStructure
+    location
+    address {
+      city
+      street
+      houseNumber
+      state
+      pin
+    }
+    roles {
+      id
+      name
+      parent
+      access
+    }
+    verification {
+      identityProof
+      addressProof
+    }
+    lastSubscribe
+    createdAt
+    updatedAt
+    token
+  }
+}
+
+query LoginUser($body: UserLogin!) {
+  loginUser(body: $body) {
+    name
+    email
+    isActive
+    isAdmin
+    mobileNo
+    isDelete
+    gmtMinuteOffset
+    timeZone
+    picturePath
+    paymentStructure
+    location
+    address {
+      city
+      street
+      houseNumber
+      state
+      pin
+    }
+    roles {
+      id
+      name
+      parent
+      access
+    }
+    verification {
+      identityProof
+      addressProof
+    }
+    lastSubscribe
+    createdAt
+    updatedAt
+    token
+  }
+}
+
+query GetAllOrganization {
+  getAllOrganization {
+    id
+    name
+    userId
+    isActive
+    lastSubscribe
+    latitude
+    longitude
+    workingModel
+    address {
+      city
+      street
+      buildingNumber
+      state
+      pin
+    }
+    employeeCount
+    totalLeaveCount
+    holiday {
+      id
+      name
+      date
+    }
+    documents
+    startTime
+    endTime
+    department {
+      id
+      name
+    }
+    notWorkingDays
+    orgContact
+    paidLeavePm
+    sickLeavePm
+    remoteClockIn
+    locationRequired
+    gracePeriod
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateOrganization($body: OrganizationRegisterInput!) {
+  createOrganization(body: $body) {
+    message
+  }
+}
+
+mutation CreateRole($body: RoleInput!) {
+  createRole(body: $body) {
+    message
+  }
+}
+
+query GetAllRole {
+  getAllRole {
+    id
+    name
+    isDelete
+    parent
+    access
+  }
+}
+
+mutation UpdateRoleById($body: RoleInput!) {
+  updateRoleById(body: $body) {
+    message
+  }
+}
+
+mutation DeleteRoleById($body: ObjectId) {
+  deleteRoleById(body: $body) {
+    message
+  }
+}
+
+mutation UpdateOrganization($body: OrganizationRegisterInput!) {
+  updateOrganization(body: $body) {
+    message
+  }
+}

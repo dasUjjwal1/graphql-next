@@ -22,7 +22,6 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { addMinutes } from "date-fns/addMinutes";
-import { format } from "date-fns/format";
 import { Dispatch, SetStateAction, useCallback } from "react";
 type Keys = keyof Organization;
 const OrganizationList = ({

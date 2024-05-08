@@ -173,7 +173,7 @@ const RoleList = ({
           return item[columnKey];
       }
     },
-    [loading]
+    [data?.getAllRole, deleteRole, handleEdit]
   );
 
   return (
