@@ -100,7 +100,7 @@ const RoleDetails = () => {
   };
   const handleDialog = () => {
     modalState.onOpen();
-    setDataState((prev) => ({ ...prev, type: "CREATE" }));
+    setDataState((prev) => ({ ...prev, type: "CREATE", data: null }));
   };
   return (
     <>
