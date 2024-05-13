@@ -173,7 +173,8 @@ const RoleList = ({
           return item[columnKey];
       }
     },
-    [data?.getAllRole, deleteRole, handleEdit]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data?.getAllRole]
   );
 
   return (
