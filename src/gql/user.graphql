@@ -90,7 +90,6 @@ query GetAllOrganization {
       pin
     }
     employeeCount
-    totalLeaveCount
     holiday {
       id
       name
@@ -105,8 +104,6 @@ query GetAllOrganization {
     }
     notWorkingDays
     orgContact
-    paidLeavePm
-    sickLeavePm
     remoteClockIn
     locationRequired
     gracePeriod
