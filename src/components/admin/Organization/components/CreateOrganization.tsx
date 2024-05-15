@@ -298,7 +298,12 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
               />
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
+              <Button
+                color="danger"
+                type="button"
+                variant="light"
+                onPress={onClose}
+              >
                 Close
               </Button>
               <Button color="primary" isLoading={props.loading} type="submit">

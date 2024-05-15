@@ -11,3 +11,9 @@ query GetAllDepartmentByOrgId($getAllDepartmentByOrgIdId: ObjectId!) {
     isDelete
   }
 }
+
+mutation AddLeave($body: LeaveInput!) {
+  addLeave(body: $body) {
+    message
+  }
+}

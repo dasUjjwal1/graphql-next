@@ -6,6 +6,7 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
   const menu = [
     { label: "Organization", path: "/admin/organization" },
     { label: "Role", path: "/admin/organization/role" },
+    { label: "Leave", path: "/admin/organization/leave" },
     { label: "Attendance", path: "/admin/organization/attendance" },
   ];
   const pathName = usePathname();

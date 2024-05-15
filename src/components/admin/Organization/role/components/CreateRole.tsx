@@ -104,7 +104,12 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
               />
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="flat" onPress={onClose}>
+              <Button
+                color="danger"
+                type="button"
+                variant="flat"
+                onPress={onClose}
+              >
                 Close
               </Button>
               <Button color="primary" isLoading={props.loading} type="submit">
