@@ -8,6 +8,12 @@ import * as Yup from "yup";
 import { FloatLabel } from "primereact/floatlabel";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
+import { AppConfig } from "@/config/appConfig";
+import { Divider } from "primereact/divider";
+
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
+
 type Props = {
   onSubmit: (val: OrganizationRegisterInput) => void;
   loading: boolean;
@@ -29,57 +35,85 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
 
   return (
     <form
-      className="lg:grid grid-cols-3 gap-4 p-8"
+      className="lg:grid grid-cols-3 gap-4"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
+      <Divider className="col-span-3 mb-0" align="left">
+        <h4 className="m-0">Basic Details</h4>
+      </Divider>
       <Controller
         name="name"
         control={form.control}
         render={({ field, formState: { errors, touchedFields } }) => (
-          <FloatLabel>
-            <InputText {...field} />
-            <label htmlFor="name">Name</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-building-columns"> </InputIcon>
+            <InputText
+              className="w-full"
+              {...field}
+              invalid={Boolean(errors.name?.message)}
+              placeholder="Name"
+            />
+          </IconField>
         )}
       />
       <Controller
         name="employeeCount"
         control={form.control}
         render={({ field }) => (
-          <FloatLabel>
-            <InputText type="number" {...field} />
-            <label htmlFor="employeeCount">Est. Employee Count</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-user"> </InputIcon>
+            <InputText
+              className="w-full"
+              keyfilter={"int"}
+              placeholder="Est. Employee Count"
+              {...field}
+            />
+          </IconField>
         )}
       />
       <Controller
         name="workingModel"
         control={form.control}
         render={({ field }) => (
-          <FloatLabel>
-            <Dropdown options={[]} className="w-full" {...field} />
-            <label>Select Working Model</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-user"> </InputIcon>
+            <Dropdown
+              options={AppConfig.WORKING_MODE}
+              className="w-full"
+              placeholder="Select Working Model"
+              {...field}
+            />
+          </IconField>
         )}
       />
       <Controller
         name="startTime"
         control={form.control}
         render={({ field, formState: { errors, touchedFields } }) => (
-          <FloatLabel>
-            <InputText {...field} />
-            <label>Start-Time</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-user"> </InputIcon>
+            <InputText
+              type="time"
+              className="w-full"
+              {...field}
+              placeholder="Start-Time"
+            />
+          </IconField>
         )}
       />
       <Controller
         name="endTime"
         control={form.control}
         render={({ field, formState: { errors, touchedFields } }) => (
-          <FloatLabel>
-            <InputText {...field} />
-            <label>End-Time</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-user"> </InputIcon>
+            <InputText
+              type="time"
+              className="w-full"
+              {...field}
+              placeholder="End-Time"
+            />
+          </IconField>
         )}
       />
       <Controller
@@ -87,17 +121,20 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         control={form.control}
         render={({ field }) => (
           <FloatLabel>
-            <InputText {...field} />
+            <InputText className="w-full" {...field} />
             <label>Contact</label>
           </FloatLabel>
         )}
       />
+      <Divider className="col-span-3 mb-0" align="left">
+        <h4 className="m-0">Address Details</h4>
+      </Divider>
       <Controller
         name="address.buildingNumber"
         control={form.control}
         render={({ field }) => (
           <FloatLabel>
-            <InputText {...field} />
+            <InputText className="w-full" {...field} />
             <label>Building No.</label>
           </FloatLabel>
         )}
@@ -107,7 +144,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         control={form.control}
         render={({ field }) => (
           <FloatLabel>
-            <InputText {...field} />
+            <InputText className="w-full" {...field} />
             <label>Street</label>
           </FloatLabel>
         )}
@@ -117,7 +154,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         control={form.control}
         render={({ field }) => (
           <FloatLabel>
-            <InputText {...field} />
+            <InputText className="w-full" {...field} />
             <label>City</label>
           </FloatLabel>
         )}
@@ -127,7 +164,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         control={form.control}
         render={({ field }) => (
           <FloatLabel>
-            <InputText {...field} />
+            <InputText className="w-full" {...field} />
             <label>State</label>
           </FloatLabel>
         )}
@@ -137,16 +174,21 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         control={form.control}
         render={({ field }) => (
           <FloatLabel>
-            <InputText {...field} />
-            <label htmlFor="name">Pin</label>
+            <InputText className="w-full" {...field} />
+            <label htmlFor="name">Pin No.</label>
           </FloatLabel>
         )}
       />
 
-      <Button type="button" label="Close" />
-      {/* <Button color="primary" isLoading={props.loading} type="submit">
-        Create
-      </Button> */}
+      <div className="col-span-3 flex gap-3 justify-end">
+        <Button type="button" label="Close" severity="danger" />
+        <Button
+          color="primary"
+          loading={props.loading}
+          type="submit"
+          label="Create"
+        />
+      </div>
     </form>
   );
 };

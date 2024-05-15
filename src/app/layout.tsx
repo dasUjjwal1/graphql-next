@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import "primereact/resources/themes/md-light-deeppurple/theme.css";
-import "primeicons/primeicons.css";
 import "./globals.css";
 import { Cabin } from "next/font/google";
 import { ReactNode } from "react";

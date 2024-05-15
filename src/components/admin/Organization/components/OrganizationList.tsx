@@ -22,6 +22,8 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import { addMinutes } from "date-fns/addMinutes";
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
 import { Dispatch, SetStateAction, useCallback } from "react";
 type Keys = keyof Organization;
 const OrganizationList = ({
@@ -52,6 +54,25 @@ const OrganizationList = ({
     };
     setDataState((prev) => ({ ...prev, type: "UPDATE", data: requestBody }));
   };
+  const timeTemplate = (body: any) => (
+    <>
+      {addMinutes(new Date(2014, 6, 10, 0, 0), body.startTime).toLocaleString(
+        [],
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+        }
+      )}{" "}
+      -{" "}
+      {addMinutes(new Date(2014, 6, 10, 0, 0), body.endTime).toLocaleString(
+        [],
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+        }
+      )}
+    </>
+  );
   const renderCell = useCallback((item: Organization, columnKey: Keys) => {
     switch (columnKey) {
       case "address":
@@ -69,25 +90,7 @@ const OrganizationList = ({
           </div>
         );
       case "startTime":
-        return (
-          <p>
-            {addMinutes(
-              new Date(2014, 6, 10, 0, 0),
-              item.startTime
-            ).toLocaleString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}{" "}
-            -{" "}
-            {addMinutes(
-              new Date(2014, 6, 10, 0, 0),
-              item.endTime
-            ).toLocaleString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
-        );
+        return <p></p>;
       case "isActive":
         return (
           <Chip
@@ -136,7 +139,11 @@ const OrganizationList = ({
   }, []);
   return (
     <div>
-      <Table aria-label="Example table with custom cells">
+      <DataTable value={data?.getAllOrganization ?? []}>
+        <Column field="name" header={"Organization Name"} />
+        <Column body={timeTemplate} />
+      </DataTable>
+      {/* <Table aria-label="Example table with custom cells">
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn
@@ -182,7 +189,7 @@ const OrganizationList = ({
             </TableRow>
           )}
         </TableBody>
-      </Table>
+      </Table> */}
     </div>
   );
 };

@@ -85,6 +85,8 @@ const Organization = () => {
         />
       </div>
       <Dialog
+        className="w-2/3"
+        draggable={false}
         visible={dataState.state}
         header={"Create Organization"}
         onHide={() =>
@@ -103,13 +105,13 @@ const Organization = () => {
       </Dialog>
 
       <div className="px-6">
-        {/* <OrganizationList
+        <OrganizationList
           data={data}
           loading={loading}
           // deleteRole={deleteRole}
-          
+
           setDataState={setDataState}
-        /> */}
+        />
       </div>
     </>
   );
