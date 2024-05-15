@@ -1,14 +1,5 @@
 "use client";
-import { NextUIProvider } from "@nextui-org/react";
-import { Toaster } from "sonner";
-import { ThemeProvider as NextThemeProvider } from "next-themes";
+import { PrimeReactProvider } from "primereact/api";
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  return (
-    <NextUIProvider>
-      <NextThemeProvider attribute="class" defaultTheme="dark">
-        <Toaster />
-        {children}
-      </NextThemeProvider>
-    </NextUIProvider>
-  );
+  return <PrimeReactProvider>{children}</PrimeReactProvider>;
 }
