@@ -1,16 +1,14 @@
 "use client";
 
-import { OrganizationRegisterInput, WorkingModel } from "@/graphql/graphql";
+import { OrganizationRegisterInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
-import { FloatLabel } from "primereact/floatlabel";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { AppConfig } from "@/config/appConfig";
 import { Divider } from "primereact/divider";
-
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 
@@ -120,10 +118,10 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         name="orgContact"
         control={form.control}
         render={({ field }) => (
-          <FloatLabel>
-            <InputText className="w-full" {...field} />
-            <label>Contact</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-user"> </InputIcon>
+            <InputText className="w-full" {...field} placeholder="Contact" />
+          </IconField>
         )}
       />
       <Divider className="col-span-3 mb-0" align="left">
@@ -133,50 +131,54 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         name="address.buildingNumber"
         control={form.control}
         render={({ field }) => (
-          <FloatLabel>
-            <InputText className="w-full" {...field} />
-            <label>Building No.</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-building"> </InputIcon>
+            <InputText
+              className="w-full"
+              {...field}
+              placeholder="Building No."
+            />
+          </IconField>
         )}
       />
       <Controller
         name="address.street"
         control={form.control}
         render={({ field }) => (
-          <FloatLabel>
-            <InputText className="w-full" {...field} />
-            <label>Street</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-user"> </InputIcon>
+            <InputText className="w-full" {...field} placeholder="Street" />
+          </IconField>
         )}
       />
       <Controller
         name="address.city"
         control={form.control}
         render={({ field }) => (
-          <FloatLabel>
-            <InputText className="w-full" {...field} />
-            <label>City</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-user"> </InputIcon>
+            <InputText className="w-full" {...field} placeholder="City" />
+          </IconField>
         )}
       />
       <Controller
         name="address.state"
         control={form.control}
         render={({ field }) => (
-          <FloatLabel>
-            <InputText className="w-full" {...field} />
-            <label>State</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-user"> </InputIcon>
+            <InputText className="w-full" {...field} placeholder="State" />
+          </IconField>
         )}
       />
       <Controller
         name="address.pin"
         control={form.control}
         render={({ field }) => (
-          <FloatLabel>
-            <InputText className="w-full" {...field} />
-            <label htmlFor="name">Pin No.</label>
-          </FloatLabel>
+          <IconField iconPosition="left">
+            <InputIcon className="pi pi-info-circle"> </InputIcon>
+            <InputText className="w-full" {...field} placeholder="Pin No." />
+          </IconField>
         )}
       />
 

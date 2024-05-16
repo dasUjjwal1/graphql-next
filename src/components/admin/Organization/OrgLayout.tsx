@@ -13,7 +13,7 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <div className="px-3 mb-3 bg-muted">
-        <ul className="flex gap-2">
+        <ul className="flex gap-2 list-none px-0">
           {menu.map((item, index) => (
             <li
               className={`px-4 py-2 ${

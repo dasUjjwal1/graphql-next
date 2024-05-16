@@ -6,22 +6,9 @@ import {
   OrganizationRegisterInput,
 } from "@/graphql/graphql";
 import { DataState } from "@/types/appTypes";
-import {
-  Button,
-  Chip,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Skeleton,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from "@nextui-org/react";
+
 import { addMinutes } from "date-fns/addMinutes";
+import { Chip } from "primereact/chip";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { Dispatch, SetStateAction, useCallback } from "react";
@@ -73,71 +60,75 @@ const OrganizationList = ({
       )}
     </>
   );
+  // const renderCell = useCallback((item: Organization, columnKey: Keys) => {
+  //   switch (columnKey) {
+  //     case "address":
+  //       const data = item.address;
+  //       return (
+  //         <div className="flex flex-col">
+  //           <p className="text-bold text-sm capitalize">
+  //             {data?.buildingNumber}
+  //           </p>
+  //           <p className="text-bold text-sm capitalize text-default-400">
+  //             {data?.city}
+  //             {", "}
+  //             {data?.state}
+  //           </p>
+  //         </div>
+  //       );
+  //     case "startTime":
+  //       return <p></p>;
+  //     case "isActive":
+  //       return (
+  //         <Chip
+  //           className="capitalize"
+  //           color={item.isActive ? "success" : "danger"}
+  //           size="sm"
+  //           variant="flat"
+  //         ></Chip>
+  //       );
+  //     case "id":
+  //       return (
+  //         <div className="relative flex justify-end items-center gap-2">
+  //           <Dropdown>
+  //             <DropdownTrigger>
+  //               <Button isIconOnly size="sm" variant="light">
+  //                 <svg
+  //                   xmlns="http://www.w3.org/2000/svg"
+  //                   fill="none"
+  //                   viewBox="0 0 24 24"
+  //                   strokeWidth={1.5}
+  //                   stroke="currentColor"
+  //                   className="w-6 h-6"
+  //                 >
+  //                   <path
+  //                     strokeLinecap="round"
+  //                     strokeLinejoin="round"
+  //                     d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+  //                   />
+  //                 </svg>
+  //               </Button>
+  //             </DropdownTrigger>
+  //             <DropdownMenu aria-label="Static Actions">
+  //               <DropdownItem onClick={() => handleEdit(item)}>
+  //                 Edit
+  //               </DropdownItem>
+  //               <DropdownItem>Delete</DropdownItem>
+  //             </DropdownMenu>
+  //           </Dropdown>
+  //         </div>
+  //       );
+  //     default:
+  //       return item[columnKey];
+  //   }
+  // }, []);
   const activeTemplate = (body: any) => {
-    return <div> {body.isActive ? "Active" : "Inactive"}</div>;
+    return (
+      <div>
+        <Chip label={body.isActive ? "Active" : "Inactive"} />
+      </div>
+    );
   };
-  const renderCell = useCallback((item: Organization, columnKey: Keys) => {
-    switch (columnKey) {
-      case "address":
-        const data = item.address;
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">
-              {data?.buildingNumber}
-            </p>
-            <p className="text-bold text-sm capitalize text-default-400">
-              {data?.city}
-              {", "}
-              {data?.state}
-            </p>
-          </div>
-        );
-      case "startTime":
-        return <p></p>;
-      case "isActive":
-        return (
-          <Chip
-            className="capitalize"
-            color={item.isActive ? "success" : "danger"}
-            size="sm"
-            variant="flat"
-          ></Chip>
-        );
-      case "id":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
-                    />
-                  </svg>
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Static Actions">
-                <DropdownItem onClick={() => handleEdit(item)}>
-                  Edit
-                </DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return item[columnKey];
-    }
-  }, []);
   return (
     <div>
       <DataTable value={data?.getAllOrganization ?? []}>

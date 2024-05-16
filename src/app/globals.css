@@ -4,8 +4,9 @@
  */
 
 @layer tailwind-base, primereact, tailwind-utilities;
-@import "primereact/resources/themes/soho-dark/theme.css";
+@import "primereact/resources/themes/lara-light-cyan/theme.css";
 @import "primeicons/primeicons.css";
+
 @layer tailwind-base {
   @tailwind base;
 }
@@ -14,6 +15,7 @@
   @tailwind components;
   @tailwind utilities;
 }
+
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;

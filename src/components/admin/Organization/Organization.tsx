@@ -43,7 +43,11 @@ const Organization = () => {
       context,
       onCompleted(data) {
         toast.success(data.createOrganization.message);
-
+        setDataState((prev) => ({
+          ...prev,
+          state: false,
+          data: null,
+        }));
         refetch();
       },
       onError(error) {
