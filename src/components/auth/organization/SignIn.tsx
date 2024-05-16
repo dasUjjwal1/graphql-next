@@ -3,7 +3,10 @@ import { useAdminAuthStore } from "@/components/admin/AuthContext";
 import { LoginUserDocument, UserLogin } from "@/graphql/graphql";
 import { useLazyQuery } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Input } from "@nextui-org/react";
+import { Button } from "primereact/button";
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
+import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as Yup from "yup";
@@ -44,31 +47,35 @@ function AdminSignIn() {
           name="email"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <Input
-              label="Email"
-              type="email"
-              {...field}
-              isInvalid={Boolean(errors.email?.message)}
-              errorMessage={errors.email?.message}
-            />
+            <IconField iconPosition="left">
+              <InputIcon className="pi pi-user"> </InputIcon>
+              <InputText
+                className="w-full"
+                keyfilter={"email"}
+                placeholder="Email"
+                invalid={Boolean(errors.email?.message)}
+                {...field}
+              />
+            </IconField>
           )}
         />
         <Controller
           name="password"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <Input
-              label="Password"
-              type="password"
-              {...field}
-              isInvalid={Boolean(errors.password?.message)}
-              errorMessage={errors.password?.message}
-            />
+            <IconField iconPosition="left">
+              <InputIcon className="pi pi-lock"> </InputIcon>
+              <InputText
+                className="w-full"
+                placeholder="Password"
+                invalid={Boolean(errors.password?.message)}
+                {...field}
+                type="password"
+              />
+            </IconField>
           )}
         />
-        <Button isLoading={loading} color="primary" type="submit">
-          LOGIN
-        </Button>
+        <Button loading={loading} label="LOGIN" type="submit" />
       </form>
     </>
   );

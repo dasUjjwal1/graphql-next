@@ -1,30 +1,29 @@
 "use client";
 import { useState } from "react";
 import AdminRegister from "./Register";
-import { Button, Card } from "@nextui-org/react";
 import AdminSignIn from "./SignIn";
+
+import { Button } from "primereact/button";
+
 function AdminAuth() {
   const [login, setLogin] = useState<"login" | "register">("register");
   return (
     <div className="h-screen flex items-center justify-center">
-      <Card className="lg:w-1/4 px-6 py-8">
+      <div className="lg:w-1/4 px-6 py-8">
         <h3 className="text-3xl font-bold mb-3">
           {login === "register" ? "Create new account" : "Login"}
         </h3>
         {login === "login" ? <AdminSignIn /> : <AdminRegister />}
-        <p className="text-center pt-4">
+        <div className="text-center">
           <Button
-            color="primary"
-            variant="flat"
-            className="bg-none"
+            label={login === "login" ? "Register here" : "Login"}
             onClick={() =>
               setLogin((prev) => (prev === "login" ? "register" : "login"))
             }
-          >
-            {login === "login" ? "Register here" : "Login"}
-          </Button>
-        </p>
-      </Card>
+            text
+          />
+        </div>
+      </div>
     </div>
   );
 }

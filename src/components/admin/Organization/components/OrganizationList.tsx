@@ -73,6 +73,9 @@ const OrganizationList = ({
       )}
     </>
   );
+  const activeTemplate = (body: any) => {
+    return <div> {body.isActive ? "Active" : "Inactive"}</div>;
+  };
   const renderCell = useCallback((item: Organization, columnKey: Keys) => {
     switch (columnKey) {
       case "address":
@@ -98,9 +101,7 @@ const OrganizationList = ({
             color={item.isActive ? "success" : "danger"}
             size="sm"
             variant="flat"
-          >
-            {item.isActive ? "Active" : "Inactive"}
-          </Chip>
+          ></Chip>
         );
       case "id":
         return (
@@ -141,7 +142,8 @@ const OrganizationList = ({
     <div>
       <DataTable value={data?.getAllOrganization ?? []}>
         <Column field="name" header={"Organization Name"} />
-        <Column body={timeTemplate} />
+        <Column body={timeTemplate} header={"On-Time"} />
+        <Column body={activeTemplate} header={"Status"} />
       </DataTable>
       {/* <Table aria-label="Example table with custom cells">
         <TableHeader columns={columns}>
