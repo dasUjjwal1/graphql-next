@@ -2,15 +2,13 @@
 
 import { OrganizationRegisterInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
 import { AppConfig } from "@/config/appConfig";
 import { Divider } from "primereact/divider";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
+import FieldInput from "@/components/global/FieldInput";
+import FieldDropdown from "@/components/global/FieldDropdown";
 
 type Props = {
   onSubmit: (val: OrganizationRegisterInput) => void;
@@ -21,12 +19,18 @@ type Props = {
 const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Organization name is required"),
-    startTime: Yup.string().required("This field is required"),
-    endTime: Yup.string().required("This field is required"),
   });
   const form = useForm<OrganizationRegisterInput>({
     defaultValues: {
-      ...(type === "UPDATE" && props.formData && props.formData),
+      ...(type === "UPDATE" &&
+        props.formData && {
+          ...props.formData,
+          workingModel: props.formData.workingModel
+            ? AppConfig.WORKING_MODE.find(
+                (elm) => elm.count === props?.formData?.workingModel
+              )?.value
+            : "",
+        }),
     },
     resolver: yupResolver(validationSchema),
   });
@@ -43,48 +47,40 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         name="name"
         control={form.control}
         render={({ field, formState: { errors, touchedFields } }) => (
-          <IconField iconPosition="left">
-            <InputIcon className="pi pi-building-columns"> </InputIcon>
-            <InputText
-              className="w-full"
-              {...field}
-              invalid={Boolean(errors.name?.message)}
-              placeholder="Name"
-            />
-          </IconField>
+          <FieldInput
+            label="Name"
+            {...field}
+            placeholder="Name"
+            icon="pi pi-user"
+            invalid={Boolean(errors.name?.message)}
+          />
         )}
       />
       <Controller
         name="employeeCount"
         control={form.control}
         render={({ field }) => (
-          <IconField iconPosition="left">
-            <InputIcon className="pi pi-user"> </InputIcon>
-            <InputText
-              className="w-full"
-              keyfilter={"int"}
-              placeholder="Est. Employee Count"
-              {...field}
-            />
-          </IconField>
+          <FieldInput
+            {...field}
+            placeholder="30,50 etc."
+            label="Est. employee"
+            icon="pi pi-user"
+          />
         )}
       />
       <Controller
         name="workingModel"
         control={form.control}
         render={({ field }) => (
-          <IconField iconPosition="left">
-            <InputIcon className="pi pi-user"> </InputIcon>
-            <Dropdown
-              options={AppConfig.WORKING_MODE}
-              className="w-full"
-              placeholder="Select Working Model"
-              {...field}
-            />
-          </IconField>
+          <FieldDropdown
+            label="Working model"
+            options={AppConfig.WORKING_MODE}
+            placeholder="Select Working Model"
+            {...field}
+          />
         )}
       />
-      <Controller
+      {/* <Controller
         name="startTime"
         control={form.control}
         render={({ field, formState: { errors, touchedFields } }) => (
@@ -98,8 +94,8 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
             />
           </IconField>
         )}
-      />
-      <Controller
+      /> */}
+      {/* <Controller
         name="endTime"
         control={form.control}
         render={({ field, formState: { errors, touchedFields } }) => (
@@ -113,15 +109,17 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
             />
           </IconField>
         )}
-      />
+      /> */}
       <Controller
         name="orgContact"
         control={form.control}
         render={({ field }) => (
-          <IconField iconPosition="left">
-            <InputIcon className="pi pi-user"> </InputIcon>
-            <InputText className="w-full" {...field} placeholder="Contact" />
-          </IconField>
+          <FieldInput
+            {...field}
+            placeholder="Contact"
+            label="Contact"
+            icon="pi pi-user"
+          />
         )}
       />
       <Divider className="col-span-3 mb-0" align="left">
@@ -131,64 +129,76 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         name="address.buildingNumber"
         control={form.control}
         render={({ field }) => (
-          <IconField iconPosition="left">
-            <InputIcon className="pi pi-building"> </InputIcon>
-            <InputText
-              className="w-full"
-              {...field}
-              placeholder="Building No."
-            />
-          </IconField>
+          <FieldInput
+            {...field}
+            label="Building No."
+            placeholder="Building No."
+            icon={"pi pi-building"}
+          />
         )}
       />
       <Controller
         name="address.street"
         control={form.control}
         render={({ field }) => (
-          <IconField iconPosition="left">
-            <InputIcon className="pi pi-user"> </InputIcon>
-            <InputText className="w-full" {...field} placeholder="Street" />
-          </IconField>
+          <FieldInput
+            {...field}
+            label="Street"
+            placeholder="Street"
+            icon={"pi pi-building"}
+          />
         )}
       />
       <Controller
         name="address.city"
         control={form.control}
         render={({ field }) => (
-          <IconField iconPosition="left">
-            <InputIcon className="pi pi-user"> </InputIcon>
-            <InputText className="w-full" {...field} placeholder="City" />
-          </IconField>
+          <FieldInput
+            {...field}
+            icon="pi pi-info-circle"
+            placeholder="City"
+            label="City"
+          />
         )}
       />
       <Controller
         name="address.state"
         control={form.control}
         render={({ field }) => (
-          <IconField iconPosition="left">
-            <InputIcon className="pi pi-user"> </InputIcon>
-            <InputText className="w-full" {...field} placeholder="State" />
-          </IconField>
+          <FieldInput
+            {...field}
+            icon="pi pi-info-circle"
+            placeholder="State"
+            label="State"
+          />
         )}
       />
       <Controller
         name="address.pin"
         control={form.control}
         render={({ field }) => (
-          <IconField iconPosition="left">
-            <InputIcon className="pi pi-info-circle"> </InputIcon>
-            <InputText className="w-full" {...field} placeholder="Pin No." />
-          </IconField>
+          <FieldInput
+            {...field}
+            icon="pi pi-info-circle"
+            placeholder="Pin No."
+            label="Pin No."
+          />
         )}
       />
 
       <div className="col-span-3 flex gap-3 justify-end">
-        <Button type="button" label="Close" severity="danger" />
+        <Button
+          type="reset"
+          onClick={() => form.reset()}
+          label="Reset"
+          icon={"pi pi-refresh"}
+          severity="danger"
+        />
         <Button
           color="primary"
           loading={props.loading}
           type="submit"
-          label="Create"
+          label={type === "CREATE" ? "Create" : "Update"}
         />
       </div>
     </form>

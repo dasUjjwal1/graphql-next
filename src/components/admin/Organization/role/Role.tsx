@@ -16,6 +16,7 @@ import { Button, Modal, useDisclosure } from "@nextui-org/react";
 import CreateRole from "./components/CreateRole";
 import { useState } from "react";
 import { DataState } from "@/types/appTypes";
+import { Dialog } from "primereact/dialog";
 
 const RoleDetails = () => {
   const modalState = useDisclosure();
@@ -107,7 +108,14 @@ const RoleDetails = () => {
       <div className="flex px-6 items-baseline justify-between pb-4">
         <h2 className="text-2xl font-bold">Role</h2>
         <Button
-          onPress={() => handleDialog()}
+          onClick={() =>
+            setDataState((prev) => ({
+              ...prev,
+              state: true,
+              data: null,
+              type: "CREATE",
+            }))
+          }
           color="primary"
           startContent={
             <svg
@@ -129,11 +137,17 @@ const RoleDetails = () => {
           Create
         </Button>
       </div>
-      <Modal
-        size="4xl"
-        isOpen={modalState.isOpen}
-        placement={"auto"}
-        onOpenChange={modalState.onOpenChange}
+      <Dialog
+        className="w-2/3"
+        draggable={false}
+        visible={dataState.state}
+        header={"Create Role"}
+        onHide={() =>
+          setDataState((prev) => ({
+            ...prev,
+            state: false,
+          }))
+        }
       >
         <CreateRole
           roleList={
@@ -146,7 +160,7 @@ const RoleDetails = () => {
           formData={dataState.data}
           type={dataState.type}
         />
-      </Modal>
+      </Dialog>
       <div className="px-6">
         <RoleList
           data={data}

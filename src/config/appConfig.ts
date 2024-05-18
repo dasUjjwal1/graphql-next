@@ -30,9 +30,9 @@ export const AppConfig = {
     { label: "Employee Credential", value: 15, name: "EMPLOYEE_CREDENTIAL" },
   ],
   WORKING_MODE: [
-    { label: "ONSITE", value: "ONSITE" },
-    { label: "HYBRID", value: "HYBRID" },
-    { label: "REMOTE", value: "REMOTE" },
-    { label: "OTHER", value: "OTHER" },
+    { label: "ONSITE", value: "ONSITE", count: 1 },
+    { label: "HYBRID", value: "HYBRID", count: 2 },
+    { label: "REMOTE", value: "REMOTE", count: 3 },
+    { label: "OTHER", value: "OTHER", count: 4 },
   ],
 };

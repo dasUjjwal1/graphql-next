@@ -6,60 +6,55 @@ import {
   OrganizationRegisterInput,
 } from "@/graphql/graphql";
 import { DataState } from "@/types/appTypes";
+import { Button } from "primereact/button";
 
-import { addMinutes } from "date-fns/addMinutes";
 import { Chip } from "primereact/chip";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { Dispatch, SetStateAction, useCallback } from "react";
-type Keys = keyof Organization;
+import { Dispatch, SetStateAction } from "react";
+
 const OrganizationList = ({
   data,
   loading,
-  onOpen,
   setDataState,
 }: {
   data: GetAllOrganizationQuery | undefined;
   loading: boolean;
   setDataState: Dispatch<SetStateAction<DataState<OrganizationRegisterInput>>>;
-  onOpen: () => void;
   // deleteRole: (id: string) => void;
 }) => {
-  const columns: { name: string; uid: Keys }[] = [
-    { name: "NAME", uid: "name" },
-    { name: "WORKING- TIME", uid: "startTime" },
-    { name: "ADDRESS", uid: "address" },
-    { name: "STATUS", uid: "isActive" },
-    { name: "ACTIONS", uid: "id" },
-  ];
   const handleEdit = (data: OrganizationRegisterInput) => {
-    onOpen();
     const requestBody: OrganizationRegisterInput = {
       ...data,
-      endTime: addMinutes(new Date(2014, 6, 10, 0, 0), data.endTime),
-      startTime: addMinutes(new Date(2014, 6, 10, 0, 0), data.startTime),
+      // endTime: addMinutes(new Date(2014, 6, 10, 0, 0), data.endTime),
+      // startTime: addMinutes(new Date(2014, 6, 10, 0, 0), data.startTime),
     };
-    setDataState((prev) => ({ ...prev, type: "UPDATE", data: requestBody }));
+    setDataState((prev) => ({
+      ...prev,
+      type: "UPDATE",
+      data: requestBody,
+      state: true,
+    }));
   };
-  const timeTemplate = (body: any) => (
-    <>
-      {addMinutes(new Date(2014, 6, 10, 0, 0), body.startTime).toLocaleString(
-        [],
-        {
-          hour: "2-digit",
-          minute: "2-digit",
-        }
-      )}{" "}
-      -{" "}
-      {addMinutes(new Date(2014, 6, 10, 0, 0), body.endTime).toLocaleString(
-        [],
-        {
-          hour: "2-digit",
-          minute: "2-digit",
-        }
-      )}
-    </>
-  );
+  // const timeTemplate = (body: any) => (
+  //   <>
+  //     {addMinutes(new Date(2014, 6, 10, 0, 0), body.startTime).toLocaleString(
+  //       [],
+  //       {
+  //         hour: "2-digit",
+  //         minute: "2-digit",
+  //       }
+  //     )}{" "}
+  //     -{" "}
+  //     {addMinutes(new Date(2014, 6, 10, 0, 0), body.endTime).toLocaleString(
+  //       [],
+  //       {
+  //         hour: "2-digit",
+  //         minute: "2-digit",
+  //       }
+  //     )}
+  //   </>
+  // );
   // const renderCell = useCallback((item: Organization, columnKey: Keys) => {
   //   switch (columnKey) {
   //     case "address":
@@ -122,19 +117,55 @@ const OrganizationList = ({
   //       return item[columnKey];
   //   }
   // }, []);
-  const activeTemplate = (body: any) => {
+  const activeTemplate = (body: Organization) => {
     return (
-      <div>
-        <Chip label={body.isActive ? "Active" : "Inactive"} />
-      </div>
+      <Chip
+        className={body.isActive ? "bg-green-600 text-green-50" : ""}
+        label={body.isActive ? "Active" : "Inactive"}
+      />
+    );
+  };
+  const addressTemplate = (body: Organization) => {
+    return (
+      <>
+        {body.address && (
+          <div className="">
+            <small className="font-semibold">
+              {body.address?.buildingNumber + ", " + body.address?.street}
+            </small>
+            <small className="block">
+              {body.address?.city +
+                ", " +
+                body.address.state +
+                ", " +
+                body.address.pin}
+            </small>
+          </div>
+        )}
+      </>
+    );
+  };
+  const actionTemplate = (body: OrganizationRegisterInput) => {
+    return (
+      <>
+        <Button
+          icon="pi pi-pencil"
+          rounded
+          size="small"
+          text
+          aria-label="Edit"
+          onClick={() => handleEdit(body)}
+        />
+      </>
     );
   };
   return (
     <div>
-      <DataTable value={data?.getAllOrganization ?? []}>
+      <DataTable loading={loading} value={data?.getAllOrganization ?? []}>
         <Column field="name" header={"Organization Name"} />
-        <Column body={timeTemplate} header={"On-Time"} />
+        <Column body={addressTemplate} header={"Address"} />
         <Column body={activeTemplate} header={"Status"} />
+        <Column body={actionTemplate} header={"Status"} />
       </DataTable>
       {/* <Table aria-label="Example table with custom cells">
         <TableHeader columns={columns}>

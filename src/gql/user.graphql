@@ -77,6 +77,7 @@ query GetAllOrganization {
     id
     name
     userId
+    companyId
     isActive
     lastSubscribe
     latitude
@@ -96,14 +97,39 @@ query GetAllOrganization {
       date
     }
     documents
-    startTime
-    endTime
+    shiftSchedule {
+      id
+      department
+      shiftType
+      startTime
+      endTime
+    }
     department {
       id
       name
+      isDelete
+      department
+    }
+    designation {
+      id
+      name
+      isDelete
+      department
     }
     notWorkingDays
     orgContact
+    leave {
+      id
+      name
+      days
+      carryForward
+      carryForwardMax
+      earnedLeave
+      earnedLeaveMax
+      monthlyDays
+      isDelete
+      isActive
+    }
     remoteClockIn
     locationRequired
     gracePeriod

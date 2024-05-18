@@ -52,7 +52,7 @@ const TopBar = () => {
     },
   ];
   return (
-    <div className="card">
+    <div className="card p-1 fixed left-0 top-0 w-full">
       <Menubar model={items} />
     </div>
   );

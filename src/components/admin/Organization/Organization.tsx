@@ -7,10 +7,10 @@ import {
   CreateOrganizationDocument,
   GetAllOrganizationDocument,
   OrganizationRegisterInput,
+  UpdateOrganizationDocument,
 } from "@/graphql/graphql";
 import { useAdminAuthStore } from "../AuthContext";
 import { toast } from "sonner";
-import { differenceInMinutes } from "date-fns/differenceInMinutes";
 import { useState } from "react";
 import { DataState } from "@/types/appTypes";
 import { Button } from "primereact/button";
@@ -55,22 +55,50 @@ const Organization = () => {
       },
     }
   );
+  const [updateMutation, { loading: updateLoading }] = useMutation(
+    UpdateOrganizationDocument,
+    {
+      context,
+      onCompleted(data) {
+        toast.success(data.updateOrganization.message);
+        setDataState((prev) => ({
+          ...prev,
+          state: false,
+          data: null,
+        }));
+        refetch();
+      },
+      onError(error) {
+        toast.error(error.message);
+      },
+    }
+  );
   const onSubmit = (value: OrganizationRegisterInput) => {
-    const startTime = differenceInMinutes(
-      new Date("2014-10-10 " + value.startTime),
-      new Date("2014-10-10 00:00:00")
-    );
-    const endTime = differenceInMinutes(
-      new Date("2014-10-10 " + value.endTime),
-      new Date("2014-10-10 00:00:00")
-    );
+    // const startTime = differenceInMinutes(
+    //   new Date("2014-10-10 " + value.startTime),
+    //   new Date("2014-10-10 00:00:00")
+    // );
+    // const endTime = differenceInMinutes(
+    //   new Date("2014-10-10 " + value.endTime),
+    //   new Date("2014-10-10 00:00:00")
+    // );
     const requestBody: OrganizationRegisterInput = {
-      ...value,
-      startTime,
-      endTime,
+      ...(value.id && { id: value.id }),
+      name: value.name,
+      orgContact: value.orgContact,
+      workingModel: value.workingModel,
+      address: {
+        buildingNumber: value.address?.buildingNumber,
+        city: value.address?.city,
+        pin: value.address?.pin,
+        state: value.address?.state,
+        street: value.address?.street,
+      },
       employeeCount: Number(value.employeeCount),
     };
-    mutation({ variables: { body: requestBody } });
+    if (dataState.type === "UPDATE")
+      updateMutation({ variables: { body: requestBody } });
+    else mutation({ variables: { body: requestBody } });
   };
   return (
     <>
@@ -112,6 +140,7 @@ const Organization = () => {
         <OrganizationList
           data={data}
           loading={loading}
+          updateLoading={updateLoading}
           // deleteRole={deleteRole}
 
           setDataState={setDataState}
