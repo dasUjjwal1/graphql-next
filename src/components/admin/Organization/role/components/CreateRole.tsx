@@ -7,6 +7,7 @@ import { AppConfig } from "@/config/appConfig";
 import { Role, RoleInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "primereact/button";
+import { Divider } from "primereact/divider";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
 
@@ -34,6 +35,7 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
       className="lg:grid grid-cols-3 gap-4"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
+      <Divider className="col-span-3 mb-0" />
       <Controller
         name="name"
         control={form.control}

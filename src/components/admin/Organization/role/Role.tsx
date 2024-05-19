@@ -12,17 +12,17 @@ import {
 } from "@/graphql/graphql";
 import { useAdminAuthStore } from "../../AuthContext";
 import { toast } from "sonner";
-import { Button, Modal, useDisclosure } from "@nextui-org/react";
 import CreateRole from "./components/CreateRole";
 import { useState } from "react";
 import { DataState } from "@/types/appTypes";
 import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
 
 const RoleDetails = () => {
-  const modalState = useDisclosure();
   const [dataState, setDataState] = useState<DataState<Role>>({
     type: "CREATE",
     data: null,
+    state: false,
   });
   const { token, adminAuth } = useAdminAuthStore((state) => state);
   const context = {
@@ -42,7 +42,6 @@ const RoleDetails = () => {
       context,
       onCompleted(data) {
         toast.success(data.createRole.message);
-        modalState.onClose();
         refetch();
       },
       onError(error) {
@@ -56,7 +55,10 @@ const RoleDetails = () => {
       context,
       onCompleted(data) {
         toast.success(data.updateRoleById.message);
-        modalState.onClose();
+        setDataState((prev) => ({
+          ...prev,
+          state: false,
+        }));
         refetch();
       },
       onError(error) {
@@ -70,7 +72,11 @@ const RoleDetails = () => {
       context,
       onCompleted(data) {
         toast.success(data.deleteRoleById.message);
-        modalState.onClose();
+
+        setDataState((prev) => ({
+          ...prev,
+          state: false,
+        }));
         refetch();
       },
       onError(error) {
@@ -99,10 +105,7 @@ const RoleDetails = () => {
   const deleteRole = (id: string) => {
     deleteMutation({ variables: { body: id } });
   };
-  const handleDialog = () => {
-    modalState.onOpen();
-    setDataState((prev) => ({ ...prev, type: "CREATE", data: null }));
-  };
+
   return (
     <>
       <div className="flex px-6 items-baseline justify-between pb-4">
@@ -117,25 +120,8 @@ const RoleDetails = () => {
             }))
           }
           color="primary"
-          startContent={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
-          }
-        >
-          Create
-        </Button>
+          label="Create"
+        />
       </div>
       <Dialog
         className="w-2/3"
@@ -165,7 +151,6 @@ const RoleDetails = () => {
         <RoleList
           data={data}
           deleteRole={deleteRole}
-          onOpen={modalState.onOpen}
           loading={loading}
           setDataState={setDataState}
         />
