@@ -43,6 +43,10 @@ const RoleDetails = () => {
       onCompleted(data) {
         toast.success(data.createRole.message);
         refetch();
+        setDataState((prev) => ({
+          ...prev,
+          state: false,
+        }));
       },
       onError(error) {
         toast.error(error.message);
@@ -88,7 +92,7 @@ const RoleDetails = () => {
     if (dataState.type === "CREATE") {
       const requestBody: RoleInput = {
         name: val.name,
-        access: val.access?.includes("NONE") ? null : val.access?.split(","),
+        access: val.access?.includes("NONE") ? null : val.access,
         parent: Boolean(val.parent) ? val.parent : null,
       };
       mutation({ variables: { body: requestBody } });
@@ -96,7 +100,7 @@ const RoleDetails = () => {
       const requestBody: RoleInput = {
         id: val.id,
         name: val.name,
-        access: val.access?.includes("NONE") ? null : val.access?.split(","),
+        access: val.access?.includes("NONE") ? null : val.access,
         parent: Boolean(val.parent) ? val.parent : null,
       };
       updateMutation({ variables: { body: requestBody } });
@@ -119,7 +123,7 @@ const RoleDetails = () => {
               type: "CREATE",
             }))
           }
-          color="primary"
+          icon={"pi pi-plus"}
           label="Create"
         />
       </div>

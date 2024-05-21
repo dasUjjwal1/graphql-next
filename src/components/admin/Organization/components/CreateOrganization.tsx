@@ -19,6 +19,7 @@ type Props = {
 const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Organization name is required"),
+    employeeCount: Yup.number().required("Organization name is required"),
   });
   const form = useForm<OrganizationRegisterInput>({
     defaultValues: {
@@ -50,7 +51,6 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           <FieldInput
             label="Name"
             {...field}
-            placeholder="Name"
             icon="pi pi-user"
             invalid={Boolean(errors.name?.message)}
           />
@@ -59,12 +59,13 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
       <Controller
         name="employeeCount"
         control={form.control}
-        render={({ field }) => (
+        render={({ field, formState: { errors, touchedFields } }) => (
           <FieldInput
+            keyfilter={"int"}
             {...field}
-            placeholder="30,50 etc."
             label="Est. employee"
             icon="pi pi-user"
+            invalid={Boolean(errors.employeeCount?.message)}
           />
         )}
       />
@@ -75,7 +76,6 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           <FieldDropdown
             label="Working model"
             options={AppConfig.WORKING_MODE}
-            placeholder="Select Working Model"
             {...field}
           />
         )}
@@ -90,7 +90,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
               type="time"
               className="w-full"
               {...field}
-              placeholder="Start-Time"
+              "
             />
           </IconField>
         )}
@@ -105,7 +105,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
               type="time"
               className="w-full"
               {...field}
-              placeholder="End-Time"
+              "
             />
           </IconField>
         )}
@@ -114,12 +114,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         name="orgContact"
         control={form.control}
         render={({ field }) => (
-          <FieldInput
-            {...field}
-            placeholder="Contact"
-            label="Contact"
-            icon="pi pi-user"
-          />
+          <FieldInput {...field} label="Contact" icon="pi pi-user" />
         )}
       />
       <Divider className="col-span-3 mb-0" align="left">
@@ -129,60 +124,35 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         name="address.buildingNumber"
         control={form.control}
         render={({ field }) => (
-          <FieldInput
-            {...field}
-            label="Building No."
-            placeholder="Building No."
-            icon={"pi pi-building"}
-          />
+          <FieldInput {...field} label="Building No." icon={"pi pi-building"} />
         )}
       />
       <Controller
         name="address.street"
         control={form.control}
         render={({ field }) => (
-          <FieldInput
-            {...field}
-            label="Street"
-            placeholder="Street"
-            icon={"pi pi-building"}
-          />
+          <FieldInput {...field} label="Street" icon={"pi pi-building"} />
         )}
       />
       <Controller
         name="address.city"
         control={form.control}
         render={({ field }) => (
-          <FieldInput
-            {...field}
-            icon="pi pi-info-circle"
-            placeholder="City"
-            label="City"
-          />
+          <FieldInput {...field} icon="pi pi-info-circle" label="City" />
         )}
       />
       <Controller
         name="address.state"
         control={form.control}
         render={({ field }) => (
-          <FieldInput
-            {...field}
-            icon="pi pi-info-circle"
-            placeholder="State"
-            label="State"
-          />
+          <FieldInput {...field} icon="pi pi-info-circle" label="State" />
         )}
       />
       <Controller
         name="address.pin"
         control={form.control}
         render={({ field }) => (
-          <FieldInput
-            {...field}
-            icon="pi pi-info-circle"
-            placeholder="Pin No."
-            label="Pin No."
-          />
+          <FieldInput {...field} icon="pi pi-info-circle" label="Pin No." />
         )}
       />
 

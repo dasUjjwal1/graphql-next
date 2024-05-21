@@ -120,7 +120,11 @@ const Organization = () => {
         className="w-2/3"
         draggable={false}
         visible={dataState.state}
-        header={"Create Organization"}
+        header={
+          dataState?.type === "CREATE"
+            ? "Create Organization"
+            : "Update Organization"
+        }
         onHide={() =>
           setDataState((prev) => ({
             ...prev,
