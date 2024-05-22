@@ -11,13 +11,12 @@ import * as Yup from "yup";
 type Props = {
   onSubmit: (val: Leave_Details_Input) => void;
   loading: boolean;
-  roleList: Role[];
   type: "CREATE" | "UPDATE";
-  formData: Role | null;
+  formData: Leave_Details_Input | null;
 };
 const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Role name is required"),
+    name: Yup.string().required("Name is required"),
   });
   const form = useForm<Leave_Details_Input>({
     defaultValues: {
@@ -27,7 +26,7 @@ const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
   });
   return (
     <form
-      className="lg:grid grid-cols-3 p-6 gap-3 bg-content1 rounded-large"
+      className="lg:grid grid-cols-2 p-6 gap-3 bg-content1 rounded-large"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
       <Controller
@@ -70,12 +69,23 @@ const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
       <div className="col-span-3 flex gap-3">
         <h3>Carry Forward</h3>
       </div>
-      <Button type="button" severity="danger">
-        Close
-      </Button>
-      <Button loading={props.loading} type="submit">
-        {type === "CREATE" ? "Create" : "Update"}
-      </Button>
+      <div className="col-span-3 flex gap-3 justify-end">
+        <Button
+          type="reset"
+          onClick={() => form.reset()}
+          label="Reset"
+          icon={"pi pi-refresh"}
+          severity="danger"
+        />
+        <Button
+          color="primary"
+          loading={props.loading}
+          icon={"pi pi-send"}
+          iconPos="right"
+          type="submit"
+          label={type === "CREATE" ? "Create" : "Update"}
+        />
+      </div>
     </form>
   );
 };

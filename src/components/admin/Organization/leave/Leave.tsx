@@ -1,17 +1,28 @@
 "use client";
 
 import { useMutation } from "@apollo/client";
-import { AddLeaveDocument, LeaveInput } from "@/graphql/graphql";
+import {
+  AddLeaveDocument,
+  LeaveDetails,
+  LeaveInput,
+  Leave_Details_Input,
+} from "@/graphql/graphql";
 import { useAdminAuthStore } from "../../AuthContext";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button } from "@nextui-org/react";
 import CreateLeave from "./components/CreateLeave";
+import { Dialog } from "primereact/dialog";
+import { DataState } from "@/types/appTypes";
+import { Button } from "primereact/button";
 
 const Leave = () => {
   const { token } = useAdminAuthStore((state) => state);
   const [orgId, setOrgId] = useState(null);
-
+  const [dataState, setDataState] = useState<DataState<LeaveDetails>>({
+    type: "CREATE",
+    data: null,
+    state: false,
+  });
   const context = {
     headers: {
       authorization: token,
@@ -28,7 +39,7 @@ const Leave = () => {
     context,
   });
 
-  const onSubmit = (value: LeaveInput) => {
+  const onSubmit = (value: Leave_Details_Input) => {
     const requestBody: LeaveInput = {
       organizationId: orgId,
     };
@@ -39,31 +50,38 @@ const Leave = () => {
       <div className="flex px-6 items-baseline justify-between pb-4">
         <h2 className="text-2xl font-bold">Leave</h2>
         <Button
-          onPress={() => {}}
-          color="primary"
-          startContent={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
+          label="Create"
+          icon={"pi pi-plus"}
+          onClick={() =>
+            setDataState((prev) => ({
+              ...prev,
+              state: true,
+              data: null,
+              type: "CREATE",
+            }))
           }
-        >
-          Create
-        </Button>
+        />
       </div>
-      <section className="px-6">
-        <CreateLeave />
-      </section>
+      <Dialog
+        className="w-2/3"
+        draggable={false}
+        visible={dataState.state}
+        header={"Create Leave"}
+        onHide={() =>
+          setDataState((prev) => ({
+            ...prev,
+            state: false,
+          }))
+        }
+      >
+        <CreateLeave
+          onSubmit={onSubmit}
+          formData={dataState?.data}
+          loading={createLoading}
+          type={dataState.type}
+        />
+      </Dialog>
+      <section className="px-6"></section>
     </>
   );
 };
