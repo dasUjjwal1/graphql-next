@@ -38,12 +38,10 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
 
   return (
     <form
-      className="lg:grid grid-cols-3 gap-4"
+      className="lg:grid grid-cols-3 gap-4 bg-sky-50 p-8 rounded-xl"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
-      <Divider className="col-span-3 mb-0" align="left">
-        <h4 className="m-0">Basic Details</h4>
-      </Divider>
+      <h4 className="mb-1 col-span-3">Basic Details</h4>
       <Controller
         name="name"
         control={form.control}
@@ -117,9 +115,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           <FieldInput {...field} label="Contact" icon="pi pi-user" />
         )}
       />
-      <Divider className="col-span-3 mb-0" align="left">
-        <h4 className="m-0">Address Details</h4>
-      </Divider>
+      <h4 className="mb-1 col-span-3">Address Details</h4>
       <Controller
         name="address.buildingNumber"
         control={form.control}

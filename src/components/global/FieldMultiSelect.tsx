@@ -8,7 +8,7 @@ type FieldMultiSelectProps = MultiSelectProps & {
 };
 const FieldMultiSelect = ({ label, ...props }: FieldMultiSelectProps) => {
   return (
-    <FloatLabel>
+    <FloatLabel pt={{ root: { className: "w-full mt-3" } }}>
       <MultiSelect className="w-full" {...props} />
       <label>{label}</label>
     </FloatLabel>

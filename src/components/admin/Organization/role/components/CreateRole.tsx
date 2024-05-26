@@ -32,10 +32,9 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
   const emptyArray = [{ id: "", name: "Administration" }];
   return (
     <form
-      className="lg:grid grid-cols-3 gap-4"
+      className="lg:grid grid-cols-3 gap-4 bg-indigo-50 rounded-xl p-8"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
-      <Divider className="col-span-3 mb-0" />
       <Controller
         name="name"
         control={form.control}

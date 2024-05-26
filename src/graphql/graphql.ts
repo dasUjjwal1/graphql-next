@@ -128,14 +128,30 @@ export type LeaveDetails = {
   id?: Maybe<Scalars['ObjectId']['output']>;
   isActive: Scalars['Boolean']['output'];
   isDelete: Scalars['Boolean']['output'];
+  leaveDescription?: Maybe<Scalars['String']['output']>;
+  leaveType?: Maybe<Scalars['Int']['output']>;
   monthlyDays?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
 };
 
 export type LeaveInput = {
-  leaveInput?: InputMaybe<Leave_Details_Input>;
+  carryForward?: InputMaybe<Scalars['Boolean']['input']>;
+  carryForwardMax?: InputMaybe<Scalars['Int']['input']>;
+  days?: InputMaybe<Scalars['Int']['input']>;
+  earnedLeave?: InputMaybe<Scalars['Boolean']['input']>;
+  earnedLeaveMax?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['ObjectId']['input']>;
+  leaveDescription?: InputMaybe<Scalars['String']['input']>;
+  leaveType?: InputMaybe<LeaveType>;
+  monthlyDays?: InputMaybe<Scalars['Int']['input']>;
+  name: Scalars['String']['input'];
   organizationId: Scalars['ObjectId']['input'];
 };
+
+export enum LeaveType {
+  NonPaid = 'NON_PAID',
+  Paid = 'PAID'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -412,19 +428,6 @@ export type Address_Input = {
   pin?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
   street?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type Leave_Details_Input = {
-  carryForward?: InputMaybe<Scalars['Boolean']['input']>;
-  carryForwardMax?: InputMaybe<Scalars['Int']['input']>;
-  days?: InputMaybe<Scalars['Int']['input']>;
-  earnedLeave?: InputMaybe<Scalars['Boolean']['input']>;
-  earnedLeaveMax?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['ObjectId']['input']>;
-  isActive: Scalars['Boolean']['input'];
-  isDelete: Scalars['Boolean']['input'];
-  monthlyDays?: InputMaybe<Scalars['Int']['input']>;
-  name: Scalars['String']['input'];
 };
 
 export type User_Address_Input = {

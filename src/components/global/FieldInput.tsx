@@ -8,7 +8,7 @@ type FieldInputProps = InputTextProps & {
 };
 const FieldInput = ({ label, ...props }: FieldInputProps) => {
   return (
-    <FloatLabel>
+    <FloatLabel pt={{ root: { className: "w-full mt-3" } }}>
       <InputText className="w-full" {...props} />
       <label>{label}</label>
     </FloatLabel>

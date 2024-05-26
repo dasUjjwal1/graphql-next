@@ -7,7 +7,7 @@ type MenuItems = {
   id?: string;
   label?: string;
   path: string;
-  icon?: string[];
+  icon?: string;
   child?: MenuItems[];
 };
 type Props = {
@@ -50,37 +50,21 @@ export default function Navbar(props: Props) {
       {/* <div className="card flex justify-content-center min-h-screen  fixed left-0 p-1 border-r-0 overflow-y-auto w-56">
         <Menu model={items} />
       </div> */}
-      <nav className="min-h-screen  fixed left-0 py-6 pr-2 overflow-y-auto dark:bg-card border-r border-divider w-56">
-        <ul className="h-full flex flex-col gap-3 p-0">
+      <nav className="min-h-screen bg-[var(--highlight-bg)]  fixed w-16 left-0 py-12 overflow-y-auto">
+        <ul className="h-full flex flex-col p-0 list-none">
           {props?.menu?.map((item) => (
             <li key={item?.id}>
               <Link
                 href={item.path}
                 as={item.path}
-                className={`flex items-center w-full gap-2 ${
-                  checkActivePath(item.path)
-                    ? "dark:bg-sky-950 dark:text-primary-foreground"
-                    : "dark:text-muted-foreground"
-                }  rounded-e-3xl p-3`}
+                className={
+                  (checkActivePath(item.path)
+                    ? "text-[var(--primary-color-text)] bg-[var(--primary-color)] "
+                    : "text-[var(--highlight-text-color)] ") +
+                  " py-6 w-full justify-center flex items-center"
+                }
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="w-5 h-5"
-                  strokeWidth="1.6"
-                  stroke="currentColor"
-                >
-                  {item?.icon?.map((elm, index) => (
-                    <path
-                      key={index}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d={elm}
-                    />
-                  ))}
-                </svg>
-                <p className="text-sm  m-0">{item.label}</p>
+                <i className={item.icon} />
               </Link>
             </li>
           ))}
