@@ -24,7 +24,7 @@ const Organization = () => {
     data: null,
     state: false,
   });
-  const { token } = useAdminAuthStore((state) => state);
+  const token = useAdminAuthStore((state) => state.token);
   const context = {
     headers: {
       authorization: token,
@@ -144,7 +144,6 @@ const Organization = () => {
         <OrganizationList
           data={data}
           loading={loading}
-          updateLoading={updateLoading}
           // deleteRole={deleteRole}
 
           setDataState={setDataState}

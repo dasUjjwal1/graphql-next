@@ -1,7 +1,5 @@
 export const AppConfig = {
-  NODE_GQL_URL: "http://localhost:4000/graphql",
-  CREDENTIAL: "credential",
-  ORGANIZATION_TYPE: [
+  COMPANY_TYPE: [
     { label: "Automobiles", value: 1 },
     { label: "Agriculture based", value: 2 },
     { label: "Banking", value: 3 },

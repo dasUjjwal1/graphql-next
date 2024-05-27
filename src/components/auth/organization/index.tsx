@@ -24,21 +24,17 @@ function AdminAuth() {
             <div className="pt-6">
               {login === "login" ? <AdminSignIn /> : <AdminRegister />}
             </div>
-            <div className="p-6 px-1 pt-0 text-center bg-transparent border-t-0 border-t-solid rounded-b-2xl lg:px-2">
-              <p className="mx-auto leading-normal text-sm">
-                Don&apos;t have an account?
-                <a
-                  onClick={() =>
-                    setLogin((prev) =>
-                      prev === "login" ? "register" : "login"
-                    )
-                  }
-                  className="relative z-10 cursor-pointer pl-2 font-semibold text-[var(--primary-color)]"
-                >
-                  {login === "login" ? "Register here" : "Login"}
-                </a>
-              </p>
-            </div>
+            <p className="text-sm text-center">
+              Don&apos;t have an account?
+              <a
+                onClick={() =>
+                  setLogin((prev) => (prev === "login" ? "register" : "login"))
+                }
+                className="relative z-10 cursor-pointer pl-2 font-semibold text-[var(--primary-color)]"
+              >
+                {login === "login" ? "Register here" : "Login"}
+              </a>
+            </p>
           </div>
           <div className="col-span-2">
             <Image src={BackgroundImage} width={600} alt={""} />
@@ -48,28 +44,22 @@ function AdminAuth() {
         <footer className="pb-6">
           <div className="flex flex-wrap items-center justify-center gap-6 pb-6">
             <a href="javascript:;" target="_blank" className=" text-slate-400 ">
-              {" "}
-              Company{" "}
+              Company
             </a>
             <a href="javascript:;" target="_blank" className=" text-slate-400 ">
-              {" "}
-              About Us{" "}
+              About Us
             </a>
             <a href="javascript:;" target="_blank" className=" text-slate-400 ">
-              {" "}
-              Team{" "}
+              Team
             </a>
             <a href="javascript:;" target="_blank" className=" text-slate-400 ">
-              {" "}
-              Products{" "}
+              Products
             </a>
             <a href="javascript:;" target="_blank" className=" text-slate-400 ">
-              {" "}
-              Blog{" "}
+              Blog
             </a>
             <a href="javascript:;" target="_blank" className=" text-slate-400 ">
-              {" "}
-              Pricing{" "}
+              Pricing
             </a>
           </div>
           <div className="flex flex-wrap">

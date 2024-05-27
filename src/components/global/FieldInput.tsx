@@ -1,6 +1,5 @@
 "use client";
 
-import { FloatLabel } from "primereact/floatlabel";
 import { InputText, InputTextProps } from "primereact/inputtext";
 type FieldInputProps = InputTextProps & {
   icon?: string;
@@ -8,12 +7,10 @@ type FieldInputProps = InputTextProps & {
 };
 const FieldInput = ({ label, ...props }: FieldInputProps) => {
   return (
-    <FloatLabel
-      pt={{ root: { className: "w-full mt-3 text-sm flex item-center" } }}
-    >
+    <div className="w-full text-sm flex flex-col gap-2">
+      <label className="text-gray-500">{label}</label>
       <InputText className="w-full" {...props} />
-      <label>{label}</label>
-    </FloatLabel>
+    </div>
   );
 };
 

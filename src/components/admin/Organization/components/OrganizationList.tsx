@@ -8,7 +8,6 @@ import {
 import { DataState } from "@/types/appTypes";
 import { Button } from "primereact/button";
 
-import { Chip } from "primereact/chip";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { Dispatch, SetStateAction } from "react";
@@ -90,7 +89,11 @@ const OrganizationList = ({
   };
   return (
     <>
-      <DataTable loading={loading} value={data?.getAllOrganization ?? []}>
+      <DataTable
+        stripedRows
+        loading={loading}
+        value={data?.getAllOrganization ?? []}
+      >
         <Column field="name" header={"Organization Name"} />
         <Column body={addressTemplate} header={"Address"} />
         <Column body={activeTemplate} header={"Status"} />

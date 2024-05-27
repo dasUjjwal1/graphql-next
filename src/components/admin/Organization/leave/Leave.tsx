@@ -20,7 +20,7 @@ import { Card } from "primereact/card";
 import { InputSwitch } from "primereact/inputswitch";
 
 const Leave = () => {
-  const { token } = useAdminAuthStore((state) => state);
+  const token = useAdminAuthStore((state) => state.token);
   const context = {
     headers: {
       authorization: token,

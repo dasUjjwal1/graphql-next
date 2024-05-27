@@ -1,6 +1,5 @@
 "use client";
 
-import { FloatLabel } from "primereact/floatlabel";
 import { MultiSelect, MultiSelectProps } from "primereact/multiselect";
 
 type FieldMultiSelectProps = MultiSelectProps & {
@@ -8,12 +7,10 @@ type FieldMultiSelectProps = MultiSelectProps & {
 };
 const FieldMultiSelect = ({ label, ...props }: FieldMultiSelectProps) => {
   return (
-    <FloatLabel
-      pt={{ root: { className: "w-full mt-3  text-sm flex item-center" } }}
-    >
+    <div className="w-full text-sm flex flex-col gap-2">
+      <label className="text-gray-500">{label}</label>
       <MultiSelect className="w-full" {...props} />
-      <label>{label}</label>
-    </FloatLabel>
+    </div>
   );
 };
 

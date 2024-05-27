@@ -24,7 +24,7 @@ const RoleDetails = () => {
     data: null,
     state: false,
   });
-  const { token, adminAuth } = useAdminAuthStore((state) => state);
+  const token = useAdminAuthStore((state) => state.token);
   const context = {
     headers: {
       authorization: token,

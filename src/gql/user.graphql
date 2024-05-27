@@ -171,7 +171,31 @@ mutation DeleteRoleById($body: ObjectId) {
     message
   }
 }
-
+mutation CreateCompany($body: CompanyCreateInput!) {
+  createCompany(body: $body) {
+    id
+    companyName
+    isActive
+    logo
+    financialYearStart
+    financialYearEnd
+    lastSubscribe
+    companyType
+    createdAt
+  }
+}
+query GetCompanyDetails {
+  getCompanyDetails {
+    id
+    companyName
+    isActive
+    logo
+    financialYearStart
+    financialYearEnd
+    lastSubscribe
+    companyType
+  }
+}
 mutation UpdateOrganization($body: OrganizationRegisterInput!) {
   updateOrganization(body: $body) {
     message
