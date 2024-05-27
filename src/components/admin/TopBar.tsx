@@ -49,6 +49,9 @@ const TopBar = () => {
     {
       label: "Contact",
       icon: "pi pi-envelope",
+      command() {
+        setDetails(null);
+      },
     },
   ];
   return (

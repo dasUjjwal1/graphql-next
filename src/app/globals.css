@@ -44,3 +44,12 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: none;
 }
+
+::-ms-input-placeholder {
+  /* Edge 12-18 */
+  font-size: 12px;
+}
+
+::placeholder {
+  font-size: 12px;
+}

@@ -75,7 +75,12 @@ function AdminSignIn() {
             </IconField>
           )}
         />
-        <Button loading={loading} label="LOGIN" type="submit" />
+        <Button
+          loading={loading}
+          label="LOGIN"
+          type="submit"
+          className="text-xs"
+        />
       </form>
     </>
   );

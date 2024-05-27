@@ -56,7 +56,7 @@ function AdminRegister() {
   return (
     <>
       <form
-        className="flex flex-col gap-4 w-full"
+        className="flex flex-col gap-3 w-full"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <Controller
@@ -107,7 +107,7 @@ function AdminRegister() {
             </IconField>
           )}
         />
-        <Button label="REGISTER" type="submit" />
+        <Button label="REGISTER" type="submit" className="text-xs" />
       </form>
     </>
   );
