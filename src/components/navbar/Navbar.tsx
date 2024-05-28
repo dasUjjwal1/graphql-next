@@ -50,21 +50,21 @@ export default function Navbar(props: Props) {
       {/* <div className="card flex justify-content-center min-h-screen  fixed left-0 p-1 border-r-0 overflow-y-auto w-56">
         <Menu model={items} />
       </div> */}
-      <nav className="min-h-screen bg-[var(--highlight-bg)] fixed w-16 left-0 py-12 overflow-y-auto">
-        <ul className="h-full flex flex-col p-0 list-none">
+      <nav className="min-h-screen fixed w-60 left-0 border-r-2 border-solid border-gray-100 py-12 overflow-y-auto">
+        <ul className="h-full flex gap-2 flex-col p-0 list-none">
           {props?.menu?.map((item) => (
-            <li key={item?.id}>
+            <li key={item?.id} className="px-2">
               <Link
                 href={item.path}
                 as={item.path}
                 className={
                   (checkActivePath(item.path)
-                    ? "text-[var(--primary-color-text)] bg-[var(--primary-color)] "
-                    : "text-[var(--highlight-text-color)] ") +
-                  " py-6 w-full justify-center flex items-center"
+                    ? "bg-gray-100"
+                    : "text-gray-700 ") +
+                  " py-3 text-gray-900 text-base  w-full hover:bg-gray-100 px-3 gap-3 flex items-center  rounded-xl"
                 }
               >
-                <i className={item.icon} />
+                <i className={item.icon} /> <p className="m-0">{item?.label}</p>
               </Link>
             </li>
           ))}
