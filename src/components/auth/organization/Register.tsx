@@ -7,6 +7,7 @@ import { RegisterProps } from "@/types/authType";
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
@@ -26,10 +27,6 @@ function AdminRegister() {
   });
   const [mutation, { loading }] = useMutation(CreateUserDocument, {
     onCompleted: (data) => {
-      sessionStorage.setItem(
-        AppConfig.CREDENTIAL,
-        JSON.stringify(data?.createUser?.token)
-      );
       setDetails(data?.createUser);
     },
     onError(error) {
@@ -105,6 +102,19 @@ function AdminRegister() {
                 type="password"
               />
             </IconField>
+          )}
+        />
+        <Controller
+          name="location"
+          control={form.control}
+          rules={{ required: true }}
+          render={({ field, formState: { errors } }) => (
+            <Dropdown
+              pt={{ input: { className: "text-xs text-gray-400" } }}
+              placeholder={"Location"}
+              {...field}
+              options={[{ label: "India", value: 1 }]}
+            />
           )}
         />
         <Button label="REGISTER" type="submit" className="text-xs" />

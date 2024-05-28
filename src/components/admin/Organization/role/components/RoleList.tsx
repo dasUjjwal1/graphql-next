@@ -105,7 +105,7 @@ const RoleList = ({
       loading={loading}
       value={data?.getAllRole?.filter((i) => !i.isDelete) ?? []}
     >
-      <Column field="name" header={"Role Name"} />
+      <Column sortable field="name" header={"Role Name"} />
       <Column body={accessTemplate} header={"Access"} />
       <Column body={assignTemplate} header={"Assign To"} />
       <Column body={actionTemplate} header={"Option"} />

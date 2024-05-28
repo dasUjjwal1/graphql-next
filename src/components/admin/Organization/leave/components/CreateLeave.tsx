@@ -33,7 +33,7 @@ const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
   });
   return (
     <form
-      className=" bg-indigo-50 rounded-xl p-6"
+      className=" bg-sky-50 border border-solid border-sky-200 rounded-xl p-6"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
       <div className="flex gap-3">
