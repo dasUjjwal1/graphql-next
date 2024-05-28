@@ -5,10 +5,12 @@ import FieldInput from "@/components/global/FieldInput";
 import { AppConfig } from "@/config/appConfig";
 import { CompanyCreateInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Image from "next/image";
 import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import BackgroundImg from "../../../../public/resource/image.png";
 import * as Yup from "yup";
 type Props = {
   onSubmit: (val: CompanyCreateInput) => void;
@@ -111,7 +113,9 @@ const CompanyDetails = (props: Props) => {
           </div>
         </form>
       </div>
-      <div className="absolute w-full h-40 bg-blue-100 -z-0 top-0 mt-14 "></div>
+      <div className="absolute w-full h-40 bg-blue-100 -z-0 top-0 mt-14 overflow-hidden">
+        <Image src={BackgroundImg} alt="" layout="fill" objectFit="center" />
+      </div>
     </div>
   );
 };
