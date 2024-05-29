@@ -13,16 +13,16 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <div className="px-3 mb-3 bg-muted">
-        <ul className="flex gap-2 list-none px-0">
+        <ul className="flex gap-2 list-none m-0 px-0">
           {menu.map((item, index) => (
             <li
               className={`px-4 py-2 ${
                 pathName === item.path &&
-                "text-primary border-primary border-b-2"
-              } font-bold`}
+                "border-[var(--primary-color)] border-b-2 border-0 border-solid"
+              } font-bold text-gray-600`}
               key={index.toString()}
             >
-              <Link className="text-sm" href={item.path}>
+              <Link className="text-sm text-gray-600" href={item.path}>
                 {item.label}
               </Link>
             </li>
