@@ -50,7 +50,7 @@ export default function Navbar(props: Props) {
       {/* <div className="card flex justify-content-center min-h-screen  fixed left-0 p-1 border-r-0 overflow-y-auto w-56">
         <Menu model={items} />
       </div> */}
-      <nav className="min-h-screen fixed w-60 left-0 py-12 overflow-y-auto">
+      <nav className="min-h-screen fixed w-60 left-0 py-12 overflow-y-auto shadow-lg">
         <ul className="h-full flex gap-2 flex-col p-0 list-none">
           {props?.menu?.map((item) => (
             <li key={item?.id} className="px-2">
