@@ -6,7 +6,11 @@ import { CreateUserDocument } from "@/graphql/graphql";
 import { RegisterProps } from "@/types/authType";
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Input } from "@nextui-org/react";
+import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
+import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as Yup from "yup";
@@ -23,10 +27,6 @@ function AdminRegister() {
   });
   const [mutation, { loading }] = useMutation(CreateUserDocument, {
     onCompleted: (data) => {
-      sessionStorage.setItem(
-        AppConfig.CREDENTIAL,
-        JSON.stringify(data?.createUser?.token)
-      );
       setDetails(data?.createUser);
     },
     onError(error) {
@@ -53,32 +53,38 @@ function AdminRegister() {
   return (
     <>
       <form
-        className="flex flex-col gap-4 w-full"
+        className="flex flex-col gap-3 w-full"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <Controller
           name="name"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <Input
-              label="Name"
-              {...field}
-              isInvalid={Boolean(errors.name?.message)}
-              errorMessage={errors.name?.message}
-            />
+            <IconField iconPosition="left">
+              <InputIcon className="pi pi-user"> </InputIcon>
+              <InputText
+                className="w-full"
+                placeholder="Name"
+                invalid={Boolean(errors.name?.message)}
+                {...field}
+              />
+            </IconField>
           )}
         />
         <Controller
           name="email"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <Input
-              label="Email"
-              type="email"
-              {...field}
-              isInvalid={Boolean(errors.email?.message)}
-              errorMessage={errors.email?.message}
-            />
+            <IconField iconPosition="left">
+              <InputIcon className="pi pi-envelope"> </InputIcon>
+              <InputText
+                className="w-full"
+                keyfilter={"email"}
+                placeholder="Email"
+                invalid={Boolean(errors.email?.message)}
+                {...field}
+              />
+            </IconField>
           )}
         />
         <Controller
@@ -86,18 +92,32 @@ function AdminRegister() {
           control={form.control}
           rules={{ required: true }}
           render={({ field, formState: { errors } }) => (
-            <Input
-              label="Password"
-              type="password"
+            <IconField iconPosition="left">
+              <InputIcon className="pi pi-lock"> </InputIcon>
+              <InputText
+                className="w-full"
+                placeholder="Password"
+                invalid={Boolean(errors.password?.message)}
+                {...field}
+                type="password"
+              />
+            </IconField>
+          )}
+        />
+        <Controller
+          name="location"
+          control={form.control}
+          rules={{ required: true }}
+          render={({ field, formState: { errors } }) => (
+            <Dropdown
+              pt={{ input: { className: "text-xs text-gray-400" } }}
+              placeholder={"Location"}
               {...field}
-              isInvalid={Boolean(errors.password?.message)}
-              errorMessage={errors.password?.message}
+              options={[{ label: "India", value: 1 }]}
             />
           )}
         />
-        <Button color="primary" type="submit">
-          REGISTER
-        </Button>
+        <Button label="REGISTER" type="submit" className="text-xs" />
       </form>
     </>
   );

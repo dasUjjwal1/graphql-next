@@ -12,20 +12,19 @@ import {
 } from "@/graphql/graphql";
 import { useAdminAuthStore } from "../../AuthContext";
 import { toast } from "sonner";
-import { Button, Modal, useDisclosure } from "@nextui-org/react";
 import CreateRole from "./components/CreateRole";
 import { useState } from "react";
-export type DataState = {
-  type: "CREATE" | "UPDATE";
-  data: Role | null;
-};
+import { DataState } from "@/types/appTypes";
+import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
+
 const RoleDetails = () => {
-  const modalState = useDisclosure();
-  const [dataState, setDataState] = useState<DataState>({
+  const [dataState, setDataState] = useState<DataState<Role>>({
     type: "CREATE",
     data: null,
+    state: false,
   });
-  const { token, adminAuth } = useAdminAuthStore((state) => state);
+  const token = useAdminAuthStore((state) => state.token);
   const context = {
     headers: {
       authorization: token,
@@ -43,8 +42,11 @@ const RoleDetails = () => {
       context,
       onCompleted(data) {
         toast.success(data.createRole.message);
-        modalState.onClose();
         refetch();
+        setDataState((prev) => ({
+          ...prev,
+          state: false,
+        }));
       },
       onError(error) {
         toast.error(error.message);
@@ -57,7 +59,10 @@ const RoleDetails = () => {
       context,
       onCompleted(data) {
         toast.success(data.updateRoleById.message);
-        modalState.onClose();
+        setDataState((prev) => ({
+          ...prev,
+          state: false,
+        }));
         refetch();
       },
       onError(error) {
@@ -71,7 +76,11 @@ const RoleDetails = () => {
       context,
       onCompleted(data) {
         toast.success(data.deleteRoleById.message);
-        modalState.onClose();
+
+        setDataState((prev) => ({
+          ...prev,
+          state: false,
+        }));
         refetch();
       },
       onError(error) {
@@ -83,7 +92,7 @@ const RoleDetails = () => {
     if (dataState.type === "CREATE") {
       const requestBody: RoleInput = {
         name: val.name,
-        access: val.access?.includes("NONE") ? null : val.access?.split(","),
+        access: val.access?.includes("NONE") ? null : val.access,
         parent: Boolean(val.parent) ? val.parent : null,
       };
       mutation({ variables: { body: requestBody } });
@@ -91,7 +100,7 @@ const RoleDetails = () => {
       const requestBody: RoleInput = {
         id: val.id,
         name: val.name,
-        access: val.access?.includes("NONE") ? null : val.access?.split(","),
+        access: val.access?.includes("NONE") ? null : val.access,
         parent: Boolean(val.parent) ? val.parent : null,
       };
       updateMutation({ variables: { body: requestBody } });
@@ -100,52 +109,52 @@ const RoleDetails = () => {
   const deleteRole = (id: string) => {
     deleteMutation({ variables: { body: id } });
   };
+
   return (
     <>
       <div className="flex px-6 items-baseline justify-between pb-4">
         <h2 className="text-2xl font-bold">Role</h2>
         <Button
-          onPress={modalState.onOpen}
-          color="primary"
-          startContent={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
+          onClick={() =>
+            setDataState((prev) => ({
+              ...prev,
+              state: true,
+              data: null,
+              type: "CREATE",
+            }))
           }
-        >
-          Create
-        </Button>
+          icon={"pi pi-plus"}
+          label="Create"
+        />
       </div>
-      <Modal
-        size="4xl"
-        isOpen={modalState.isOpen}
-        placement={"auto"}
-        onOpenChange={modalState.onOpenChange}
+      <Dialog
+        className="w-2/3"
+        draggable={false}
+        visible={dataState.state}
+        header={"Create Role"}
+        onHide={() =>
+          setDataState((prev) => ({
+            ...prev,
+            state: false,
+          }))
+        }
       >
         <CreateRole
-          roleList={data?.getAllRole ?? []}
+          roleList={
+            data?.getAllRole
+              ? data?.getAllRole?.filter((item) => !item.isDelete)
+              : []
+          }
           loading={createLoading || updateLoading || deleteLoading}
           onSubmit={onSubmit}
           formData={dataState.data}
           type={dataState.type}
         />
-      </Modal>
+      </Dialog>
       <div className="px-6">
         <RoleList
           data={data}
           deleteRole={deleteRole}
-          onOpen={modalState.onOpen}
           loading={loading}
           setDataState={setDataState}
         />

@@ -1,0 +1,19 @@
+mutation AddDepartment($body: DepartmentCreateInput!) {
+  addDepartment(body: $body) {
+    message
+  }
+}
+
+query GetAllDepartmentByOrgId($getAllDepartmentByOrgIdId: ObjectId!) {
+  getAllDepartmentByOrgId(id: $getAllDepartmentByOrgIdId) {
+    id
+    name
+    isDelete
+  }
+}
+
+mutation AddLeave($body: LeaveInput!) {
+  addLeave(body: $body) {
+    message
+  }
+}
