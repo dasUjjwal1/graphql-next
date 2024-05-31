@@ -56,6 +56,40 @@ const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
             <FieldInput keyfilter={"int"} label="Monthly Days" {...field} />
           )}
         />
+        <div className="w-full pt-3 flex gap-3 items-center justify-start ">
+          <Controller
+            name="leaveType"
+            control={form.control}
+            render={({ field }) => (
+              <div className="flex items-center">
+                <RadioButton
+                  {...field}
+                  checked={field.value === LeaveType.Paid}
+                  value={LeaveType.Paid}
+                />
+                <label htmlFor="ingredient1" className="ml-2">
+                  Paid
+                </label>
+              </div>
+            )}
+          />
+          <Controller
+            name="leaveType"
+            control={form.control}
+            render={({ field }) => (
+              <div className="flex items-center">
+                <RadioButton
+                  {...field}
+                  checked={field.value === LeaveType.NonPaid}
+                  value={LeaveType.NonPaid}
+                />
+                <label htmlFor="ingredient1" className="ml-2">
+                  Non Paid
+                </label>
+              </div>
+            )}
+          />
+        </div>
       </div>
 
       <h4 className="mb-1">Carry Forward</h4>
@@ -161,42 +195,6 @@ const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
         />
       </div>
 
-      <h4 className="mb-1">Leave Type</h4>
-
-      <div className="w-full pt-3 flex gap-3 items-center justify-start ">
-        <Controller
-          name="leaveType"
-          control={form.control}
-          render={({ field }) => (
-            <div className="flex items-center">
-              <RadioButton
-                {...field}
-                checked={field.value === LeaveType.Paid}
-                value={LeaveType.Paid}
-              />
-              <label htmlFor="ingredient1" className="ml-2">
-                Paid
-              </label>
-            </div>
-          )}
-        />
-        <Controller
-          name="earnedLeave"
-          control={form.control}
-          render={({ field }) => (
-            <div className="flex items-center">
-              <RadioButton
-                {...field}
-                checked={field.value === LeaveType.NonPaid}
-                value={LeaveType.NonPaid}
-              />
-              <label htmlFor="ingredient1" className="ml-2">
-                Non Paid
-              </label>
-            </div>
-          )}
-        />
-      </div>
       <h4 className="mb-1">Leave Description</h4>
       <Controller
         name="leaveDescription"

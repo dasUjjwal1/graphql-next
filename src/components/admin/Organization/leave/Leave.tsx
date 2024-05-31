@@ -116,26 +116,31 @@ const Leave = () => {
           header={
             <div className="flex px-4 justify-between items-center">
               <h3>Paid leave</h3>
-              <InputSwitch checked={true} />
+              <div className="flex items-center gap-3">
+                <Button icon={"pi pi-pencil"} rounded text />
+                <InputSwitch checked={true} />
+              </div>
             </div>
           }
         >
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-cyan-50 col-span-1 p-4 border border-cyan-200 border-solid rounded-md">
-              <h4 className="m-0 text-cyan-500">Days In Month </h4>
-              <h5 className="my-1 text-cyan-600">2</h5>
+              <h4 className="m-0 text-cyan-500">Leave per Month </h4>
+              <h5 className="my-1 text-cyan-600">2 days</h5>
             </div>
-            <div className="bg-green-50 col-span-1 p-4 border border-green-200 border-solid rounded-md">
-              <h4 className="m-0 text-green-500">Carry Forward</h4>
-              <h5 className="my-2 text-green-600">YES, 6 days</h5>
+            <div className="bg-cyan-50 col-span-1 p-4 border border-cyan-200 border-solid rounded-md">
+              <h4 className="m-0 text-cyan-500">Carry Forward</h4>
+              <h5 className="my-2 text-cyan-600">YES, 6 days</h5>
             </div>
-            <div className="bg-orange-50 col-span-1 p-4 border border-orange-200 border-solid rounded-md">
-              <h4 className="m-0 text-orange-500">Carry Forward</h4>
-              <h5 className="my-2 text-orange-600">YES, 6 days</h5>
+            <div className="bg-cyan-50 col-span-1 p-4 border border-cyan-200 border-solid rounded-md">
+              <h4 className="m-0 text-cyan-500">Earned Leave</h4>
+              <h5 className="my-2 text-cyan-600">YES, 6 days</h5>
             </div>
             <div className="bg-purple-50 col-span-3 p-4 border border-purple-200 border-solid rounded-md">
-              <h4 className="m-0 text-purple-500">Description</h4>
-              <h5 className="my-2 text-purple-600">YES, 6 days</h5>
+              <h4 className="m-0 text-purple-600">Description</h4>
+              <h5 className="my-2 text-purple-400">
+                Paid leave for your work-life balance
+              </h5>
             </div>
           </div>
         </Card>
