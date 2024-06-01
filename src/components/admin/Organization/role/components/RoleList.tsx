@@ -1,15 +1,12 @@
 "use client";
 import MenuComponent from "@/components/global/MenuComponent";
 import { AppConfig } from "@/config/appConfig";
-import { GetAllRoleQuery, Role, RoleInput } from "@/graphql/graphql";
+import { Role } from "@/graphql/graphql";
 import { DataState } from "@/types/appTypes";
-import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import { Dropdown } from "primereact/dropdown";
 import { MenuItem } from "primereact/menuitem";
-import { MultiSelect } from "primereact/multiselect";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction } from "react";
 type Keys = keyof Role;
 
 const columns: { name: string; uid: Keys }[] = [
@@ -24,10 +21,9 @@ const RoleList = ({
   setDataState,
   deleteRole,
 }: {
-  data: GetAllRoleQuery | undefined;
+  data: Role[];
   loading: boolean;
   setDataState: Dispatch<SetStateAction<DataState<Role>>>;
-  onOpen: () => void;
   deleteRole: (id: string) => void;
 }) => {
   const handleEdit = (data: Role) => {
@@ -92,7 +88,7 @@ const RoleList = ({
     return (
       <span className="bg-[var(--highlight-bg)] rounded-full text-[var(--highlight-text-color)] text-sm font-semibold flex items-center gap-1 px-3 py-1 w-max">
         {body.parent
-          ? data?.getAllRole?.find((data) => data?.id === body.parent)?.name
+          ? data?.find((data) => data?.id === body.parent)?.name
           : emptyArray[0]?.name}
       </span>
     );
@@ -103,7 +99,7 @@ const RoleList = ({
       rows={5}
       rowsPerPageOptions={[5, 10, 25, 50]}
       loading={loading}
-      value={data?.getAllRole?.filter((i) => !i.isDelete) ?? []}
+      value={data?.filter((i) => !i.isDelete) ?? []}
     >
       <Column sortable field="name" header={"Role Name"} />
       <Column body={accessTemplate} header={"Access"} />

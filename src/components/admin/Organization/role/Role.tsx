@@ -1,7 +1,5 @@
 "use client";
 
-import { useMutation, useQuery } from "@apollo/client";
-import RoleList from "./components/RoleList";
 import {
   CreateRoleDocument,
   DeleteRoleByIdDocument,
@@ -10,13 +8,15 @@ import {
   RoleInput,
   UpdateRoleByIdDocument,
 } from "@/graphql/graphql";
-import { useAdminAuthStore } from "../../AuthContext";
-import { toast } from "sonner";
-import CreateRole from "./components/CreateRole";
-import { useState } from "react";
 import { DataState } from "@/types/appTypes";
-import { Dialog } from "primereact/dialog";
+import { useMutation, useQuery } from "@apollo/client";
 import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { useState } from "react";
+import { toast } from "sonner";
+import { useAdminAuthStore } from "../../AuthContext";
+import CreateRole from "./components/CreateRole";
+import RoleList from "./components/RoleList";
 
 const RoleDetails = () => {
   const [dataState, setDataState] = useState<DataState<Role>>({
@@ -24,7 +24,7 @@ const RoleDetails = () => {
     data: null,
     state: false,
   });
-  const token = useAdminAuthStore((state) => state.token);
+  const { token, companyId } = useAdminAuthStore((state) => state);
   const context = {
     headers: {
       authorization: token,
@@ -32,17 +32,19 @@ const RoleDetails = () => {
   };
   const { data, loading, refetch } = useQuery(GetAllRoleDocument, {
     context,
+    variables: { body: { id: companyId } },
     onError(error) {
       toast.error(error.message);
     },
   });
+
   const [mutation, { loading: createLoading }] = useMutation(
     CreateRoleDocument,
     {
       context,
       onCompleted(data) {
         toast.success(data.createRole.message);
-        refetch();
+        refetch({ body: { id: companyId } });
         setDataState((prev) => ({
           ...prev,
           state: false,
@@ -81,7 +83,7 @@ const RoleDetails = () => {
           ...prev,
           state: false,
         }));
-        refetch();
+        refetch({ body: { id: companyId } });
       },
       onError(error) {
         toast.error(error.message);
@@ -92,6 +94,7 @@ const RoleDetails = () => {
     if (dataState.type === "CREATE") {
       const requestBody: RoleInput = {
         name: val.name,
+        companyId: companyId,
         access: val.access?.includes("NONE") ? null : val.access,
         parent: Boolean(val.parent) ? val.parent : null,
       };
@@ -100,6 +103,7 @@ const RoleDetails = () => {
       const requestBody: RoleInput = {
         id: val.id,
         name: val.name,
+        companyId: companyId,
         access: val.access?.includes("NONE") ? null : val.access,
         parent: Boolean(val.parent) ? val.parent : null,
       };
@@ -140,11 +144,7 @@ const RoleDetails = () => {
         }
       >
         <CreateRole
-          roleList={
-            data?.getAllRole
-              ? data?.getAllRole?.filter((item) => !item.isDelete)
-              : []
-          }
+          roleList={data?.getAllRole?.filter((item) => !item.isDelete)}
           loading={createLoading || updateLoading || deleteLoading}
           onSubmit={onSubmit}
           formData={dataState.data}
@@ -153,7 +153,7 @@ const RoleDetails = () => {
       </Dialog>
       <div className="px-6">
         <RoleList
-          data={data}
+          data={data?.getAllRole ?? []}
           deleteRole={deleteRole}
           loading={loading}
           setDataState={setDataState}
