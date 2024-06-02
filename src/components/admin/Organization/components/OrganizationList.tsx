@@ -91,6 +91,7 @@ const OrganizationList = ({
     <>
       <DataTable
         stripedRows
+        size="small"
         loading={loading}
         value={data?.getAllOrganization ?? []}
       >

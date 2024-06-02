@@ -31,7 +31,7 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
   const emptyArray = [{ id: "", name: "Administration" }];
   return (
     <form
-      className="lg:grid grid-cols-3 gap-4 bg-sky-50 border border-solid border-sky-200 rounded-xl p-8"
+      className="lg:grid grid-cols-3 gap-4 bg-[var(--ui-bg)] rounded-xl p-8"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
       <Controller

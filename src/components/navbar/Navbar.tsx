@@ -61,7 +61,7 @@ export default function Navbar(props: Props) {
                   (checkActivePath(item.path)
                     ? "bg-[var(--highlight-bg)] text-[var(--highlight-text-color)] "
                     : "text-gray-700 ") +
-                  " py-3 w-full hover:bg-gray-100 font-semibold px-3 gap-5 text-sm flex items-center  rounded-r-full"
+                  " py-3 w-full hover:bg-gray-100 font-semibold px-3 gap-5 text-sm flex items-center  rounded"
                 }
               >
                 <i className={item.icon} /> <p className="m-0">{item?.label}</p>
