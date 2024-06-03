@@ -13,6 +13,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
                 "font-semibold text-xs rounded uppercase hover:bg-blue-700",
             },
           },
+          inputtext: {
+            root: {
+              className: "rounded",
+            },
+          },
         },
       }}
     >
