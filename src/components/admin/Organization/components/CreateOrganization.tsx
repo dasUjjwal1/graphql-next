@@ -4,11 +4,11 @@ import { OrganizationRegisterInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
-import { Button } from "primereact/button";
 import { AppConfig } from "@/config/appConfig";
-import { Divider } from "primereact/divider";
 import FieldInput from "@/components/global/FieldInput";
 import FieldDropdown from "@/components/global/FieldDropdown";
+import ButtonUi from "@/components/global/ui/ButtonUi";
+import { Button } from "primereact/button";
 
 type Props = {
   onSubmit: (val: OrganizationRegisterInput) => void;
@@ -160,7 +160,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           icon={"pi pi-refresh"}
           severity="danger"
         />
-        <Button
+        <ButtonUi
           color="primary"
           loading={props.loading}
           type="submit"
