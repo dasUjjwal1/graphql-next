@@ -4,6 +4,7 @@ import ButtonUi from "@/components/global/ui/ButtonUi";
 import { LoginUserDocument, UserLogin } from "@/graphql/graphql";
 import { useLazyQuery } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { FloatLabel } from "primereact/floatlabel";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
@@ -47,32 +48,34 @@ function AdminSignIn() {
           name="email"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <IconField iconPosition="left">
-              <InputIcon className="pi pi-user"> </InputIcon>
+            <FloatLabel>
               <InputText
                 className="w-full"
                 keyfilter={"email"}
-                placeholder="Email"
                 invalid={Boolean(errors.email?.message)}
                 {...field}
               />
-            </IconField>
+              <label htmlFor="email" className="text-xs font-semibold">
+                Email
+              </label>
+            </FloatLabel>
           )}
         />
         <Controller
           name="password"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <IconField iconPosition="left">
-              <InputIcon className="pi pi-lock"> </InputIcon>
+            <FloatLabel>
               <InputText
                 className="w-full"
-                placeholder="Password"
                 invalid={Boolean(errors.password?.message)}
                 {...field}
                 type="password"
               />
-            </IconField>
+              <label htmlFor="password" className="text-xs font-semibold">
+                Password
+              </label>
+            </FloatLabel>
           )}
         />
         <ButtonUi loading={loading} label="LOGIN" type="submit" />

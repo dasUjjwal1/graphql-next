@@ -10,7 +10,7 @@ function AdminAuth() {
     <>
       <main className="h-screen flex flex-col">
         <section className="flex-grow flex items-center justify-center ">
-          <div className="w-1/3">
+          <div className="w-1/4">
             <div className="pb-0">
               <h1 className="text-3xl mb-1 z-10 font-bold text-[var(--primary-color)]">
                 {login === "login" ? "Welcome back" : "Let's start"}

@@ -7,8 +7,8 @@ import { RegisterProps } from "@/types/authType";
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Dropdown } from "primereact/dropdown";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
+
+import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -59,31 +59,33 @@ function AdminRegister() {
           name="name"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <IconField iconPosition="left">
-              <InputIcon className="pi pi-user"> </InputIcon>
+            <FloatLabel>
               <InputText
                 className="w-full"
-                placeholder="Name"
                 invalid={Boolean(errors.name?.message)}
                 {...field}
               />
-            </IconField>
+              <label htmlFor="name" className="text-xs font-semibold">
+                Name
+              </label>
+            </FloatLabel>
           )}
         />
         <Controller
           name="email"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <IconField iconPosition="left">
-              <InputIcon className="pi pi-envelope"> </InputIcon>
+            <FloatLabel>
               <InputText
                 className="w-full"
                 keyfilter={"email"}
-                placeholder="Email"
                 invalid={Boolean(errors.email?.message)}
                 {...field}
               />
-            </IconField>
+              <label htmlFor="email" className="text-xs font-semibold">
+                Email
+              </label>
+            </FloatLabel>
           )}
         />
         <Controller
@@ -91,16 +93,17 @@ function AdminRegister() {
           control={form.control}
           rules={{ required: true }}
           render={({ field, formState: { errors } }) => (
-            <IconField iconPosition="left">
-              <InputIcon className="pi pi-lock"> </InputIcon>
+            <FloatLabel>
               <InputText
                 className="w-full"
-                placeholder="Password"
                 invalid={Boolean(errors.password?.message)}
                 {...field}
                 type="password"
               />
-            </IconField>
+              <label htmlFor="password" className="text-xs font-semibold">
+                Password
+              </label>
+            </FloatLabel>
           )}
         />
         <Controller
@@ -108,12 +111,16 @@ function AdminRegister() {
           control={form.control}
           rules={{ required: true }}
           render={({ field, formState: { errors } }) => (
-            <Dropdown
-              pt={{ input: { className: "text-xs text-gray-400" } }}
-              placeholder={"Location"}
-              {...field}
-              options={[{ label: "India", value: 1 }]}
-            />
+            <FloatLabel>
+              <Dropdown
+                className="w-full"
+                {...field}
+                options={[{ label: "India", value: 1 }]}
+              />
+              <label htmlFor="location" className="text-xs font-semibold">
+                Location
+              </label>
+            </FloatLabel>
           )}
         />
         <ButtonUi label="REGISTER" type="submit" />

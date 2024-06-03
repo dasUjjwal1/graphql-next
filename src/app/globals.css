@@ -10,7 +10,7 @@
 }
 
 @layer tailwind-base, primereact, tailwind-utilities;
-@import "primereact/resources/themes/lara-light-blue/theme.css";
+@import "primereact/resources/themes/md-light-indigo/theme.css";
 @import "primeicons/primeicons.css";
 
 @layer tailwind-base {
@@ -73,13 +73,11 @@ input[type="number"] {
 }
 
 .table-header th:first-child {
-
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
 }
 
 .table-header th:last-child {
-
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
 }
