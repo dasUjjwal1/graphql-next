@@ -13,8 +13,10 @@ import { useAdminAuthStore } from "../AuthContext";
 import { toast } from "sonner";
 import { useState } from "react";
 import { DataState } from "@/types/appTypes";
-import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import ButtonUi from "@/components/global/ui/ButtonUi";
+import { classNames } from "primereact/utils";
+import { TailwindUiConfig } from "@/components/global/stypeConfig/PTConfig";
 
 const Organization = () => {
   const [dataState, setDataState] = useState<
@@ -103,8 +105,8 @@ const Organization = () => {
   return (
     <>
       <div className="flex px-6 items-baseline justify-between pb-4">
-        <h2 className="text-2xl font-bold">Organization</h2>
-        <Button
+        <h2 className="text-2xl font-bold text-gray-600">Organization</h2>
+        <ButtonUi
           onClick={() =>
             setDataState((prev) => ({
               ...prev,
@@ -113,7 +115,7 @@ const Organization = () => {
               type: "CREATE",
             }))
           }
-          label="Create"
+          label="CREATE"
         />
       </div>
       <Dialog

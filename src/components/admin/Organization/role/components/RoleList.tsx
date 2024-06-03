@@ -97,7 +97,6 @@ const RoleList = ({
     <DataTable
       paginator
       rows={5}
-      size="small"
       stripedRows
       rowsPerPageOptions={[5, 10, 25, 50]}
       loading={loading}

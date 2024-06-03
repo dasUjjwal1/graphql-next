@@ -4,7 +4,11 @@
  */
 :root {
   --ui-bg: #f5f8ff;
+  --primary-color: #1d63ed;
+  --bg-highlight: #f4f4f5;
+  --text-foreground: #71717a;
 }
+
 @layer tailwind-base, primereact, tailwind-utilities;
 @import "primereact/resources/themes/lara-light-blue/theme.css";
 @import "primeicons/primeicons.css";
@@ -55,4 +59,27 @@ input[type="number"] {
 
 ::placeholder {
   font-size: 12px;
+}
+
+.table-header {
+  background-color: var(--bg-highlight);
+}
+
+.table-header th {
+  padding: 0.5rem;
+  color: var(--text-foreground);
+  text-transform: uppercase;
+  font-size: small;
+}
+
+.table-header th:first-child {
+
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.table-header th:last-child {
+
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
