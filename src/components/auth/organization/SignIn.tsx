@@ -1,9 +1,9 @@
 "use client";
 import { useAdminAuthStore } from "@/components/admin/AuthContext";
+import ButtonUi from "@/components/global/ui/ButtonUi";
 import { LoginUserDocument, UserLogin } from "@/graphql/graphql";
 import { useLazyQuery } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button } from "primereact/button";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
@@ -75,12 +75,7 @@ function AdminSignIn() {
             </IconField>
           )}
         />
-        <Button
-          loading={loading}
-          label="LOGIN"
-          type="submit"
-          className="text-xs"
-        />
+        <ButtonUi loading={loading} label="LOGIN" type="submit" />
       </form>
     </>
   );

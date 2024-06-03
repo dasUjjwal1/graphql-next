@@ -1,12 +1,11 @@
 "use client";
 
 import { useAdminAuthStore } from "@/components/admin/AuthContext";
-import { AppConfig } from "@/config/appConfig";
+import ButtonUi from "@/components/global/ui/ButtonUi";
 import { CreateUserDocument } from "@/graphql/graphql";
 import { RegisterProps } from "@/types/authType";
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
@@ -117,7 +116,7 @@ function AdminRegister() {
             />
           )}
         />
-        <Button label="REGISTER" type="submit" className="text-xs" />
+        <ButtonUi label="REGISTER" type="submit" />
       </form>
     </>
   );
