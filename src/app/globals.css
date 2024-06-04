@@ -52,6 +52,15 @@ input[type="number"] {
   appearance: none;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+
 ::-ms-input-placeholder {
   /* Edge 12-18 */
   font-size: 12px;
@@ -80,4 +89,25 @@ input[type="number"] {
 .table-header th:last-child {
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+}
+
+.p-float-label input:focus~label,
+.p-float-label .p-inputwrapper-focus~label {
+  color: var(--primary-color);
+}
+
+.p-inputtext:enabled:focus {
+  box-shadow: inset 0 0 0 1px var(--primary-color), inset 0 0 0 1px var(--primary-color), inset 0 0 0 1px var(--primary-color), inset 0 0 0 1px var(--primary-color);
+}
+
+.p-inputtext:enabled:focus {
+  border-color: var(--primary-color);
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  box-shadow: inset 0 0 0 1px var(--primary-color), inset 0 0 0 1px var(--primary-color), inset 0 0 0 1px var(--primary-color), inset 0 0 0 1px var(--primary-color);
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  border-color: var(--primary-color);
 }

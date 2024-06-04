@@ -38,7 +38,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
 
   return (
     <form
-      className="lg:grid grid-cols-3 gap-4 bg-[var(--ui-bg)] p-8 rounded-xl"
+      className="lg:grid grid-cols-3 gap-4 border-2"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
       <h4 className="mb-1 mt-0 col-span-3">General Information</h4>
