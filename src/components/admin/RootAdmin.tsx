@@ -16,7 +16,7 @@ type Props = {
   children: ReactNode;
 };
 const RootAdmin = (props: Props) => {
-  const token = useAdminAuthStore((state) => state.token);
+  const { token, setCompanyId } = useAdminAuthStore((state) => state);
   const context = {
     headers: {
       authorization: token,
@@ -24,6 +24,9 @@ const RootAdmin = (props: Props) => {
   };
   const { data, loading, refetch } = useQuery(GetCompanyDetailsDocument, {
     context,
+    onCompleted(data) {
+      setCompanyId(data?.getCompanyDetails?.id);
+    },
     onError(error) {
       toast.error(error.message);
     },
@@ -60,7 +63,9 @@ const RootAdmin = (props: Props) => {
           {data?.getCompanyDetails?.id ? (
             <main className="flex h-full flex-grow">
               <AdminNavbar />
-              <div className="flex-grow pt-16 ml-60">{props?.children}</div>
+              <div className="flex-grow bg-[#f5f8ff] pt-12 ml-60">
+                {props?.children}
+              </div>
             </main>
           ) : (
             <CompanyDetails

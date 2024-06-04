@@ -18,6 +18,7 @@ import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { Card } from "primereact/card";
 import { InputSwitch } from "primereact/inputswitch";
+import { Checkbox } from "primereact/checkbox";
 
 const Leave = () => {
   const token = useAdminAuthStore((state) => state.token);
@@ -113,13 +114,48 @@ const Leave = () => {
       </Dialog>
       <section className="px-6">
         <Card
+          className="shadow-sm rounded-2xl"
           header={
-            <div className="flex px-3 justify-between items-center">
-              <h5>Paid leave</h5>
-              <InputSwitch checked={true} />
+            <div className="flex px-4 justify-between items-center">
+              <h3>Paid leave</h3>
+              <div className="flex items-center gap-3">
+                <Button icon={"pi pi-pencil"} rounded text />
+                <InputSwitch checked={true} />
+              </div>
             </div>
           }
-        ></Card>
+        >
+          <div className="grid grid-cols-3 gap-3">
+            <div className="bg-[var(--highlight-bg)] col-span-1 p-5 rounded-2xl">
+              <h4 className="m-0 text-[var(--highlight-text-color)]">
+                Leave per Month{" "}
+              </h4>
+              <p className="my-2 ml-1 text-gray-600 font-medium">2 days</p>
+            </div>
+            <div className="bg-[var(--highlight-bg)] col-span-1 p-5 rounded-2xl">
+              <h4 className="m-0 text-[var(--highlight-text-color)]">
+                Carry Forward
+              </h4>
+              <p className="my-2 ml-1 text-gray-600 font-medium">
+                <Checkbox checked /> YES, 6 days
+              </p>
+            </div>
+            <div className="bg-[var(--highlight-bg)] col-span-1 p-5 rounded-2xl">
+              <h4 className="m-0 text-[var(--highlight-text-color)]">
+                Earned Leave
+              </h4>
+              <p className="my-2 ml-1 text-gray-600 font-medium">
+                <Checkbox checked /> YES, 6 days
+              </p>
+            </div>
+            <div className="bg-purple-50 col-span-3 p-5 rounded-2xl">
+              <h4 className="m-0 text-purple-600">Description</h4>
+              <p className="my-2 ml-1 text-purple-600 font-medium">
+                Paid leave for your work-life balance
+              </p>
+            </div>
+          </div>
+        </Card>
       </section>
     </>
   );

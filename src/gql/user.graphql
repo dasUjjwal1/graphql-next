@@ -18,12 +18,6 @@ mutation CreateUser($body: UserRegister!) {
       state
       pin
     }
-    roles {
-      id
-      name
-      parent
-      access
-    }
     verification {
       identityProof
       addressProof
@@ -54,12 +48,6 @@ query LoginUser($body: UserLogin!) {
       houseNumber
       state
       pin
-    }
-    roles {
-      id
-      name
-      parent
-      access
     }
     verification {
       identityProof
@@ -150,11 +138,34 @@ mutation CreateRole($body: RoleInput!) {
   }
 }
 
-query GetAllRole {
-  getAllRole {
+query GetCompanyDetails {
+  getCompanyDetails {
     id
-    name
+    companyName
+    userId
+    roles {
+      id
+      isDelete
+      name
+      parent
+      access
+    }
+    isActive
+    logo
+    financialYearStart
+    financialYearEnd
+    lastSubscribe
+    companyType
+    createdAt
+    updatedAt
+  }
+}
+
+query GetAllRole($body: GetByCompanyId!) {
+  getAllRole(body: $body) {
+    id
     isDelete
+    name
     parent
     access
   }
@@ -184,18 +195,7 @@ mutation CreateCompany($body: CompanyCreateInput!) {
     createdAt
   }
 }
-query GetCompanyDetails {
-  getCompanyDetails {
-    id
-    companyName
-    isActive
-    logo
-    financialYearStart
-    financialYearEnd
-    lastSubscribe
-    companyType
-  }
-}
+
 mutation UpdateOrganization($body: OrganizationRegisterInput!) {
   updateOrganization(body: $body) {
     message

@@ -90,11 +90,17 @@ const OrganizationList = ({
   return (
     <>
       <DataTable
-        stripedRows
+        // stripedRows
+        // unstyled
         loading={loading}
+        // className="bg-white rounded-lg p-4"
+        // pt={{
+        //   headerRow: { className: "table-header" },
+        //   table: { className: "w-full  border-collapse" },
+        // }}
         value={data?.getAllOrganization ?? []}
       >
-        <Column field="name" header={"Organization Name"} />
+        <Column field="name" header={"Name"} />
         <Column body={addressTemplate} header={"Address"} />
         <Column body={activeTemplate} header={"Status"} />
         <Column body={actionTemplate} header={"Option"} />

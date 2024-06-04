@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import ThemeToggler from "./ThemeToggler";
+// import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
 
 const Header = () => {
@@ -47,7 +47,7 @@ const Header = () => {
             : "absolute bg-transparent"
         }`}
       >
-        <div className="container">
+        <div className="px-6 w-full">
           <div className="relative flex items-center justify-between">
             <div className="w-60 max-w-full px-4 xl:mr-12">
               <Link
@@ -129,7 +129,7 @@ const Header = () => {
                   href={"/organization"}
                   className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
                 >
-                  Organization Admin
+                  I&apos;m Admin
                 </Link>
                 {/* <Link
                   href={"/user"}
@@ -137,9 +137,9 @@ const Header = () => {
                 >
                   Employee Log in
                 </Link> */}
-                <div>
+                {/* <div>
                   <ThemeToggler />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

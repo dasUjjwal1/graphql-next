@@ -7,14 +7,13 @@ import { AppConfig } from "@/config/appConfig";
 import { Role, RoleInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "primereact/button";
-import { Divider } from "primereact/divider";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
 
 type Props = {
   onSubmit: (val: RoleInput) => void;
   loading: boolean;
-  roleList: Role[];
+  roleList?: Role[];
   type: "CREATE" | "UPDATE";
   formData: Role | null;
 };
@@ -32,7 +31,7 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
   const emptyArray = [{ id: "", name: "Administration" }];
   return (
     <form
-      className="lg:grid grid-cols-3 gap-4 bg-sky-50 border border-solid border-sky-200 rounded-xl p-8"
+      className="lg:grid grid-cols-3 gap-4 bg-[var(--ui-bg)] rounded-xl p-8"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
       <Controller
@@ -68,7 +67,7 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
             {...field}
             label="Assign To."
             placeholder="Assign To."
-            options={props?.roleList.concat(emptyArray)}
+            options={props?.roleList?.concat(emptyArray)}
             optionValue="id"
             optionLabel="name"
           />
