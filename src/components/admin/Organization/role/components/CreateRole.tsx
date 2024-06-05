@@ -68,7 +68,9 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
             {...field}
             label="Assign To."
             placeholder="Assign To."
-            options={props?.roleList?.concat(emptyArray)}
+            options={
+              props?.roleList ? props?.roleList?.concat(emptyArray) : emptyArray
+            }
             optionValue="id"
             optionLabel="name"
           />

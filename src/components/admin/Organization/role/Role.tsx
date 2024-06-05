@@ -114,7 +114,6 @@ const RoleDetails = () => {
   const deleteRole = (id: string) => {
     deleteMutation({ variables: { body: id } });
   };
-
   return (
     <>
       <div className="flex px-6 items-baseline justify-between pb-4">
@@ -128,7 +127,6 @@ const RoleDetails = () => {
               type: "CREATE",
             }))
           }
-          icon={"pi pi-plus"}
           label="Create"
         />
       </div>
@@ -136,7 +134,7 @@ const RoleDetails = () => {
         className="w-2/3"
         draggable={false}
         visible={dataState.state}
-        header={"Create Role"}
+        header={dataState.type === "CREATE" ? "Create Role" : "Update Role"}
         onHide={() =>
           setDataState((prev) => ({
             ...prev,

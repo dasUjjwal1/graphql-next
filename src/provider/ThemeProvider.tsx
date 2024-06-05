@@ -10,8 +10,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         pt: {
           button: {
             root: {
-              className:
-                "font-semibold text-xs rounded uppercase hover:bg-blue-700",
+              className: "font-semibold text-xs rounded",
             },
           },
           inputtext: {
@@ -24,19 +23,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
               className: "rounded",
             },
             input: { className: "text-sm" },
-          },
-          checkbox: {
-            root: {
-              className: classNames(
-                "cursor-pointer inline-flex relative select-none align-bottom",
-                "w-6 h-6"
-              ),
-            },
-            input: {
-              className: classNames(
-                "absolute appearance-none top-0 left-0 size-full p-0 m-0 opacity-0 z-10 outline-none cursor-pointer"
-              ),
-            },
           },
         },
       }}

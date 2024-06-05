@@ -130,13 +130,13 @@ const Leave = () => {
               <h4 className="m-0 text-[var(--highlight-text-color)]">
                 Leave per Month{" "}
               </h4>
-              <p className="my-2 ml-1 text-gray-600 font-medium">2 days</p>
+              <p className="my-2 text-gray-600 font-medium">2 days</p>
             </div>
             <div className="bg-[var(--highlight-bg)] col-span-1 p-5 rounded-2xl">
               <h4 className="m-0 text-[var(--highlight-text-color)]">
                 Carry Forward
               </h4>
-              <p className="my-2 ml-1 text-gray-600 font-medium">
+              <p className="my-2 text-gray-600 font-medium">
                 <Checkbox checked /> YES, 6 days
               </p>
             </div>
@@ -144,13 +144,13 @@ const Leave = () => {
               <h4 className="m-0 text-[var(--highlight-text-color)]">
                 Earned Leave
               </h4>
-              <p className="my-2 ml-1 text-gray-600 font-medium">
+              <p className="my-2 text-gray-600 font-medium">
                 <Checkbox checked /> YES, 6 days
               </p>
             </div>
-            <div className="bg-purple-50 col-span-3 p-5 rounded-2xl">
-              <h4 className="m-0 text-purple-600">Description</h4>
-              <p className="my-2 ml-1 text-purple-600 font-medium">
+            <div className="bg-blue-50 col-span-3 p-5 rounded-2xl">
+              <h4 className="m-0 text-blue-600">Description</h4>
+              <p className="my-2 text-gray-600 font-medium">
                 Paid leave for your work-life balance
               </p>
             </div>
