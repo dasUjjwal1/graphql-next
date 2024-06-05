@@ -3,6 +3,7 @@
 import FieldDropdown from "@/components/global/FieldDropdown";
 import FieldInput from "@/components/global/FieldInput";
 import FieldMultiSelect from "@/components/global/FieldMultiSelect";
+import ButtonUi from "@/components/global/ui/ButtonUi";
 import { AppConfig } from "@/config/appConfig";
 import { Role, RoleInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -31,7 +32,7 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
   const emptyArray = [{ id: "", name: "Administration" }];
   return (
     <form
-      className="lg:grid grid-cols-3 gap-4 bg-[var(--ui-bg)] rounded-xl p-8"
+      className="lg:grid grid-cols-3 gap-4 pt-3"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
       <Controller
@@ -81,7 +82,7 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
           icon={"pi pi-refresh"}
           severity="danger"
         />
-        <Button
+        <ButtonUi
           color="primary"
           loading={props.loading}
           type="submit"

@@ -9,8 +9,8 @@ function AdminAuth() {
   return (
     <>
       <main className="h-screen flex flex-col">
-        <section className="flex-grow flex items-center justify-center ">
-          <div className="w-1/4">
+        <section className="flex-grow flex items-center justify-center flex-wrap p-3">
+          <div className="w-full sm:w-1/4 ">
             <div className="pb-0">
               <h1 className="text-3xl mb-1 z-10 font-bold text-[var(--primary-color)]">
                 {login === "login" ? "Welcome back" : "Let's start"}
@@ -36,8 +36,13 @@ function AdminAuth() {
               </a>
             </p>
           </div>
-          <div className="col-span-2">
-            <Image src={BackgroundImage} width={600} alt={""} />
+          <div className="w-2/4 relative aspect-square">
+            <Image
+              src={BackgroundImage}
+              layout="fill"
+              objectFit="contain"
+              alt={""}
+            />
           </div>
         </section>
 

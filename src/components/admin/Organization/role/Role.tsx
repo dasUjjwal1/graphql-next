@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { useAdminAuthStore } from "../../AuthContext";
 import CreateRole from "./components/CreateRole";
 import RoleList from "./components/RoleList";
+import ButtonUi from "@/components/global/ui/ButtonUi";
 
 const RoleDetails = () => {
   const [dataState, setDataState] = useState<DataState<Role>>({
@@ -118,7 +119,7 @@ const RoleDetails = () => {
     <>
       <div className="flex px-6 items-baseline justify-between pb-4">
         <h2 className="text-2xl font-bold">Role</h2>
-        <Button
+        <ButtonUi
           onClick={() =>
             setDataState((prev) => ({
               ...prev,
