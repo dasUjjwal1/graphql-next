@@ -13,6 +13,7 @@ const AdminNavbar = () => {
         method: "GET",
       });
       const data = await res.json();
+      console.log(data);
       setMenu(data?.menu);
     } catch (error) {}
   };

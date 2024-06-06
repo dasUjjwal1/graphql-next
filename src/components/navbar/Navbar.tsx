@@ -1,17 +1,10 @@
 "use client";
+import { NavMenuItems } from "@/types/appTypes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "primereact/menu";
-import { MenuItem } from "primereact/menuitem";
-type MenuItems = {
-  id?: string;
-  label?: string;
-  path: string;
-  icon?: string;
-  child?: MenuItems[];
-};
+
 type Props = {
-  menu: MenuItems[];
+  menu: { label: string; children: NavMenuItems[] }[];
 };
 
 function useActivePath(): (path: string) => boolean {
@@ -28,44 +21,35 @@ function useActivePath(): (path: string) => boolean {
 }
 export default function Navbar(props: Props) {
   const checkActivePath = useActivePath();
-  // let items: MenuItem[] = [
-  //   {
-  //     label: "Organization",
-  //     items: [
-  //       {
-
-  //         template:
-  //       },
-  //       {
-  //         label: "Search",
-  //         icon: "pi pi-search",
-  //         shortcut: "⌘+S",
-  //         // template: itemRenderer
-  //       },
-  //     ],
-  //   },
-  // ];
   return (
     <>
-      {/* <div className="card flex justify-content-center min-h-screen  fixed left-0 p-1 border-r-0 overflow-y-auto w-56">
-        <Menu model={items} />
-      </div> */}
       <nav className="min-h-screen fixed w-60 left-0 py-12 overflow-y-auto shadow-lg">
         <ul className="h-full flex gap-2 flex-col p-0 list-none">
           {props?.menu?.map((item) => (
-            <li key={item?.id} className="px-2">
-              <Link
-                href={item.path}
-                as={item.path}
-                className={
-                  (checkActivePath(item.path)
-                    ? "bg-[var(--highlight-bg)] text-[var(--highlight-text-color)] "
-                    : "text-gray-700 ") +
-                  " py-3 w-full hover:bg-gray-100 font-semibold px-3 gap-5 text-sm flex items-center  rounded"
-                }
-              >
-                <i className={item.icon} /> <p className="m-0">{item?.label}</p>
-              </Link>
+            <li key={item?.label} className="px-2">
+              <p className="font-bold flex justify-between px-3 text-gray-600">
+                {item.label}
+                <i className="pi pi-sort-down-fill"></i>
+              </p>
+              <ul className="flex gap-2 flex-col p-0 list-none">
+                {item?.children?.map((ele) => (
+                  <li key={ele.id} className="px-2">
+                    <Link
+                      href={ele.path}
+                      as={ele.path}
+                      className={
+                        (checkActivePath(ele.path)
+                          ? "bg-[var(--highlight-bg)] text-[var(--highlight-text-color)] "
+                          : "text-gray-500 ") +
+                        " py-3 w-full hover:bg-gray-100 font-semibold px-3 gap-5 text-sm flex items-center  rounded"
+                      }
+                    >
+                      <i className={ele.icon} />
+                      <p className="m-0">{ele?.label}</p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </li>
           ))}
         </ul>

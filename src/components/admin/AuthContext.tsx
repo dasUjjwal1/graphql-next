@@ -4,9 +4,10 @@ import { StoreApi, useStore } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { ReactNode, createContext, useContext, useRef } from "react";
 import { LoginUserQuery } from "@/graphql/graphql";
+import { NavMenuItems } from "@/types/appTypes";
 type AdminAuthType = {
   loaded: boolean;
-  menu: { id: string; label: string; path: string; icon: string[] }[];
+  menu: { label: string; children: NavMenuItems[] }[];
   adminAuth: LoginUserQuery["loginUser"] | null;
   token: any;
   companyId: string | null;
@@ -19,7 +20,7 @@ type AdminAuthActions = {
 type AdminSTore = AdminAuthType & AdminAuthActions;
 const AdminAuthInitialState: AdminAuthType = {
   loaded: true,
-  menu: [],
+  menu: [{ label: "", children: [] }],
   adminAuth: null,
   token: null,
   companyId: null,

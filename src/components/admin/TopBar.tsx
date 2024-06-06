@@ -6,7 +6,7 @@ import { MenuItem } from "primereact/menuitem";
 import { useRef } from "react";
 
 const TopBar = () => {
-  const { setDetails } = useAdminAuthStore((state) => state);
+  const { setDetails, setMenu } = useAdminAuthStore((state) => state);
   const menuRight = useRef<Menu>(null);
   const items: MenuItem[] = [
     {
@@ -21,6 +21,7 @@ const TopBar = () => {
           icon: "pi pi-upload",
           command: () => {
             setDetails(null);
+            setMenu([]);
           },
         },
       ],
