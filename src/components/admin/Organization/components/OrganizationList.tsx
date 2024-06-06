@@ -1,15 +1,15 @@
 "use client";
 
+import MenuComponent from "@/components/global/MenuComponent";
 import {
   GetAllOrganizationQuery,
   Organization,
   OrganizationRegisterInput,
 } from "@/graphql/graphql";
 import { DataState } from "@/types/appTypes";
-import { Button } from "primereact/button";
-
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
+import { MenuItem } from "primereact/menuitem";
 import { Dispatch, SetStateAction } from "react";
 
 const OrganizationList = ({
@@ -74,18 +74,14 @@ const OrganizationList = ({
     );
   };
   const actionTemplate = (body: OrganizationRegisterInput) => {
-    return (
-      <>
-        <Button
-          icon="pi pi-pencil"
-          rounded
-          size="small"
-          text
-          aria-label="Edit"
-          onClick={() => handleEdit(body)}
-        />
-      </>
-    );
+    const items: MenuItem[] = [
+      {
+        label: "Edit",
+        icon: "pi pi-pencil",
+        command: () => () => handleEdit(body),
+      },
+    ];
+    return <MenuComponent items={items} />;
   };
   return (
     <>
