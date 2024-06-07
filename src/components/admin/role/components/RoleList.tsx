@@ -97,6 +97,14 @@ const RoleList = ({
     <DataTable
       paginator
       rows={5}
+      className="border-spacing-x-0"
+      pt={{
+        thead: { className: "table-header" },
+        column: {
+          headerContent: { className: "flex justify-between" },
+        },
+        table: { className: "w-full border-spacing-x-1" },
+      }}
       rowsPerPageOptions={[5, 10, 25, 50]}
       loading={loading}
       value={data?.filter((i) => !i.isDelete) ?? []}
@@ -104,7 +112,7 @@ const RoleList = ({
       <Column sortable field="name" header={"Role Name"} />
       <Column body={accessTemplate} header={"Access"} />
       <Column body={assignTemplate} header={"Assign To"} />
-      <Column body={actionTemplate} header={"Option"} />
+      <Column body={actionTemplate} header={"Action"} />
     </DataTable>
   );
 };

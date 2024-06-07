@@ -116,20 +116,12 @@ const RoleDetails = () => {
   };
   return (
     <>
-      <div className="flex px-6 items-baseline justify-between pb-4">
-        <h2 className="text-2xl font-bold">Role</h2>
-        <ButtonUi
-          onClick={() =>
-            setDataState((prev) => ({
-              ...prev,
-              state: true,
-              data: null,
-              type: "CREATE",
-            }))
-          }
-          label="Create"
-        />
+      <div className="px-6 pb-4">
+        <h3 className="text-xl font-bold text-gray-700">Role</h3>
+
+        <hr color="#eff0f2" />
       </div>
+
       <Dialog
         className="w-2/3"
         draggable={false}
@@ -151,12 +143,28 @@ const RoleDetails = () => {
         />
       </Dialog>
       <div className="px-6">
-        <RoleList
-          data={data?.getAllRole ?? []}
-          deleteRole={deleteRole}
-          loading={loading}
-          setDataState={setDataState}
-        />
+        <div className="bg-white shadow-lg shadow-gray-200 rounded-xl px-6 pb-6">
+          <div className="flex items-baseline justify-between">
+            <h4 className="text-lg font-bold text-gray-700">Role List</h4>
+            <ButtonUi
+              onClick={() =>
+                setDataState((prev) => ({
+                  ...prev,
+                  state: true,
+                  data: null,
+                  type: "CREATE",
+                }))
+              }
+              label="Create"
+            />
+          </div>
+          <RoleList
+            data={data?.getAllRole ?? []}
+            deleteRole={deleteRole}
+            loading={loading}
+            setDataState={setDataState}
+          />
+        </div>
       </div>
     </>
   );

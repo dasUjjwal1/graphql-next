@@ -10,7 +10,7 @@ const FieldMultiSelect = ({ label, ...props }: FieldMultiSelectProps) => {
   return (
     <FloatLabel>
       <MultiSelect className="w-full" {...props} />
-      <label className="text-xs">{label}</label>
+      <label>{label}</label>
     </FloatLabel>
   );
 };

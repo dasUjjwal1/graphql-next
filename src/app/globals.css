@@ -3,9 +3,11 @@
 @tailwind utilities;
  */
 :root {
-  --ui-bg: #f5f8ff;
-  --primary-color: #1d63ed;
-  --bg-highlight: #f4f4f5;
+  /* --ui-bg: #f5f8ff; */
+  --ui-bg: #f9fafc;
+  /* --primary-color: #1d63ed; */
+  --primary-color: #556ee6;
+  --bg-highlight: #f2f3f7;
   --text-foreground: #71717a;
 }
 
@@ -71,23 +73,12 @@ input[data-autocompleted] {
   font-size: 12px;
 }
 
-.table-header {
-  background-color: var(--bg-highlight);
-}
+/* .table-header {} */
 
 .table-header th {
-  padding: 0.5rem;
+  border: none;
   color: var(--text-foreground);
-  text-transform: uppercase;
-  font-size: small;
-}
-
-.table-header th:first-child {
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-}
-
-.table-header th:last-child {
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+  background-color: var(--bg-highlight);
+  border-radius: 0.2rem;
+  font-size: smaller;
 }

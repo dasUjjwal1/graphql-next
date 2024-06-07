@@ -14,7 +14,7 @@ const FieldDropdown = ({ label, ...props }: FieldDropdownProps) => {
         className="w-full"
         {...props}
       />
-      <label className="text-sm">{label}</label>
+      <label>{label}</label>
     </FloatLabel>
   );
 };

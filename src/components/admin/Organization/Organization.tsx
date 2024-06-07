@@ -104,20 +104,6 @@ const Organization = () => {
   };
   return (
     <>
-      <div className="flex px-6 items-baseline justify-between pb-4">
-        <h2 className="text-2xl font-bold text-gray-600">Organization</h2>
-        <ButtonUi
-          onClick={() =>
-            setDataState((prev) => ({
-              ...prev,
-              state: true,
-              data: null,
-              type: "CREATE",
-            }))
-          }
-          label="CREATE"
-        />
-      </div>
       <Dialog
         className="w-2/3"
         draggable={false}
@@ -143,13 +129,29 @@ const Organization = () => {
       </Dialog>
 
       <div className="px-6">
-        <OrganizationList
-          data={data}
-          loading={loading}
-          // deleteRole={deleteRole}
+        <div className="bg-white shadow-lg shadow-gray-200 rounded-xl px-6 pb-6">
+          <div className="flex items-baseline justify-between">
+            <h4 className="text-lg font-bold text-gray-700">Office List</h4>
+            <ButtonUi
+              onClick={() =>
+                setDataState((prev) => ({
+                  ...prev,
+                  state: true,
+                  data: null,
+                  type: "CREATE",
+                }))
+              }
+              label="CREATE"
+            />
+          </div>
+          <OrganizationList
+            data={data}
+            loading={loading}
+            // deleteRole={deleteRole}
 
-          setDataState={setDataState}
-        />
+            setDataState={setDataState}
+          />
+        </div>
       </div>
     </>
   );

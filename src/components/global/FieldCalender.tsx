@@ -10,7 +10,7 @@ const FieldCalender = ({ label, ...props }: FieldCalenderProps) => {
   return (
     <FloatLabel>
       <Calendar className="w-full h-full" {...props} />
-      <label className="text-sm">{label}</label>
+      <label>{label}</label>
     </FloatLabel>
   );
 };

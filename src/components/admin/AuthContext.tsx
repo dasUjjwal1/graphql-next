@@ -7,7 +7,7 @@ import { LoginUserQuery } from "@/graphql/graphql";
 import { NavMenuItems } from "@/types/appTypes";
 type AdminAuthType = {
   loaded: boolean;
-  menu: { label: string; children: NavMenuItems[] }[];
+  menu: NavMenuItems[];
   adminAuth: LoginUserQuery["loginUser"] | null;
   token: any;
   companyId: string | null;
@@ -20,7 +20,7 @@ type AdminAuthActions = {
 type AdminSTore = AdminAuthType & AdminAuthActions;
 const AdminAuthInitialState: AdminAuthType = {
   loaded: true,
-  menu: [{ label: "", children: [] }],
+  menu: [],
   adminAuth: null,
   token: null,
   companyId: null,
