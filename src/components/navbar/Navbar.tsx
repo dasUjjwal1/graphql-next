@@ -2,9 +2,11 @@
 import { NavMenuItems } from "@/types/appTypes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAdminAuthStore } from "../admin/AuthContext";
+import { Button } from "primereact/button";
 
 type Props = {
-  menu: { label: string; children: NavMenuItems[] }[];
+  menu: NavMenuItems[];
 };
 
 function useActivePath(): (path: string) => boolean {
@@ -21,38 +23,38 @@ function useActivePath(): (path: string) => boolean {
 }
 export default function Navbar(props: Props) {
   const checkActivePath = useActivePath();
+  const { setDetails, setMenu } = useAdminAuthStore((state) => state);
   return (
     <>
-      <nav className="min-h-screen fixed w-60 left-0 py-12 overflow-y-auto shadow-lg">
-        <ul className="h-full flex gap-2 flex-col p-0 list-none">
+      <nav className="min-h-screen flex flex-col fixed w-14 left-0 py-6 overflow-y-auto shadow-lg">
+        <ul className="flex-1 flex gap-2 flex-col p-0 list-none">
           {props?.menu?.map((item) => (
-            <li key={item?.label} className="px-2">
-              <p className="font-bold flex justify-between px-3 text-gray-600">
-                {item.label}
-                <i className="pi pi-sort-down-fill"></i>
-              </p>
-              <ul className="flex gap-2 flex-col p-0 list-none">
-                {item?.children?.map((ele) => (
-                  <li key={ele.id} className="px-2">
-                    <Link
-                      href={ele.path}
-                      as={ele.path}
-                      className={
-                        (checkActivePath(ele.path)
-                          ? "bg-[var(--highlight-bg)] text-[var(--highlight-text-color)] "
-                          : "text-gray-500 ") +
-                        " py-3 w-full hover:bg-gray-100 font-semibold px-3 gap-5 text-sm flex items-center  rounded"
-                      }
-                    >
-                      <i className={ele.icon} />
-                      <p className="m-0">{ele?.label}</p>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+            <li key={item.id} className="px-2">
+              <Link
+                href={item.path}
+                as={item.path}
+                className={
+                  (checkActivePath(item.path)
+                    ? "text-[var(--ui-bg)] bg-[var(--highlight-text-color)] "
+                    : "text-gray-500 hover:bg-gray-100") +
+                  " py-3 w-full  font-semibold px-3 gap-5 text-sm flex items-center  rounded"
+                }
+              >
+                <i className={item.icon} />
+              </Link>
             </li>
           ))}
         </ul>
+        <Button
+          icon={"pi pi-arrow-right"}
+          rounded
+          onClick={(e) => {
+            setDetails(null);
+            setMenu([]);
+          }}
+          className="bg-[var(--highlight-bg)] text-[var(--highlight-text-color)] h-10 m-auto w-10 p-0 flex items-center justify-center"
+          size="small"
+        />
       </nav>
     </>
   );

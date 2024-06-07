@@ -16,7 +16,7 @@ const MenuComponent = ({ items }: { items: MenuItem[] }) => {
         popupAlignment="right"
       />
       <Button
-        icon="pi pi-align-right"
+        icon="pi pi-ellipsis-h"
         text
         onClick={(event) => menuRight.current?.toggle(event)}
         aria-controls="popup_menu_right"

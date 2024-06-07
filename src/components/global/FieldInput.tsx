@@ -10,7 +10,7 @@ const FieldInput = ({ label, ...props }: FieldInputProps) => {
   return (
     <FloatLabel>
       <InputText className="w-full h-full" {...props} />
-      <label className="text-sm">{label}</label>
+      <label>{label}</label>
     </FloatLabel>
   );
 };

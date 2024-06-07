@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import AdminAuth from "../auth/organization";
 import { useAdminAuthStore } from "./AuthContext";
-import TopBar from "./TopBar";
+// import TopBar from "./TopBar";
 import RootAdmin from "./RootAdmin";
 
 type Props = {
@@ -26,7 +26,7 @@ const AdminIndexPage = (props: Props) => {
   if (token) {
     return (
       <>
-        <TopBar />
+        {/* <TopBar /> */}
         <RootAdmin>{props.children}</RootAdmin>
       </>
     );
