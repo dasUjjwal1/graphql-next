@@ -26,7 +26,6 @@ const RoleList = ({
   setDataState: Dispatch<SetStateAction<DataState<Role>>>;
   deleteRole: (id: string) => void;
 }) => {
-  const [selectedProducts, setSelectedProducts] = useState<Role[]>([]);
   const handleEdit = (data: Role) => {
     const access = AppConfig.ACCESS.filter((elm) =>
       data.access?.includes(elm.value)
@@ -98,15 +97,10 @@ const RoleList = ({
     <DataTable
       paginator
       rows={5}
-      selectionMode={"checkbox"}
-      selection={selectedProducts}
-      onSelectionChange={(e) => setSelectedProducts(e.value)}
-      dataKey="id"
       rowsPerPageOptions={[5, 10, 25, 50]}
       loading={loading}
       value={data?.filter((i) => !i.isDelete) ?? []}
     >
-      <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
       <Column sortable field="name" header={"Role Name"} />
       <Column body={accessTemplate} header={"Access"} />
       <Column body={assignTemplate} header={"Assign To"} />

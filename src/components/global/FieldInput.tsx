@@ -9,8 +9,8 @@ type FieldInputProps = InputTextProps & {
 const FieldInput = ({ label, ...props }: FieldInputProps) => {
   return (
     <FloatLabel>
-      <InputText className="w-full " {...props} />
-      <label className="text-xs">{label}</label>
+      <InputText className="w-full h-full" {...props} />
+      <label className="text-sm">{label}</label>
     </FloatLabel>
   );
 };

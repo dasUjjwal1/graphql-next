@@ -14,7 +14,7 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useAdminAuthStore } from "../../AuthContext";
+import { useAdminAuthStore } from "../AuthContext";
 import CreateRole from "./components/CreateRole";
 import RoleList from "./components/RoleList";
 import ButtonUi from "@/components/global/ui/ButtonUi";
