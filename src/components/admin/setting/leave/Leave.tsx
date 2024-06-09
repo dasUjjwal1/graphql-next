@@ -6,7 +6,6 @@ import {
   GetAllOrganizationDocument,
   LeaveDetails,
   LeaveInput,
-  Leave_Details_Input,
 } from "@/graphql/graphql";
 import { useAdminAuthStore } from "../../AuthContext";
 import { useState } from "react";
@@ -53,7 +52,7 @@ const Leave = () => {
     context,
   });
 
-  const onSubmit = (value: Leave_Details_Input) => {
+  const onSubmit = (value) => {
     const requestBody: LeaveInput = {
       organizationId: orgId,
       leaveInput: {
@@ -70,34 +69,26 @@ const Leave = () => {
   return (
     <>
       <div className="flex px-6 items-baseline justify-between pb-4">
-        <h2 className="text-2xl font-bold">Leave</h2>
-        <div className="flex gap-3 ">
-          <Dropdown
-            value={orgId}
-            onChange={(e) => setOrgId(e.value)}
-            options={data?.getAllOrganization ?? []}
-            optionLabel="name"
-            optionValue="id"
-          />
-          <Button
-            label="Create"
-            icon={"pi pi-plus"}
-            onClick={() =>
-              setDataState((prev) => ({
-                ...prev,
-                state: true,
-                data: null,
-                type: "CREATE",
-              }))
-            }
-          />
-        </div>
+        <h3 className="text-2xl text-gray-700 font-bold">Leave</h3>
+
+        <Button
+          label="Create"
+          icon={"pi pi-plus"}
+          onClick={() =>
+            setDataState((prev) => ({
+              ...prev,
+              state: true,
+              data: null,
+              type: "CREATE",
+            }))
+          }
+        />
       </div>
       <Dialog
         className="w-2/4"
         draggable={false}
         visible={dataState.state}
-        header={"Create Leave"}
+        header={<h3 className="text-gray-700 my-0">Create Leave</h3>}
         onHide={() =>
           setDataState((prev) => ({
             ...prev,
@@ -117,7 +108,7 @@ const Leave = () => {
           className="shadow-sm rounded-2xl"
           header={
             <div className="flex px-4 justify-between items-center">
-              <h3>Paid leave</h3>
+              <h3 className="text-gray-600">Paid leave</h3>
               <div className="flex items-center gap-3">
                 <Button icon={"pi pi-pencil"} rounded text />
                 <InputSwitch checked={true} />

@@ -117,7 +117,7 @@ const RoleDetails = () => {
   return (
     <>
       <div className="px-6 pb-4">
-        <h3 className="text-xl font-bold text-gray-700">Role</h3>
+        <h3 className="text-xl font-bold text-gray-700">Roles & Permissions</h3>
 
         <hr color="#eff0f2" />
       </div>
@@ -145,7 +145,7 @@ const RoleDetails = () => {
       <div className="px-6">
         <div className="bg-white shadow-lg shadow-gray-200 rounded-xl px-6 pb-6">
           <div className="flex items-baseline justify-between">
-            <h4 className="text-lg font-bold text-gray-700">Role List</h4>
+            <h4 className="text-lg font-bold text-gray-700">List</h4>
             <ButtonUi
               onClick={() =>
                 setDataState((prev) => ({

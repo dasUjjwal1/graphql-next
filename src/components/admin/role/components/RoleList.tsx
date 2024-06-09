@@ -97,7 +97,6 @@ const RoleList = ({
     <DataTable
       paginator
       rows={5}
-      className="border-spacing-x-0"
       pt={{
         thead: { className: "table-header" },
         column: {

@@ -1,11 +1,5 @@
-import Leave from "@/components/admin/Organization/leave/Leave";
-
-const Role = () => {
-  return (
-    <>
-      <Leave />
-    </>
-  );
+const Leave = () => {
+  return <></>;
 };
 
-export default Role;
+export default Leave;
