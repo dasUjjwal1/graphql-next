@@ -78,7 +78,7 @@ function AdminSignIn() {
             </FloatLabel>
           )}
         />
-        <ButtonUi loading={loading} label="LOGIN" type="submit" />
+        <ButtonUi loading={loading} label="Sign-in" type="submit" />
       </form>
     </>
   );

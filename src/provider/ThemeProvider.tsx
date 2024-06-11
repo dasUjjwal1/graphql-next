@@ -9,7 +9,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         pt: {
           button: {
             root: {
-              className: "font-semibold text-sm rounded",
+              className: " rounded",
             },
           },
           inputtext: {
