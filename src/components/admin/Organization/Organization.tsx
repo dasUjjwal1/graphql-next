@@ -139,7 +139,7 @@ const Organization = () => {
                   type: "CREATE",
                 }))
               }
-              label="CREATE"
+              label="Create"
             />
           </div>
           <OrganizationList
