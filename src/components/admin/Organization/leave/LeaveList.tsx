@@ -51,22 +51,44 @@ const LeaveList = (props: Props) => {
     },
   });
 
-  const confirm1 = (event) => {
+  const confirm1 = (event: { currentTarget: any }) => {
     confirmPopup({
       target: event.currentTarget,
-      message: "Click yes to add leaves",
-      icon: "pi pi-calendar",
-      defaultFocus: "accept",
+      message: (
+        <>
+          <h4 className="m-0">
+            Click <i className="pi mx-3 pi-ellipsis-h"></i> to add leaves.
+          </h4>
+          <p>If list is empty, create leave in setting &gt; leave </p>
+        </>
+      ),
+      defaultFocus: "",
     });
   };
 
-  const confirm2 = (event) => {
+  const confirm2 = (event: { currentTarget: any }) => {
     confirmPopup({
       target: event.currentTarget,
-      message: "Do you want to delete this record?",
+      message: (
+        <>
+          <h4>
+            Do you want to add{" "}
+            <span className="px-1">{selectedItems?.length}</span> records?
+          </h4>
+        </>
+      ),
       icon: "pi pi-info-circle",
-      defaultFocus: "reject",
-      acceptClassName: "p-button-danger",
+      defaultFocus: "accept",
+      accept() {
+        mutation({
+          variables: {
+            body: {
+              orgId: props.id,
+              leaveInputs: selectedItems?.map((elm) => elm.id),
+            },
+          },
+        });
+      },
     });
   };
   return (
@@ -82,34 +104,13 @@ const LeaveList = (props: Props) => {
           </h4>
 
           <div>
+            <Button onClick={confirm2} text icon={"pi pi-ellipsis-h"} />
             <Button
-              onClick={
-                // mutation({
-                //   variables: {
-                //     body: {
-                //       orgId: props.id,
-                //       leaveInputs: selectedItems?.map((elm) => elm.id),
-                //     },
-                //   },
-                // });
-                confirm1
-              }
-              text
-              icon={"pi pi-ellipsis-h"}
-            />
-            <Button
-              onClick={() => {
-                mutation({
-                  variables: {
-                    body: {
-                      orgId: props.id,
-                      leaveInputs: selectedItems?.map((elm) => elm.id),
-                    },
-                  },
-                });
-              }}
+              onClick={confirm1}
               text
               icon={"pi pi-info-circle"}
+              tooltip="Information"
+              tooltipOptions={{ position: "bottom" }}
             />
           </div>
         </div>
