@@ -2,14 +2,24 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
+function useActivePath(): (path: string) => boolean {
+  const pathname = usePathname();
+
+  const checkActivePath = (path: string) => {
+    if (path === "/admin" && pathname !== path) {
+      return false;
+    }
+    return pathname.startsWith(path);
+  };
+
+  return checkActivePath;
+}
 const OrgLayout = ({ children }: { children: ReactNode }) => {
   const menu = [
     { label: "Organization", path: "/admin/organization" },
-    { label: "Role", path: "/admin/organization/role" },
-    { label: "Leave", path: "/admin/organization/leave" },
     { label: "Attendance", path: "/admin/organization/attendance" },
   ];
-  const pathName = usePathname();
+  const checkActivePath = useActivePath();
   return (
     <>
       <div className="px-6 pb-4">
@@ -19,7 +29,7 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
           {menu.map((item, index) => (
             <li
               className={`px-4 pb-2 ${
-                pathName === item.path &&
+                checkActivePath(item.path) &&
                 "border-[var(--primary-color)] border-b-2 border-0 border-solid"
               } font-bold`}
               key={index.toString()}

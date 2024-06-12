@@ -17,3 +17,27 @@ mutation AddLeave($body: LeaveInput!) {
     message
   }
 }
+query GetAllLeaveByOrgId($orgId: ObjectId!) {
+  getAllLeaveByOrgId(orgId: $orgId) {
+    id
+    leaveList {
+      id
+      name
+      days
+      carryForward
+      carryForwardMax
+      earnedLeave
+      earnedLeaveMax
+      monthlyDays
+      leaveDescription
+      leaveType
+      isDelete
+      isActive
+    }
+  }
+}
+mutation AddOrganizationLeave($body: OrgAddLeaveInput!) {
+  addOrganizationLeave(body: $body) {
+    message
+  }
+}
