@@ -28,8 +28,8 @@ export default function Navbar(props: Props) {
     <>
       <nav className="min-h-screen flex flex-col fixed w-14 left-0 py-6 overflow-y-auto shadow-lg">
         <ul className="flex-1 flex gap-2 flex-col p-0 list-none">
-          {props?.menu?.map((item) => (
-            <li key={item.id} className="px-2">
+          {props?.menu?.map((item, index) => (
+            <li key={index} className="px-2">
               <Link
                 href={item.path}
                 as={item.path}

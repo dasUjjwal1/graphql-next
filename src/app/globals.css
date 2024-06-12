@@ -76,7 +76,27 @@ input[data-autocompleted] {
 /* .table-header {} */
 
 .table-header th {
-  border: none;
+  border-bottom: 0.15rem solid white;
+  border-right: 0.1rem solid white;
+  border-left: 0.1rem solid white;
+  color: var(--text-foreground);
+  background-color: var(--bg-highlight);
+  border-radius: 0.2rem;
+  font-size: smaller;
+}
+
+.table-header th:first-child {
+  border-right: 0.1rem solid white;
+  border-left: none;
+  color: var(--text-foreground);
+  background-color: var(--bg-highlight);
+  border-radius: 0.2rem;
+  font-size: smaller;
+}
+
+.table-header th:last-child {
+  border-left: 0.1rem solid white;
+  border-right: none;
   color: var(--text-foreground);
   background-color: var(--bg-highlight);
   border-radius: 0.2rem;

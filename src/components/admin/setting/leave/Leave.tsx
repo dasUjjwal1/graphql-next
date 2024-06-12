@@ -52,6 +52,8 @@ const Leave = () => {
       ...value,
       companyId,
       carryForward: value.carryForward === "YES" ? true : false,
+      carryForwardMax: Number(value.carryForwardMax),
+      earnedLeaveMax: Number(value.earnedLeaveMax),
       monthlyDays: Number(value.monthlyDays),
       days: 12 * Number(value.monthlyDays),
       earnedLeave: value.earnedLeave === "YES" ? true : false,
@@ -67,6 +69,10 @@ const Leave = () => {
         <Button
           label="Create"
           icon={"pi pi-plus"}
+          tooltip="Add"
+          tooltipOptions={{
+            position: "bottom",
+          }}
           onClick={() =>
             setDataState((prev) => ({
               ...prev,
@@ -96,7 +102,7 @@ const Leave = () => {
           type={dataState.type}
         />
       </Dialog>
-      <section className="px-6">
+      <section className="px-6 grid gap-5 grid-cols-3">
         {data?.getAllLeave?.map((item) => (
           <LeaveComponent key={item.id} leaveDetails={item} />
         ))}

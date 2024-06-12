@@ -7,6 +7,7 @@ import {
   OrganizationRegisterInput,
 } from "@/graphql/graphql";
 import { DataState } from "@/types/appTypes";
+import { useRouter } from "next/navigation";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { MenuItem } from "primereact/menuitem";
@@ -21,6 +22,7 @@ const OrganizationList = ({
   loading: boolean;
   setDataState: Dispatch<SetStateAction<DataState<OrganizationRegisterInput>>>;
 }) => {
+  const router = useRouter();
   const handleEdit = (data: OrganizationRegisterInput) => {
     const requestBody: OrganizationRegisterInput = {
       ...data,
@@ -76,9 +78,24 @@ const OrganizationList = ({
   const actionTemplate = (body: OrganizationRegisterInput) => {
     const items: MenuItem[] = [
       {
-        label: "Edit",
-        icon: "pi pi-pencil",
-        command: () => () => handleEdit(body),
+        label: "Options",
+        items: [
+          {
+            label: "Edit",
+            icon: "pi pi-pencil",
+            command: () => handleEdit(body),
+          },
+          {
+            label: "Leave",
+            icon: "pi pi-calendar",
+            command: () => router.push("/admin/organization/leave/" + body.id),
+          },
+          {
+            label: "Remove",
+            icon: "pi pi-trash",
+            command: () => handleEdit(body),
+          },
+        ],
       },
     ];
     return <MenuComponent items={items} />;
@@ -92,7 +109,7 @@ const OrganizationList = ({
           column: {
             headerContent: { className: "flex justify-between" },
           },
-          table: { className: "w-full border-spacing-x-1" },
+          table: { className: "w-full" },
         }}
         value={data?.getAllOrganization ?? []}
       >
