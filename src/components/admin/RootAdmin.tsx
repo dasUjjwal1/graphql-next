@@ -12,11 +12,14 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import AdminNavbar from "./AdminNavbar";
 import CompanyDetails from "./company/CompanyDetails";
 import { ReactNode } from "react";
+import { Button } from "primereact/button";
 type Props = {
   children: ReactNode;
 };
 const RootAdmin = (props: Props) => {
-  const { token, setCompanyId } = useAdminAuthStore((state) => state);
+  const { token, setCompanyId, setDetails } = useAdminAuthStore(
+    (state) => state
+  );
   const context = {
     headers: {
       authorization: token,
@@ -60,7 +63,7 @@ const RootAdmin = (props: Props) => {
         </div>
       ) : (
         <>
-          {data?.getCompanyDetails?.id ? (
+          {data?.getCompanyDetails ? (
             <main className="flex h-full flex-grow">
               <AdminNavbar />
               <div className="flex-grow bg-[var(--ui-bg)]  ml-14">
@@ -68,10 +71,21 @@ const RootAdmin = (props: Props) => {
               </div>
             </main>
           ) : (
-            <CompanyDetails
-              onSubmit={handleCompanyCreate}
-              loading={createLoading}
-            />
+            <div className="h-full">
+              <div className="py-2 px-6 flex justify-end">
+                <Button onClick={() => setDetails(null)} label="Log-out" />
+              </div>
+              <div className="bg-[var(--primary-color)] p-6">
+                <h2 className="text-white">Company Details</h2>
+                <p className="text-white m-0">Enter the details</p>
+              </div>
+              <div className="flex py-6 justify-center">
+                <CompanyDetails
+                  onSubmit={handleCompanyCreate}
+                  loading={createLoading}
+                />
+              </div>
+            </div>
           )}
         </>
       )}

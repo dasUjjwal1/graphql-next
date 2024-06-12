@@ -1,17 +1,43 @@
 "use client";
 
-import { CompanyCreateInput } from "@/graphql/graphql";
+import {
+  CompanyCreateInput,
+  CompanyUpdateInput,
+  GetCompanyDetailsDocument,
+} from "@/graphql/graphql";
 import CompanyDetails from "../company/CompanyDetails";
+import { useQuery } from "@apollo/client";
+import { useAdminAuthStore } from "../AuthContext";
+import { toast } from "sonner";
 
 const SettingPage = () => {
+  const { token, companyId } = useAdminAuthStore((state) => state);
+  const context = {
+    headers: {
+      authorization: token,
+    },
+  };
+  const { data, loading } = useQuery(GetCompanyDetailsDocument, {
+    context,
+    onError(error) {
+      toast.error(error.message);
+    },
+  });
+  const formData: CompanyUpdateInput = {
+    id: data?.getCompanyDetails?.id ?? null,
+    companyName: data?.getCompanyDetails?.companyName ?? "",
+    companyType: data?.getCompanyDetails?.companyType,
+    financialYearStart: data?.getCompanyDetails?.financialYearStart,
+    financialYearEnd: data?.getCompanyDetails?.financialYearEnd,
+    logo: data?.getCompanyDetails?.logo,
+  };
   return (
     <>
-      <div className="flex px-6 items-baseline justify-between pb-4">
-        <h2 className="text-xl text-gray-600 font-bold">Company Setting</h2>
-      </div>
       <div className="px-6">
-        <div className="bg-white shadow p-6 rounded-xl">
+        <div className="bg-white shadow px-6 pb-6 pt-1 rounded-xl">
+          <h4 className="text-lg text-gray-600 font-bold">Company</h4>
           <CompanyDetails
+            data={formData}
             onSubmit={function (val: CompanyCreateInput): void {
               throw new Error("Function not implemented.");
             }}

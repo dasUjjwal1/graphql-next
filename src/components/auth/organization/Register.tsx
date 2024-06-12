@@ -123,7 +123,7 @@ function AdminRegister() {
             </FloatLabel>
           )}
         />
-        <ButtonUi label="REGISTER" type="submit" />
+        <ButtonUi label="Sign-up" type="submit" />
       </form>
     </>
   );

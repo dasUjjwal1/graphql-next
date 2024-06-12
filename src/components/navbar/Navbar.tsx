@@ -33,6 +33,7 @@ export default function Navbar(props: Props) {
               <Link
                 href={item.path}
                 as={item.path}
+                title={item.label}
                 className={
                   (checkActivePath(item.path)
                     ? "text-[var(--ui-bg)] bg-[var(--highlight-text-color)] "

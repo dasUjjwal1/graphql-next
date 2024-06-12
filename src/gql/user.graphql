@@ -79,45 +79,10 @@ query GetAllOrganization {
       pin
     }
     employeeCount
-    holiday {
-      id
-      name
-      date
-    }
     documents
-    shiftSchedule {
-      id
-      department
-      shiftType
-      startTime
-      endTime
-    }
-    department {
-      id
-      name
-      isDelete
-      department
-    }
-    designation {
-      id
-      name
-      isDelete
-      department
-    }
     notWorkingDays
     orgContact
-    leave {
-      id
-      name
-      days
-      carryForward
-      carryForwardMax
-      earnedLeave
-      earnedLeaveMax
-      monthlyDays
-      isDelete
-      isActive
-    }
+    leave
     remoteClockIn
     locationRequired
     gracePeriod
@@ -153,11 +118,42 @@ query GetCompanyDetails {
     isActive
     logo
     financialYearStart
+    leave {
+      id
+      name
+      days
+      carryForward
+      carryForwardMax
+      earnedLeave
+      earnedLeaveMax
+      monthlyDays
+      leaveDescription
+      leaveType
+      isDelete
+      isActive
+    }
     financialYearEnd
     lastSubscribe
     companyType
     createdAt
     updatedAt
+  }
+}
+
+query GetAllLeave($companyId: ObjectId!) {
+  getAllLeave(companyId: $companyId) {
+    id
+    name
+    days
+    carryForward
+    carryForwardMax
+    earnedLeave
+    earnedLeaveMax
+    monthlyDays
+    leaveDescription
+    leaveType
+    isDelete
+    isActive
   }
 }
 

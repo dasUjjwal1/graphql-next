@@ -15,8 +15,6 @@ import { useState } from "react";
 import { DataState } from "@/types/appTypes";
 import { Dialog } from "primereact/dialog";
 import ButtonUi from "@/components/global/ui/ButtonUi";
-import { classNames } from "primereact/utils";
-import { TailwindUiConfig } from "@/components/global/stypeConfig/PTConfig";
 
 const Organization = () => {
   const [dataState, setDataState] = useState<
@@ -141,7 +139,7 @@ const Organization = () => {
                   type: "CREATE",
                 }))
               }
-              label="CREATE"
+              label="Create"
             />
           </div>
           <OrganizationList
