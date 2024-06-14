@@ -17,7 +17,7 @@ type Props = {
   children: ReactNode;
 };
 const RootAdmin = (props: Props) => {
-  const { token, setCompanyId, setDetails } = useAdminAuthStore(
+  const { token, setCompanyId, setDetails, companyId } = useAdminAuthStore(
     (state) => state
   );
   const context = {
@@ -40,7 +40,7 @@ const RootAdmin = (props: Props) => {
       context,
       onCompleted(data) {
         toast.success("Created");
-        refetch();
+        setCompanyId(data.createCompany.id);
       },
       onError(error) {
         toast.error(error.message);
