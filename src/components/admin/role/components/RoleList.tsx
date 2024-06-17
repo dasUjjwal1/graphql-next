@@ -1,5 +1,7 @@
 "use client";
 import MenuComponent from "@/components/global/MenuComponent";
+import DeleteIcon from "@/components/global/icons/DeleteIcon";
+import EditIcon from "@/components/global/icons/EditIcon";
 import { AppConfig } from "@/config/appConfig";
 import { Role } from "@/graphql/graphql";
 import { DataState } from "@/types/appTypes";
@@ -42,14 +44,16 @@ const RoleList = ({
 
   const actionTemplate = (body: Role) => {
     const items: MenuItem[] = [
+      { label: "Options" },
+      { separator: true },
       {
         label: "Edit",
-        icon: "pi pi-pencil",
+        icon: <EditIcon className="mr-2" />,
         command: () => handleEdit(body),
       },
       {
         label: "Delete",
-        icon: "pi pi-trash",
+        icon: <DeleteIcon className="mr-2" />,
         command: () => deleteRole(body?.id),
       },
     ];
