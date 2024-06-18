@@ -8,11 +8,11 @@ function AdminAuth() {
   const [login, setLogin] = useState<"login" | "register">("register");
   return (
     <>
-      <main className="h-screen flex flex-col">
+      <main className="h-full flex flex-col">
         <section className="flex-grow flex items-center justify-center flex-wrap p-3">
-          <div className="w-full sm:w-1/4 ">
+          <div className="w-full px-6 sm:px-3 sm:w-1/4 ">
             <div className="pb-0">
-              <h1 className="text-3xl mb-1 z-10 font-bold text-[var(--primary-color)]">
+              <h1 className="text-3xl mb-0 z-10 font-bold text-[var(--primary-color)]">
                 {login === "login" ? "Welcome back" : "Let's start"}
               </h1>
               <p className="mt-2 text-slate-500">
@@ -21,7 +21,7 @@ function AdminAuth() {
                   : "Enter your details"}
               </p>
             </div>
-            <div className="pt-6">
+            <div className="">
               {login === "login" ? <AdminSignIn /> : <AdminRegister />}
             </div>
             <p className="text-sm text-center">
