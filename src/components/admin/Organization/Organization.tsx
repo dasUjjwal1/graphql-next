@@ -15,6 +15,9 @@ import { useState } from "react";
 import { DataState } from "@/types/appTypes";
 import { Dialog } from "primereact/dialog";
 import ButtonUi from "@/components/global/ui/ButtonUi";
+import { Drawer } from "vaul";
+import { Button } from "primereact/button";
+import { Divider } from "primereact/divider";
 
 const Organization = () => {
   const [dataState, setDataState] = useState<
@@ -102,29 +105,64 @@ const Organization = () => {
   };
   return (
     <>
-      <Dialog
-        className="w-2/3"
-        draggable={false}
-        visible={dataState.state}
-        header={
-          dataState?.type === "CREATE"
-            ? "Create Organization"
-            : "Update Organization"
-        }
-        onHide={() =>
+      <Drawer.Root
+        open={dataState.state}
+        onClose={() =>
           setDataState((prev) => ({
             ...prev,
             state: false,
           }))
         }
+        shouldScaleBackground
       >
-        <CreateOrganization
-          loading={createLoading}
-          onSubmit={onSubmit}
-          formData={dataState.data}
-          type={dataState.type}
-        />
-      </Dialog>
+        <Drawer.Portal>
+          <Drawer.Overlay className="fixed inset-0 bg-black/40" />
+          <Drawer.Content className="bg-zinc-100 flex flex-col rounded-t-[10px] min-h-[46%] mt-24 fixed bottom-0 left-0 right-0">
+            <div className="p-4 bg-white rounded-t-[10px] flex-1">
+              <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-8" />
+
+              <Drawer.Title className="font-bold text-xl flex items-center gap-2 text-gray-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#5f6368"
+                >
+                  <path d="M320-320h320v-320H320v320ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" />
+                </svg>
+                {dataState?.type === "CREATE"
+                  ? "Create Organization"
+                  : "Update Organization"}
+              </Drawer.Title>
+              <Divider />
+              <CreateOrganization
+                loading={createLoading}
+                onSubmit={onSubmit}
+                formData={dataState.data}
+                type={dataState.type}
+              />
+            </div>
+            <div className="p-4 bg-zinc-100 flex justify-center  border-t border-zinc-200 mt-auto">
+              <Drawer.Close
+                onClick={() =>
+                  setDataState((prev) => ({
+                    ...prev,
+                    state: false,
+                  }))
+                }
+                asChild
+              >
+                <Button
+                  className="rounded-full"
+                  severity="danger"
+                  label="Close"
+                />
+              </Drawer.Close>
+            </div>
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
 
       <div className="px-6">
         <div className="bg-white shadow-lg shadow-gray-200 rounded-xl px-6 pb-6">

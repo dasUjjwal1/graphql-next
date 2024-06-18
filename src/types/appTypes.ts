@@ -7,5 +7,5 @@ export type NavMenuItems = {
   id: string;
   label: string;
   path: string;
-  icon: string;
+  icon: string[];
 };

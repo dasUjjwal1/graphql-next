@@ -38,10 +38,12 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
 
   return (
     <form
-      className="lg:grid grid-cols-3 gap-4 border-2"
+      className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
-      <h4 className="mb-1 mt-0 col-span-3">General Information</h4>
+      <h4 className="mb-1 mt-0 col-span-4 text-gray-600">
+        General Information
+      </h4>
       <Controller
         name="name"
         control={form.control}
@@ -115,7 +117,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           <FieldInput {...field} label="Contact" icon="pi pi-user" />
         )}
       />
-      <h4 className="mb-1 col-span-3">Address Details</h4>
+      <h4 className="mb-1 col-span-4 text-gray-600">Address Details</h4>
       <Controller
         name="address.buildingNumber"
         control={form.control}
@@ -152,7 +154,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         )}
       />
 
-      <div className="col-span-3 flex gap-3 justify-end">
+      <div className="col-span-4 flex gap-3 justify-end">
         <Button
           type="reset"
           onClick={() => form.reset()}

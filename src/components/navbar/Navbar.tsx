@@ -29,7 +29,7 @@ export default function Navbar(props: Props) {
       <nav className="min-h-screen flex flex-col fixed w-14 left-0 py-6 overflow-y-auto shadow-lg">
         <ul className="flex-1 flex gap-2 flex-col p-0 list-none">
           {props?.menu?.map((item, index) => (
-            <li key={index} className="px-2">
+            <li key={index} className="px-1">
               <Link
                 href={item.path}
                 as={item.path}
@@ -38,10 +38,21 @@ export default function Navbar(props: Props) {
                   (checkActivePath(item.path)
                     ? "text-[var(--ui-bg)] bg-[var(--highlight-text-color)] "
                     : "text-gray-500 hover:bg-gray-100") +
-                  " py-3 w-full  font-semibold px-3 gap-5 text-sm flex items-center  rounded"
+                  "  h-12 w-12 font-semibold gap-5 text-sm flex items-center justify-center  rounded"
                 }
               >
-                <i className={item.icon} />
+                {/* <i className={item.icon} /> */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1.4rem"
+                  viewBox="0 -960 960 960"
+                  width="1.4rem"
+                  fill="currentColor"
+                >
+                  {item?.icon.map((elm, i) => (
+                    <path key={i} d={elm} />
+                  ))}
+                </svg>
               </Link>
             </li>
           ))}
