@@ -26,7 +26,7 @@ export default function Navbar(props: Props) {
   const { setDetails, setMenu } = useAdminAuthStore((state) => state);
   return (
     <>
-      <nav className="min-h-screen flex flex-col fixed w-14 left-0 py-6 overflow-y-auto shadow-lg">
+      <nav className="min-h-screen flex flex-col fixed w-14 left-0 py-6 overflow-y-auto bg-white">
         <ul className="flex-1 flex gap-2 flex-col p-0 list-none">
           {props?.menu?.map((item, index) => (
             <li key={index} className="px-2">
@@ -47,7 +47,7 @@ export default function Navbar(props: Props) {
                   height="1.3rem"
                   viewBox="0 0 24 24"
                   width="1.3rem"
-                  fill="#5985E1"
+                  fill="currentColor"
                 >
                   <path fill="none" d={item.icon[0]} />
                   <path d={item.icon[1]} opacity="0.3" />
