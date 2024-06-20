@@ -26,7 +26,7 @@ export default function Navbar(props: Props) {
   const { setDetails, setMenu } = useAdminAuthStore((state) => state);
   return (
     <>
-      <nav className="min-h-screen flex flex-col fixed w-14 left-0 py-6 overflow-y-auto shadow-lg">
+      <nav className="min-h-screen flex flex-col fixed w-14 left-0 py-6 overflow-y-auto bg-white">
         <ul className="flex-1 flex gap-2 flex-col p-0 list-none">
           {props?.menu?.map((item, index) => (
             <li key={index} className="px-2">
@@ -36,18 +36,45 @@ export default function Navbar(props: Props) {
                 title={item.label}
                 className={
                   (checkActivePath(item.path)
-                    ? "text-[var(--ui-bg)] bg-[var(--highlight-text-color)] "
+                    ? "bg-[var(--highlight-bg)] text-[var(--highlight-text-color)] "
                     : "text-gray-500 hover:bg-gray-100") +
-                  " py-3 w-full  font-semibold px-3 gap-5 text-sm flex items-center  rounded"
+                  "  h-10 w-10 font-semibold gap-5 text-sm flex items-center justify-center  rounded"
                 }
               >
-                <i className={item.icon} />
+                {/* <i className={item.icon} /> */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1.3rem"
+                  viewBox="0 0 24 24"
+                  width="1.3rem"
+                  fill="currentColor"
+                >
+                  <path fill="none" d={item.icon[0]} />
+                  <path d={item.icon[1]} opacity="0.3" />
+                  <path d={item.icon[2]} />
+                </svg>
               </Link>
             </li>
           ))}
         </ul>
         <Button
-          icon={"pi pi-arrow-right"}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              enable-background="new 0 0 24 24"
+              height="24px"
+              viewBox="0 0 24 24"
+              width="24px"
+              fill="#5985E1"
+            >
+              <g>
+                <path d="M0,0h24v24H0V0z" fill="none" />
+              </g>
+              <g>
+                <path d="M5,5h7V3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h7v-2H5V5z M21,12l-4-4v3H9v2h8v3L21,12z" />
+              </g>
+            </svg>
+          }
           rounded
           onClick={(e) => {
             setDetails(null);
