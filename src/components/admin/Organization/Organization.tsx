@@ -118,18 +118,23 @@ const Organization = () => {
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/40" />
           <Drawer.Content className="bg-zinc-100 flex flex-col rounded-t-[10px] min-h-[46%] mt-24 fixed bottom-0 left-0 right-0">
-            <div className="p-4 bg-white rounded-t-[10px] flex-1">
+            <div className="py-4 px-6 bg-white rounded-t-[10px] flex-1">
               <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-8" />
 
               <Drawer.Title className="font-bold text-xl flex items-center gap-2 text-gray-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
-                  viewBox="0 -960 960 960"
+                  viewBox="0 0 24 24"
                   width="24px"
-                  fill="#5f6368"
+                  fill="#4B77D1"
                 >
-                  <path d="M320-320h320v-320H320v320ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" />
+                  <path d="M0 0h24v24H0V0z" fill="none" />
+                  <path
+                    d="M5 19h14V5H5v14zm2-8h4V7h2v4h4v2h-4v4h-2v-4H7v-2z"
+                    opacity=".3"
+                  />
+                  <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z" />
                 </svg>
                 {dataState?.type === "CREATE"
                   ? "Create Organization"

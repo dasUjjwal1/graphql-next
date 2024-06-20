@@ -38,10 +38,10 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
 
   return (
     <form
-      className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      className="grid sm:grid-cols-1 sm:px-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
       onSubmit={form.handleSubmit(props.onSubmit)}
     >
-      <h4 className="mb-1 mt-0 col-span-4 text-gray-600">
+      <h4 className="mb-1 mt-0 border-0 border-l-8 px-2 border-blue-500 border-solid col-span-4 text-gray-600">
         General Information
       </h4>
       <Controller
@@ -117,7 +117,9 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           <FieldInput {...field} label="Contact" icon="pi pi-user" />
         )}
       />
-      <h4 className="mb-1 col-span-4 text-gray-600">Address Details</h4>
+      <h4 className="mb-1 col-span-4 text-gray-600 border-0 border-l-8 px-2 border-blue-500 border-solid">
+        Address Details
+      </h4>
       <Controller
         name="address.buildingNumber"
         control={form.control}
