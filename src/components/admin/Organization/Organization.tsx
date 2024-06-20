@@ -113,11 +113,20 @@ const Organization = () => {
             state: false,
           }))
         }
-        shouldScaleBackground
+        closeThreshold={4}
       >
+        {/* <Drawer.Trigger>hhh</Drawer.Trigger> */}
         <Drawer.Portal>
-          <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-          <Drawer.Content className="bg-zinc-100 flex flex-col rounded-t-[10px] min-h-[46%] mt-24 fixed bottom-0 left-0 right-0">
+          <Drawer.Overlay
+            onClick={() =>
+              setDataState((prev) => ({
+                ...prev,
+                state: false,
+              }))
+            }
+            className="fixed inset-0 bg-black/40"
+          />
+          <Drawer.Content className="bg-zinc-100 flex flex-col rounded-t-[10px] min-h-[46%] max-h-[80%] mt-24 fixed bottom-0 left-0 right-0">
             <div className="py-4 px-6 bg-white rounded-t-[10px] flex-1">
               <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-8" />
 
@@ -141,12 +150,15 @@ const Organization = () => {
                   : "Update Organization"}
               </Drawer.Title>
               <Divider />
-              <CreateOrganization
-                loading={createLoading}
-                onSubmit={onSubmit}
-                formData={dataState.data}
-                type={dataState.type}
-              />
+              <div className="h-full overflow-auto">
+                {" "}
+                <CreateOrganization
+                  loading={createLoading}
+                  onSubmit={onSubmit}
+                  formData={dataState.data}
+                  type={dataState.type}
+                />
+              </div>
             </div>
             <div className="p-4 bg-zinc-100 flex justify-center  border-t border-zinc-200 mt-auto">
               <Drawer.Close
