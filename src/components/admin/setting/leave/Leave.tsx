@@ -15,9 +15,8 @@ import { Dialog } from "primereact/dialog";
 import { DataState } from "@/types/appTypes";
 import { Button } from "primereact/button";
 import LeaveComponent from "./components/LeaveComponent";
-import { Drawer } from "vaul";
 import OrgList from "./components/OrgList";
-import { Divider } from "primereact/divider";
+import DialogHeader from "@/components/global/ui/DialogHeader";
 const Leave = () => {
   const { token, companyId } = useAdminAuthStore((state) => state);
   const [open, setOpen] = useState(false);
@@ -66,44 +65,13 @@ const Leave = () => {
 
   return (
     <>
-      <Drawer.Root
-        open={open}
-        onClose={() => setOpen(false)}
-        shouldScaleBackground
+      <Dialog
+        visible={open}
+        onHide={() => setOpen(false)}
+        header={<DialogHeader header="Select" />}
       >
-        <Drawer.Portal>
-          <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-          <Drawer.Content className="bg-zinc-100 flex flex-col rounded-t-[10px] min-h-[46%] mt-24 fixed bottom-0 left-0 right-0">
-            <div className="p-4 bg-white rounded-t-[10px] flex-1">
-              <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-8" />
-
-              <Drawer.Title className="font-bold text-xl flex items-center gap-2 text-gray-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#5f6368"
-                >
-                  <path d="M320-320h320v-320H320v320ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" />
-                </svg>{" "}
-                Select organization to apply.
-              </Drawer.Title>
-              <Divider />
-              <OrgList />
-            </div>
-            <div className="p-4 bg-zinc-100 flex justify-center  border-t border-zinc-200 mt-auto">
-              <Drawer.Close onClick={() => setOpen(false)} asChild>
-                <Button
-                  className="rounded-full"
-                  severity="danger"
-                  label="Close"
-                />
-              </Drawer.Close>
-            </div>
-          </Drawer.Content>
-        </Drawer.Portal>
-      </Drawer.Root>
+        <OrgList />
+      </Dialog>
       <div className="flex px-6 items-baseline justify-between pb-4">
         <h3 className="text-2xl text-gray-700 font-bold">Leave</h3>
 
@@ -139,7 +107,7 @@ const Leave = () => {
         className="w-2/4"
         draggable={false}
         visible={dataState.state}
-        header={<h3 className="text-gray-700 my-0">Create Leave</h3>}
+        header={<DialogHeader header="Create Leave" />}
         onHide={() =>
           setDataState((prev) => ({
             ...prev,

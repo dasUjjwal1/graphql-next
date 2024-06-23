@@ -36,6 +36,11 @@ query GetAllLeaveByOrgId($orgId: ObjectId!) {
     }
   }
 }
+mutation RemoveOrganization($removeOrganizationId: ObjectId!) {
+  removeOrganization(id: $removeOrganizationId) {
+    message
+  }
+}
 mutation AddOrganizationLeave($body: OrgAddLeaveInput!) {
   addOrganizationLeave(body: $body) {
     message

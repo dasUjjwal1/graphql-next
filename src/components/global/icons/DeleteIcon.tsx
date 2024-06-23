@@ -1,16 +1,20 @@
-const DeleteIcon = ({ className }: { className?: string }) => {
+const DeleteIcon = ({
+  className,
+  size,
+}: {
+  className?: string;
+  size?: number;
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      height="24px"
-      viewBox="0 0 24 24"
-      width="24px"
-      fill="#5985E1"
-      {...(className && { className: className })}
+      height={size ?? 24}
+      viewBox="0 -960 960 960"
+      width={size ?? 24}
+      fill="currentColor"
+      {...(className && { className })}
     >
-      <path d="M0 0h24v24H0V0z" fill="none" />
-      <path d="M8 9h8v10H8z" opacity=".3" />
-      <path d="M15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9z" />
+      <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
     </svg>
   );
 };

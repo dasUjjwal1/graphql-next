@@ -57,13 +57,15 @@ const OrgList = () => {
                   )}
                 />
               </div>
-              <div></div>
             </div>
           </div>
         ))
       ) : (
         <></>
       )}
+      <div className="flex col-span-3 gap-3 justify-end">
+        <Button label="Apply" />
+      </div>
     </form>
   );
 };

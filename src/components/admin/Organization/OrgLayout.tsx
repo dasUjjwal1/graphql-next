@@ -25,7 +25,7 @@ const OrgLayout = ({ children }: { children: ReactNode }) => {
       <div className="px-6 pb-4">
         <h3 className="text-xl font-bold text-gray-700">Organization</h3>
         <hr color="#eff0f2" />
-        <ul className="flex items-center bg-indigo-50 rounded-lg pt-2 justify-center gap-2 list-none m-0 px-0 py-0">
+        <ul className="flex pt-2 bg-indigo-50 rounded justify-center gap-2 list-none m-0 px-0 py-0">
           {menu.map((item, index) => (
             <li
               className={`px-4 pb-2 ${

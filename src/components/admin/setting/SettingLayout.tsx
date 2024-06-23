@@ -15,7 +15,7 @@ const SettingLayout = ({ children }: { children: ReactNode }) => {
         <h3 className="text-xl font-bold text-gray-700">Application Setting</h3>
         <hr color="#eff0f2" />
 
-        <ul className="flex items-center bg-indigo-50 rounded-lg pt-2 justify-center gap-2 list-none m-0 px-0 py-0">
+        <ul className="flex items-center bg-indigo-50 rounded pt-2 justify-center gap-2 list-none m-0 px-0 py-0">
           {menu.map((item, index) => (
             <li
               className={`px-4 pb-2 ${

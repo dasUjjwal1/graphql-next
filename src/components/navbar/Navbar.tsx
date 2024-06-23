@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAdminAuthStore } from "../admin/AuthContext";
 import { Button } from "primereact/button";
-
+import MenuIcons from "../global/icons/MenuIcons";
 type Props = {
   menu: NavMenuItems[];
 };
@@ -26,38 +26,28 @@ export default function Navbar(props: Props) {
   const { setDetails, setMenu } = useAdminAuthStore((state) => state);
   return (
     <>
-      <nav className="min-h-screen flex flex-col fixed w-14 left-0 py-6 overflow-y-auto bg-white">
+      <nav className="min-h-screen flex flex-col shadow fixed w-56 left-0 py-6 overflow-y-auto bg-white">
         <ul className="flex-1 flex gap-2 flex-col p-0 list-none">
           {props?.menu?.map((item, index) => (
-            <li key={index} className="px-2">
+            <li key={index}>
               <Link
                 href={item.path}
                 as={item.path}
                 title={item.label}
                 className={
                   (checkActivePath(item.path)
-                    ? "bg-[var(--highlight-bg)] text-[var(--highlight-text-color)] "
-                    : "text-gray-500 hover:bg-gray-100") +
-                  "  h-10 w-10 font-semibold gap-5 text-sm flex items-center justify-center  rounded"
+                    ? "bg-blue-50 border-0 border-r-2 border-blue-600 border-solid"
+                    : " hover:bg-gray-100") +
+                  "  p-3 text-gray-500 font-medium gap-5 text-sm flex items-center justify-start"
                 }
               >
-                {/* <i className={item.icon} /> */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="1.3rem"
-                  viewBox="0 0 24 24"
-                  width="1.3rem"
-                  fill="currentColor"
-                >
-                  <path fill="none" d={item.icon[0]} />
-                  <path d={item.icon[1]} opacity="0.3" />
-                  <path d={item.icon[2]} />
-                </svg>
+                {MenuIcons[item.icon]} {item.label}
               </Link>
             </li>
           ))}
         </ul>
         <Button
+          text
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -75,12 +65,12 @@ export default function Navbar(props: Props) {
               </g>
             </svg>
           }
-          rounded
+          label="Log-out"
           onClick={(e) => {
             setDetails(null);
             setMenu([]);
           }}
-          className="bg-[var(--highlight-bg)] text-[var(--highlight-text-color)] h-10 m-auto w-10 p-0 flex items-center justify-center"
+          iconPos="right"
           size="small"
         />
       </nav>

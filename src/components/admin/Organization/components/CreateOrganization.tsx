@@ -7,8 +7,8 @@ import * as Yup from "yup";
 import { AppConfig } from "@/config/appConfig";
 import FieldInput from "@/components/global/FieldInput";
 import FieldDropdown from "@/components/global/FieldDropdown";
-import ButtonUi from "@/components/global/ui/ButtonUi";
 import { Button } from "primereact/button";
+import DialogText from "@/components/global/ui/DialogText";
 
 type Props = {
   onSubmit: (val: OrganizationRegisterInput) => void;
@@ -37,11 +37,9 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
   });
 
   return (
-    <form className="h-full" onSubmit={form.handleSubmit(props.onSubmit)}>
-      <h4 className="border-0 border-l-8 px-2 border-blue-500 border-solid col-span-4 text-gray-600">
-        General Information
-      </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <form className="h-full z-50" onSubmit={form.handleSubmit(props.onSubmit)}>
+      <DialogText text="General Information" />
+      <div className="grid z-50 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <Controller
           name="name"
           control={form.control}
@@ -72,6 +70,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           control={form.control}
           render={({ field }) => (
             <FieldDropdown
+              draggable={false}
               label="Working model"
               options={AppConfig.WORKING_MODE}
               {...field}
@@ -116,9 +115,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           )}
         />
       </div>
-      <h4 className="text-gray-600 border-0 border-l-8 px-2 border-blue-500 border-solid">
-        Address Details
-      </h4>
+      <DialogText text="Address Details" />
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <Controller
           name="address.buildingNumber"
@@ -169,7 +166,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           icon={"pi pi-refresh"}
           severity="danger"
         />
-        <ButtonUi
+        <Button
           color="primary"
           loading={props.loading}
           type="submit"

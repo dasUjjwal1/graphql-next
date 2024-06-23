@@ -201,9 +201,6 @@ const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
           render={({ field }) => <FieldInput label="Description" {...field} />}
         />
       </div>
-      <h4 className="text-gray-600 col-span-3 mb-1 flex">
-        Apply to all Organizations <Checkbox checked className="ml-3" />
-      </h4>
 
       <div className="pt-4 col-span-3 flex gap-3 justify-end">
         <Button
