@@ -7,8 +7,8 @@ import * as Yup from "yup";
 import { AppConfig } from "@/config/appConfig";
 import FieldInput from "@/components/global/FieldInput";
 import FieldDropdown from "@/components/global/FieldDropdown";
-import ButtonUi from "@/components/global/ui/ButtonUi";
 import { Button } from "primereact/button";
+import DialogText from "@/components/global/ui/DialogText";
 
 type Props = {
   onSubmit: (val: OrganizationRegisterInput) => void;
@@ -37,50 +37,47 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
   });
 
   return (
-    <form
-      className="grid sm:grid-cols-1 sm:px-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-      onSubmit={form.handleSubmit(props.onSubmit)}
-    >
-      <h4 className="mb-1 mt-0 border-0 border-l-8 px-2 border-blue-500 border-solid col-span-4 text-gray-600">
-        General Information
-      </h4>
-      <Controller
-        name="name"
-        control={form.control}
-        render={({ field, formState: { errors, touchedFields } }) => (
-          <FieldInput
-            label="Name"
-            {...field}
-            icon="pi pi-user"
-            invalid={Boolean(errors.name?.message)}
-          />
-        )}
-      />
-      <Controller
-        name="employeeCount"
-        control={form.control}
-        render={({ field, formState: { errors, touchedFields } }) => (
-          <FieldInput
-            keyfilter={"int"}
-            {...field}
-            label="Est. employee"
-            icon="pi pi-user"
-            invalid={Boolean(errors.employeeCount?.message)}
-          />
-        )}
-      />
-      <Controller
-        name="workingModel"
-        control={form.control}
-        render={({ field }) => (
-          <FieldDropdown
-            label="Working model"
-            options={AppConfig.WORKING_MODE}
-            {...field}
-          />
-        )}
-      />
-      {/* <Controller
+    <form className="h-full z-50" onSubmit={form.handleSubmit(props.onSubmit)}>
+      <DialogText text="General Information" />
+      <div className="grid z-50 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <Controller
+          name="name"
+          control={form.control}
+          render={({ field, formState: { errors, touchedFields } }) => (
+            <FieldInput
+              label="Name"
+              {...field}
+              icon="pi pi-user"
+              invalid={Boolean(errors.name?.message)}
+            />
+          )}
+        />
+        <Controller
+          name="employeeCount"
+          control={form.control}
+          render={({ field, formState: { errors, touchedFields } }) => (
+            <FieldInput
+              keyfilter={"int"}
+              {...field}
+              label="Est. employee"
+              icon="pi pi-user"
+              invalid={Boolean(errors.employeeCount?.message)}
+            />
+          )}
+        />
+        <Controller
+          name="workingModel"
+          control={form.control}
+          render={({ field }) => (
+            <FieldDropdown
+              draggable={false}
+              label="Working model"
+              options={AppConfig.WORKING_MODE}
+              {...field}
+            />
+          )}
+        />
+        {/* <Controller
         name="startTime"
         control={form.control}
         render={({ field, formState: { errors, touchedFields } }) => (
@@ -95,7 +92,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           </IconField>
         )}
       /> */}
-      {/* <Controller
+        {/* <Controller
         name="endTime"
         control={form.control}
         render={({ field, formState: { errors, touchedFields } }) => (
@@ -110,51 +107,56 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           </IconField>
         )}
       /> */}
-      <Controller
-        name="orgContact"
-        control={form.control}
-        render={({ field }) => (
-          <FieldInput {...field} label="Contact" icon="pi pi-user" />
-        )}
-      />
-      <h4 className="mb-1 col-span-4 text-gray-600 border-0 border-l-8 px-2 border-blue-500 border-solid">
-        Address Details
-      </h4>
-      <Controller
-        name="address.buildingNumber"
-        control={form.control}
-        render={({ field }) => (
-          <FieldInput {...field} label="Building No." icon={"pi pi-building"} />
-        )}
-      />
-      <Controller
-        name="address.street"
-        control={form.control}
-        render={({ field }) => (
-          <FieldInput {...field} label="Street" icon={"pi pi-building"} />
-        )}
-      />
-      <Controller
-        name="address.city"
-        control={form.control}
-        render={({ field }) => (
-          <FieldInput {...field} icon="pi pi-info-circle" label="City" />
-        )}
-      />
-      <Controller
-        name="address.state"
-        control={form.control}
-        render={({ field }) => (
-          <FieldInput {...field} icon="pi pi-info-circle" label="State" />
-        )}
-      />
-      <Controller
-        name="address.pin"
-        control={form.control}
-        render={({ field }) => (
-          <FieldInput {...field} icon="pi pi-info-circle" label="Pin No." />
-        )}
-      />
+        <Controller
+          name="orgContact"
+          control={form.control}
+          render={({ field }) => (
+            <FieldInput {...field} label="Contact" icon="pi pi-user" />
+          )}
+        />
+      </div>
+      <DialogText text="Address Details" />
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <Controller
+          name="address.buildingNumber"
+          control={form.control}
+          render={({ field }) => (
+            <FieldInput
+              {...field}
+              label="Building No."
+              icon={"pi pi-building"}
+            />
+          )}
+        />
+        <Controller
+          name="address.street"
+          control={form.control}
+          render={({ field }) => (
+            <FieldInput {...field} label="Street" icon={"pi pi-building"} />
+          )}
+        />
+        <Controller
+          name="address.city"
+          control={form.control}
+          render={({ field }) => (
+            <FieldInput {...field} icon="pi pi-info-circle" label="City" />
+          )}
+        />
+        <Controller
+          name="address.state"
+          control={form.control}
+          render={({ field }) => (
+            <FieldInput {...field} icon="pi pi-info-circle" label="State" />
+          )}
+        />
+        <Controller
+          name="address.pin"
+          control={form.control}
+          render={({ field }) => (
+            <FieldInput {...field} icon="pi pi-info-circle" label="Pin No." />
+          )}
+        />
+      </div>
 
       <div className="col-span-4 flex gap-3 justify-end">
         <Button
@@ -164,7 +166,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           icon={"pi pi-refresh"}
           severity="danger"
         />
-        <ButtonUi
+        <Button
           color="primary"
           loading={props.loading}
           type="submit"

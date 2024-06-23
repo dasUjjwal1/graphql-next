@@ -2,8 +2,9 @@
 import FieldCalender from "@/components/global/FieldCalender";
 import FieldDropdown from "@/components/global/FieldDropdown";
 import FieldInput from "@/components/global/FieldInput";
+import DialogText from "@/components/global/ui/DialogText";
 import { AppConfig } from "@/config/appConfig";
-import { CompanyCreateInput } from "@/graphql/graphql";
+import { CompanyCreateInput, CompanyUpdateInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
@@ -11,7 +12,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
 type Props = {
-  onSubmit: (val: CompanyCreateInput) => void;
+  onSubmit: (val: CompanyCreateInput | CompanyUpdateInput | any) => void;
   loading: boolean;
   data?: CompanyCreateInput;
 };
@@ -19,7 +20,7 @@ const CompanyDetails = (props: Props) => {
   const validationSchema = Yup.object().shape({
     companyName: Yup.string().required("Company name is required"),
   });
-  const form = useForm<CompanyCreateInput>({
+  const form = useForm<CompanyUpdateInput | CompanyCreateInput>({
     defaultValues: {
       ...(props.data && {
         ...props.data,
@@ -39,6 +40,7 @@ const CompanyDetails = (props: Props) => {
       onSubmit={form.handleSubmit(props.onSubmit)}
       className="lg:grid grid-cols-4 gap-4 pt-3"
     >
+      <DialogText text="General Details" className="mt-0" />
       <Controller
         name="companyName"
         control={form.control}
@@ -76,6 +78,52 @@ const CompanyDetails = (props: Props) => {
           <FieldCalender label="Financial Year End" {...field} />
         )}
       />
+      <DialogText text="Registered Address" />
+      <Controller
+        name="registeredAddress.area"
+        control={form.control}
+        render={({ field, formState: { errors } }) => (
+          <FieldInput
+            label="Area"
+            {...field}
+            invalid={Boolean(errors.companyName?.message)}
+          />
+        )}
+      />
+      <Controller
+        name="registeredAddress.city"
+        control={form.control}
+        render={({ field, formState: { errors } }) => (
+          <FieldInput
+            label="City"
+            {...field}
+            invalid={Boolean(errors.companyName?.message)}
+          />
+        )}
+      />
+      <Controller
+        name="registeredAddress.state"
+        control={form.control}
+        render={({ field, formState: { errors } }) => (
+          <FieldInput
+            label="State"
+            {...field}
+            invalid={Boolean(errors.companyName?.message)}
+          />
+        )}
+      />
+      <Controller
+        name="registeredAddress.postal"
+        control={form.control}
+        render={({ field, formState: { errors } }) => (
+          <FieldInput
+            label="Postal Code"
+            {...field}
+            invalid={Boolean(errors.companyName?.message)}
+          />
+        )}
+      />
+      <DialogText text="Documents" />
       <div className="flex  col-span-4 gap-3">
         <FileUpload
           chooseLabel="Upload Logo"

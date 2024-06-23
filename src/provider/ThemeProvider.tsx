@@ -7,11 +7,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       value={{
         ripple: true,
         pt: {
-          button: {
-            root: {
-              className: " rounded",
-            },
-          },
           inputtext: {
             root: {
               className: "rounded",

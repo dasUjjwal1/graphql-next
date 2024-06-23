@@ -132,6 +132,12 @@ query GetCompanyDetails {
       isDelete
       isActive
     }
+    registeredAddress {
+      area
+      city
+      state
+      postal
+    }
     financialYearEnd
     lastSubscribe
     companyType
@@ -191,7 +197,11 @@ mutation CreateCompany($body: CompanyCreateInput!) {
     createdAt
   }
 }
-
+mutation UpdateCompany($body: CompanyUpdateInput!) {
+  updateCompany(body: $body) {
+    id
+  }
+}
 mutation UpdateOrganization($body: OrganizationRegisterInput!) {
   updateOrganization(body: $body) {
     message

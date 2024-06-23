@@ -3,7 +3,6 @@
 import FieldDropdown from "@/components/global/FieldDropdown";
 import FieldInput from "@/components/global/FieldInput";
 import FieldMultiSelect from "@/components/global/FieldMultiSelect";
-import ButtonUi from "@/components/global/ui/ButtonUi";
 import { AppConfig } from "@/config/appConfig";
 import { Role, RoleInput } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -84,7 +83,7 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
           icon={"pi pi-refresh"}
           severity="danger"
         />
-        <ButtonUi
+        <Button
           color="primary"
           loading={props.loading}
           type="submit"

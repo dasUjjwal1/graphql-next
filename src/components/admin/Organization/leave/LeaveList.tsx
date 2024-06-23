@@ -115,7 +115,7 @@ const LeaveList = (props: Props) => {
   return (
     <div className="px-6">
       <ConfirmPopup />
-      <div className="bg-white shadow-lg shadow-gray-200 rounded-xl px-6 pb-6">
+      <div className="bg-white rounded-2xl px-6 pb-6">
         <div className="flex items-baseline justify-between gap-3">
           <h4 className="text-lg font-bold text-gray-700">
             <Link className="mr-2 text-gray-600" href={""}>

@@ -106,7 +106,7 @@ const RoleList = ({
         column: {
           headerContent: { className: "flex justify-between" },
         },
-        table: { className: "w-full border-spacing-x-1" },
+        table: { className: "w-full bg-[#F7F2FA]" },
       }}
       rowsPerPageOptions={[5, 10, 25, 50]}
       loading={loading}

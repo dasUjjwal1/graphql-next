@@ -1,11 +1,11 @@
 "use client";
 
 import { useAdminAuthStore } from "@/components/admin/AuthContext";
-import ButtonUi from "@/components/global/ui/ButtonUi";
 import { CreateUserDocument } from "@/graphql/graphql";
 import { RegisterProps } from "@/types/authType";
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 
 import { FloatLabel } from "primereact/floatlabel";
@@ -123,7 +123,7 @@ function AdminRegister() {
             </FloatLabel>
           )}
         />
-        <ButtonUi label="Sign-up" type="submit" />
+        <Button label="Sign-up" type="submit" />
       </form>
     </>
   );
