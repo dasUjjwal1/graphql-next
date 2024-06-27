@@ -26,7 +26,7 @@ export default function Navbar(props: Props) {
   const { setDetails, setMenu } = useAdminAuthStore((state) => state);
   return (
     <>
-      <nav className="min-h-screen flex flex-col shadow fixed w-56 left-0 py-6 overflow-y-auto bg-white">
+      <nav className="min-h-screen flex flex-col shadow fixed w-56 left-0 pt-6 overflow-y-auto bg-[#f8f9fa]">
         <ul className="flex-1 flex gap-2 flex-col p-0 list-none">
           {props?.menu?.map((item, index) => (
             <li key={index}>
@@ -38,7 +38,7 @@ export default function Navbar(props: Props) {
                   (checkActivePath(item.path)
                     ? "bg-blue-50 border-0 border-r-2 border-blue-600 border-solid"
                     : " hover:bg-gray-100") +
-                  "  p-3 text-gray-500 font-medium gap-5 text-sm flex items-center justify-start"
+                  "  p-3 py-4 text-[--text-color-light] gap-5 text-sm flex items-center justify-start"
                 }
               >
                 {MenuIcons[item.icon]} {item.label}
@@ -46,33 +46,36 @@ export default function Navbar(props: Props) {
             </li>
           ))}
         </ul>
-        <Button
-          text
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              enable-background="new 0 0 24 24"
-              height="24px"
-              viewBox="0 0 24 24"
-              width="24px"
-              fill="#5985E1"
-            >
-              <g>
-                <path d="M0,0h24v24H0V0z" fill="none" />
-              </g>
-              <g>
-                <path d="M5,5h7V3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h7v-2H5V5z M21,12l-4-4v3H9v2h8v3L21,12z" />
-              </g>
-            </svg>
-          }
-          label="Log-out"
-          onClick={(e) => {
-            setDetails(null);
-            setMenu([]);
-          }}
-          iconPos="right"
-          size="small"
-        />
+        <div className="pb-logout">
+          <Button
+            text
+            className="w-full font-semibold text-sm border border-gray-300 border-solid"
+            // icon={
+            //   <svg
+            //     xmlns="http://www.w3.org/2000/svg"
+            //     enable-background="new 0 0 24 24"
+            //     height="24px"
+            //     viewBox="0 0 24 24"
+            //     width="24px"
+            //     fill="#5985E1"
+            //   >
+            //     <g>
+            //       <path d="M0,0h24v24H0V0z" fill="none" />
+            //     </g>
+            //     <g>
+            //       <path d="M5,5h7V3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h7v-2H5V5z M21,12l-4-4v3H9v2h8v3L21,12z" />
+            //     </g>
+            //   </svg>
+            // }
+            label="Log-out"
+            onClick={(e) => {
+              setDetails(null);
+              setMenu([]);
+            }}
+            // iconPos="right"
+            size="small"
+          />
+        </div>
       </nav>
     </>
   );

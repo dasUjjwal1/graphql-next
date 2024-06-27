@@ -6,19 +6,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     <PrimeReactProvider
       value={{
         ripple: true,
-        pt: {
-          inputtext: {
-            root: {
-              className: "rounded",
-            },
-          },
-          dropdown: {
-            root: {
-              className: "rounded",
-            },
-            input: { className: "text-sm" },
-          },
-        },
       }}
     >
       {children}

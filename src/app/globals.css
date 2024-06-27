@@ -4,11 +4,12 @@
  */
 :root {
   /* --ui-bg: #f5f8ff; */
-  --ui-bg: #f6f9fb;
+  --ui-bg: #f0f4f9;
   --primary-color: #345fb3;
   /* --primary-color: #556ee6; */
   --bg-highlight: #f2f3f7;
   --text-foreground: #71717a;
+  --text-color-light: #202124;
 }
 
 @layer tailwind-base, primereact, tailwind-utilities;
@@ -36,10 +37,12 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
+  /* color: #202124; */
 }
 
 a {
   text-decoration: none;
+  /* color: #202124; */
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -101,4 +104,14 @@ input[data-autocompleted] {
   background-color: var(--bg-highlight);
   border-radius: 0.2rem;
   font-size: smaller;
+}
+
+.pb-logout {
+  background: #f8f9fa;
+  border-top: 1px solid #f8f9fa;
+  bottom: 0;
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 2px 8px 3px;
+  padding: 24px 28px;
+  width: 100%;
+  box-sizing: inherit;
 }

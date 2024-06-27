@@ -48,12 +48,12 @@ const RoleList = ({
       { separator: true },
       {
         label: "Edit",
-        icon: <EditIcon className="mr-2" />,
+        // icon: <EditIcon className="mr-2" size={20} />,
         command: () => handleEdit(body),
       },
       {
         label: "Delete",
-        icon: <DeleteIcon className="mr-2" />,
+        // icon: <DeleteIcon className="mr-2" size={20} />,
         command: () => deleteRole(body?.id),
       },
     ];

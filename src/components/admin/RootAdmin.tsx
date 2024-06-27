@@ -66,9 +66,7 @@ const RootAdmin = (props: Props) => {
           {data?.getCompanyDetails ? (
             <main className="flex min-h-full flex-grow">
               <AdminNavbar />
-              <div className="flex-grow bg-[var(--ui-bg)]  ml-56">
-                {props?.children}
-              </div>
+              <div className="flex-grow  ml-56">{props?.children}</div>
             </main>
           ) : (
             <div className="h-full">

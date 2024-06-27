@@ -9,11 +9,7 @@ type FieldDropdownProps = DropdownProps & {
 const FieldDropdown = ({ label, ...props }: FieldDropdownProps) => {
   return (
     <FloatLabel>
-      <Dropdown
-        pt={{ root: { className: "w-full" } }}
-        className="w-full"
-        {...props}
-      />
+      <Dropdown className="w-full" {...props} />
       <label>{label}</label>
     </FloatLabel>
   );
