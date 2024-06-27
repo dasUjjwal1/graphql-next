@@ -9,7 +9,7 @@ function AdminAuth() {
   return (
     <>
       <main className="h-full flex flex-col">
-        <section className="flex-grow flex items-center justify-center flex-wrap p-3">
+        <section className="flex items-center justify-center flex-wrap p-3">
           <div className="w-full px-6 sm:px-3 sm:w-1/4 ">
             <div className="pb-0">
               <h1 className="text-3xl mb-0 z-10 font-bold text-[var(--primary-color)]">

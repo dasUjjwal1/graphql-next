@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 //   subsets: ["latin"],
 //   variable: "--font-sans",
 // });
-const inter = Roboto({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["100", "300", "400", "500", "700", "900"],

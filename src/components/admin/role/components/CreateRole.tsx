@@ -80,11 +80,12 @@ const CreateRole = ({ type = "CREATE", ...props }: Props) => {
           type="reset"
           onClick={() => form.reset()}
           label="Reset"
-          icon={"pi pi-refresh"}
+          rounded
           severity="danger"
         />
         <Button
           color="primary"
+          rounded
           loading={props.loading}
           type="submit"
           label={type === "CREATE" ? "Create" : "Update"}

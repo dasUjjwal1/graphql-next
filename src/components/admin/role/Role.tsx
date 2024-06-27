@@ -154,6 +154,7 @@ const RoleDetails = () => {
                 type: "CREATE",
               }))
             }
+            rounded
             className="font-semibold text-sm"
             label="Create"
           />
