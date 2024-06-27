@@ -14,6 +14,7 @@ const MenuComponent = ({ items }: { items: MenuItem[] }) => {
         ref={menuRight}
         id="popup_menu_right"
         popupAlignment="right"
+        className="text-sm"
       />
       <Button
         icon={

@@ -126,6 +126,7 @@ const RoleDetails = () => {
         draggable={false}
         visible={dataState.state}
         header={dataState.type === "CREATE" ? "Create Role" : "Update Role"}
+        footer={<></>}
         onHide={() =>
           setDataState((prev) => ({
             ...prev,

@@ -44,16 +44,14 @@ const RoleList = ({
 
   const actionTemplate = (body: Role) => {
     const items: MenuItem[] = [
-      { label: "Options" },
-      { separator: true },
       {
         label: "Edit",
-        // icon: <EditIcon className="mr-2" size={20} />,
+        icon: <EditIcon className="mr-2" size={16} />,
         command: () => handleEdit(body),
       },
       {
         label: "Delete",
-        // icon: <DeleteIcon className="mr-2" size={20} />,
+        icon: <DeleteIcon className="mr-2" size={16} />,
         command: () => deleteRole(body?.id),
       },
     ];

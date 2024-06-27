@@ -6,6 +6,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     <PrimeReactProvider
       value={{
         ripple: true,
+        pt: {
+          dialog: {
+            mask: { style: { backgroundColor: "#00000052" } },
+            root: { style: { borderRadius: "28px", boxShadow: "none" } },
+            header: { style: { borderRadius: "28px 28px 0 0" } },
+            footer: {
+              style: { borderRadius: "0 0 28px 28px" },
+            },
+          },
+        },
       }}
     >
       {children}
