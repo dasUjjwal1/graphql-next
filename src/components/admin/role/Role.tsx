@@ -159,14 +159,12 @@ const RoleDetails = () => {
             label="Create"
           />
         </div>
-        <div className="rounded border border-solid shadow-sm border-gray-200 p-6">
-          <RoleList
-            data={data?.getAllRole ?? []}
-            deleteRole={deleteRole}
-            loading={loading}
-            setDataState={setDataState}
-          />
-        </div>
+        <RoleList
+          data={data?.getAllRole ?? []}
+          deleteRole={deleteRole}
+          loading={loading}
+          setDataState={setDataState}
+        />
       </div>
     </>
   );

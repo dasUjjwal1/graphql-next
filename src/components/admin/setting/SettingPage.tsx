@@ -55,6 +55,7 @@ const SettingPage = () => {
       <Dialog
         header={<DialogHeader header="Company Details" />}
         visible={show}
+        footer={<></>}
         onHide={() => setShow(false)}
       >
         <CompanyDetails
@@ -86,7 +87,7 @@ const SettingPage = () => {
               onClick={() => setShow(true)}
             />
           </div>
-          <DialogText text="General Details" />
+          <DialogText text="General Details" className="mb-0" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <p>
               <small className="font-semibold">Company Type</small>
@@ -108,7 +109,7 @@ const SettingPage = () => {
               {data?.getCompanyDetails?.financialYearEnd}
             </p>
           </div>
-          <DialogText text="Registered Address" />
+          <DialogText text="Registered Address" className="mb-0" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <p>
               <small className="font-semibold">Area</small>

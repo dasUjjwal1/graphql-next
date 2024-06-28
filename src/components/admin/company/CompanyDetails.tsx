@@ -40,7 +40,7 @@ const CompanyDetails = (props: Props) => {
       onSubmit={form.handleSubmit(props.onSubmit)}
       className="lg:grid grid-cols-4 gap-4 pt-3"
     >
-      <DialogText text="General Details" className="mt-0" />
+      <DialogText text="General Details" className="my-0" />
       <Controller
         name="companyName"
         control={form.control}
@@ -78,7 +78,7 @@ const CompanyDetails = (props: Props) => {
           <FieldCalender label="Financial Year End" {...field} />
         )}
       />
-      <DialogText text="Registered Address" />
+      <DialogText text="Registered Address" className="mb-0" />
       <Controller
         name="registeredAddress.area"
         control={form.control}
@@ -123,7 +123,7 @@ const CompanyDetails = (props: Props) => {
           />
         )}
       />
-      <DialogText text="Documents" />
+      <DialogText text="Documents" className="mb-0" />
       <div className="flex  col-span-4 gap-3">
         <FileUpload
           chooseLabel="Upload Logo"
@@ -149,9 +149,11 @@ const CompanyDetails = (props: Props) => {
           onClick={() => form.reset()}
           label="Reset"
           severity="danger"
+          rounded
         />
         <Button
           color="primary"
+          rounded
           loading={props.loading}
           type="submit"
           iconPos="right"

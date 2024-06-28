@@ -168,6 +168,7 @@ const Organization = () => {
                 type: "CREATE",
               }))
             }
+            rounded
             // icon={
             //   <svg
             //     xmlns="http://www.w3.org/2000/svg"
@@ -184,15 +185,13 @@ const Organization = () => {
             label="Create"
           />
         </div>
-        <div className="bg-white  rounded border border-solid border-gray-200 p-6">
-          <OrganizationList
-            data={data}
-            loading={loading}
-            // deleteRole={deleteRole}
+        <OrganizationList
+          data={data}
+          loading={loading}
+          // deleteRole={deleteRole}
 
-            setDataState={setDataState}
-          />
-        </div>
+          setDataState={setDataState}
+        />
       </div>
     </>
   );
