@@ -31,6 +31,9 @@ const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
     <form
       className="pt-1 grid gap-3 grid-cols-3"
       onSubmit={form.handleSubmit(props.onSubmit)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.preventDefault();
+      }}
     >
       <Controller
         name="name"
@@ -207,14 +210,13 @@ const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
           type="reset"
           onClick={() => form.reset()}
           label="Reset"
-          icon={"pi pi-refresh"}
+          rounded
           severity="danger"
         />
         <Button
           color="primary"
           loading={props.loading}
-          icon={"pi pi-send"}
-          iconPos="right"
+          rounded
           type="submit"
           label={type === "CREATE" ? "Create" : "Update"}
         />

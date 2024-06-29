@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { useAdminAuthStore } from "../AuthContext";
 import CreateRole from "./components/CreateRole";
 import RoleList from "./components/RoleList";
+import DialogHeader from "@/components/global/ui/DialogHeader";
 
 const RoleDetails = () => {
   const [dataState, setDataState] = useState<DataState<Role>>({
@@ -125,7 +126,11 @@ const RoleDetails = () => {
         className="w-2/3"
         draggable={false}
         visible={dataState.state}
-        header={dataState.type === "CREATE" ? "Create Role" : "Update Role"}
+        header={
+          <DialogHeader
+            header={dataState.type === "CREATE" ? "Create Role" : "Update Role"}
+          />
+        }
         footer={<></>}
         onHide={() =>
           setDataState((prev) => ({

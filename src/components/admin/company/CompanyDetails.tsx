@@ -40,7 +40,6 @@ const CompanyDetails = (props: Props) => {
       onSubmit={form.handleSubmit(props.onSubmit)}
       className="lg:grid grid-cols-4 gap-4 pt-3"
     >
-      <DialogText text="General Details" className="my-0" />
       <Controller
         name="companyName"
         control={form.control}

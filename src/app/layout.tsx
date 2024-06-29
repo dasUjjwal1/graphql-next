@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Cabin, Inter, Noto_Sans, Roboto } from "next/font/google";
+import { Inter, Roboto, Roboto_Condensed } from "next/font/google";
 import { ReactNode } from "react";
 import { ThemeProvider } from "@/provider/ThemeProvider";
 import ApolloGqlProvider from "@/provider/ApolloProvider";
@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 //   subsets: ["latin"],
 //   variable: "--font-sans",
 // });
-const inter = Inter({
+const inter = Roboto({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["100", "300", "400", "500", "700", "900"],
+  weight: ["400"],
 });
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

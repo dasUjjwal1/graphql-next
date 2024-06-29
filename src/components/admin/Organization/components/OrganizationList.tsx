@@ -1,9 +1,6 @@
 "use client";
 
 import MenuComponent from "@/components/global/MenuComponent";
-import CalenderIcon from "@/components/global/icons/CalenderIcon";
-import DeleteIcon from "@/components/global/icons/DeleteIcon";
-import EditIcon from "@/components/global/icons/EditIcon";
 import {
   GetAllOrganizationQuery,
   Organization,
@@ -16,13 +13,18 @@ import { DataTable } from "primereact/datatable";
 import { MenuItem } from "primereact/menuitem";
 import { Dispatch, SetStateAction } from "react";
 
+import { ConfirmDialog } from "primereact/confirmdialog"; // For <ConfirmDialog /> component
+import { confirmDialog } from "primereact/confirmdialog"; // For confirmDialog method
+
 const OrganizationList = ({
   data,
   loading,
+  removeOrganization,
   setDataState,
 }: {
   data: GetAllOrganizationQuery | undefined;
   loading: boolean;
+  removeOrganization: (id: string) => void;
   setDataState: Dispatch<SetStateAction<DataState<OrganizationRegisterInput>>>;
 }) => {
   const router = useRouter();
@@ -38,6 +40,22 @@ const OrganizationList = ({
       data: requestBody,
       state: true,
     }));
+  };
+  const handleRemove = (body: OrganizationRegisterInput) => {
+    confirmDialog({
+      message: (
+        <div className="bg-gray-100 p-4 rounded-xl">
+          <h3 className="text-gray-600 my-0">{body.name}</h3>
+          <p>Do you want to delete this record?</p>
+        </div>
+      ),
+      header: "Delete Confirmation",
+      contentClassName: "p-0 pr-3",
+      defaultFocus: "reject",
+      acceptClassName: "p-button-danger rounded-full",
+      rejectClassName: "p-button-info rounded-full",
+      accept: () => removeOrganization(body.id),
+    });
   };
   const activeTemplate = (body: Organization) => {
     return (
@@ -82,24 +100,22 @@ const OrganizationList = ({
     const items: MenuItem[] = [
       {
         label: "Edit",
-        icon: <EditIcon className="mr-2" size={16} />,
         command: () => handleEdit(body),
       },
       {
         label: "Leave",
-        icon: <CalenderIcon className="mr-2" size={16} />,
         command: () => router.push("/admin/organization/leave/" + body.id),
       },
       {
         label: "Remove",
-        icon: <DeleteIcon className="mr-2" size={16} />,
-        command: () => handleEdit(body),
+        command: () => handleRemove(body),
       },
     ];
     return <MenuComponent items={items} />;
   };
   return (
     <>
+      <ConfirmDialog />
       <DataTable
         loading={loading}
         pt={{

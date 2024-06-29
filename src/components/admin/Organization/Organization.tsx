@@ -7,6 +7,7 @@ import {
   CreateOrganizationDocument,
   GetAllOrganizationDocument,
   OrganizationRegisterInput,
+  RemoveOrganizationDocument,
   UpdateOrganizationDocument,
 } from "@/graphql/graphql";
 import { useAdminAuthStore } from "../AuthContext";
@@ -15,6 +16,7 @@ import { useState } from "react";
 import { DataState } from "@/types/appTypes";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
+import DialogHeader from "@/components/global/ui/DialogHeader";
 
 const Organization = () => {
   const [dataState, setDataState] = useState<
@@ -73,6 +75,19 @@ const Organization = () => {
       },
     }
   );
+  const [removeMutation, { loading: removeLoading }] = useMutation(
+    RemoveOrganizationDocument,
+    {
+      context,
+      onCompleted(data) {
+        toast.success(data.removeOrganization.message);
+        refetch();
+      },
+      onError(error) {
+        toast.error(error.message);
+      },
+    }
+  );
   const onSubmit = (value: OrganizationRegisterInput) => {
     // const startTime = differenceInMinutes(
     //   new Date("2014-10-10 " + value.startTime),
@@ -100,6 +115,10 @@ const Organization = () => {
       updateMutation({ variables: { body: requestBody } });
     else mutation({ variables: { body: requestBody } });
   };
+  const removeOrganization = (id: string) => {
+    console.log(id);
+    removeMutation({ variables: { removeOrganizationId: id } });
+  };
   return (
     <>
       <Dialog
@@ -114,35 +133,21 @@ const Organization = () => {
           }))
         }
         header={
-          <span className="font-bold text-xl flex gap-2 items-center ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 0 24 24"
-              width="24px"
-              fill="#4B77D1"
-            >
-              <path d="M0 0h24v24H0V0z" fill="none" />
-              <path
-                d="M5 19h14V5H5v14zm2-8h4V7h2v4h4v2h-4v4h-2v-4H7v-2z"
-                opacity=".3"
-              />
-              <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z" />
-            </svg>
-            {dataState?.type === "CREATE"
-              ? "Create Organization"
-              : "Update Organization"}
-          </span>
+          <DialogHeader
+            header={
+              dataState?.type === "CREATE"
+                ? "Create New Office Record"
+                : "Update Office Record"
+            }
+          />
         }
       >
-        <div className="h-full pb-6 overflow-auto">
-          <CreateOrganization
-            loading={createLoading}
-            onSubmit={onSubmit}
-            formData={dataState.data}
-            type={dataState.type}
-          />
-        </div>
+        <CreateOrganization
+          loading={createLoading}
+          onSubmit={onSubmit}
+          formData={dataState.data}
+          type={dataState.type}
+        />
       </Dialog>
 
       <div className="px-6">
@@ -188,8 +193,7 @@ const Organization = () => {
         <OrganizationList
           data={data}
           loading={loading}
-          // deleteRole={deleteRole}
-
+          removeOrganization={removeOrganization}
           setDataState={setDataState}
         />
       </div>

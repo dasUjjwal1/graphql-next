@@ -1,5 +1,5 @@
 export type DataState<T> = {
-  type: "CREATE" | "UPDATE";
+  type?: "CREATE" | "UPDATE";
   data: T | null;
   state: boolean;
 };

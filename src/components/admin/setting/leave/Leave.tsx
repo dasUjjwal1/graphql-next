@@ -3,6 +3,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import {
   AddLeaveDocument,
+  AddOrganizationLeaveDocument,
   GetAllLeaveDocument,
   LeaveDetails,
   LeaveInput,
@@ -19,7 +20,10 @@ import OrgList from "./components/OrgList";
 import DialogHeader from "@/components/global/ui/DialogHeader";
 const Leave = () => {
   const { token, companyId } = useAdminAuthStore((state) => state);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<DataState<string>>({
+    data: null,
+    state: false,
+  });
   const context = {
     headers: {
       authorization: token,
@@ -48,6 +52,19 @@ const Leave = () => {
     },
     context,
   });
+  const [selectMutation, { loading: selectLoading }] = useMutation(
+    AddOrganizationLeaveDocument,
+    {
+      onCompleted: (data) => {
+        toast.success(data.addOrganizationLeave.message);
+        refetch();
+      },
+      onError(error) {
+        toast.error(error.message);
+      },
+      context,
+    }
+  );
 
   const onSubmit = (value: any) => {
     const requestBody: LeaveInput = {
@@ -62,33 +79,32 @@ const Leave = () => {
     };
     mutation({ variables: { body: requestBody } });
   };
-
+  const onSelectSubmit = (data: string[]) => {
+    open.data
+      ? selectMutation({
+          variables: { body: { orgId: data, leaveInputs: open.data } },
+        })
+      : toast.error("Select Leave");
+  };
   return (
     <>
       <Dialog
-        visible={open}
-        onHide={() => setOpen(false)}
+        visible={open.state}
+        draggable={false}
+        footer={<></>}
+        onHide={() =>
+          setOpen((prev) => ({ ...prev, data: null, state: false }))
+        }
         header={<DialogHeader header="Select" />}
       >
-        <OrgList />
+        <OrgList onSelectSubmit={onSelectSubmit} />
       </Dialog>
       <div className="flex px-6 items-baseline justify-between pb-4">
         <h3 className="text-2xl text-gray-700 font-bold">Leave</h3>
 
         <Button
           label="Create"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="#f0f0f0"
-              className="mr-2"
-            >
-              <path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
-            </svg>
-          }
+          rounded
           tooltip="Add"
           tooltipOptions={{
             position: "bottom",
@@ -104,6 +120,7 @@ const Leave = () => {
         />
       </div>
       <Dialog
+        footer={<></>}
         className="w-2/4"
         draggable={false}
         visible={dataState.state}
@@ -122,7 +139,7 @@ const Leave = () => {
           type={dataState.type}
         />
       </Dialog>
-      <section className="px-6 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <section className="px-6 pb-6 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {data?.getAllLeave?.map((item) => (
           <LeaveComponent setOpen={setOpen} key={item.id} leaveDetails={item} />
         ))}

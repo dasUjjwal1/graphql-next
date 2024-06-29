@@ -81,13 +81,8 @@ const SettingPage = () => {
               </svg>
               {formData.companyName}
             </h4>
-            <Button
-              label="Update"
-              icon={<UpdateIcon size={20} className="mr-2" />}
-              onClick={() => setShow(true)}
-            />
+            <Button label="Update" onClick={() => setShow(true)} rounded />
           </div>
-          <DialogText text="General Details" className="mb-0" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <p>
               <small className="font-semibold">Company Type</small>
@@ -109,7 +104,6 @@ const SettingPage = () => {
               {data?.getCompanyDetails?.financialYearEnd}
             </p>
           </div>
-          <DialogText text="Registered Address" className="mb-0" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <p>
               <small className="font-semibold">Area</small>

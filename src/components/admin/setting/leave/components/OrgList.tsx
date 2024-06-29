@@ -5,8 +5,11 @@ import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-type FormComponent = {}[];
-const OrgList = () => {
+const OrgList = ({
+  onSelectSubmit,
+}: {
+  onSelectSubmit: (data: string[]) => void;
+}) => {
   const token = useAdminAuthStore((state) => state.token);
   const context = {
     headers: {
@@ -23,11 +26,22 @@ const OrgList = () => {
   const form = useForm<any>({
     defaultValues: [],
   });
-  const onSubmit = (val: any) => console.log(val);
+  const onSubmit = (val: { [key: string]: boolean }) => {
+    const orgList = [];
+    for (const key in val) {
+      if (val[key]) {
+        orgList.push(key);
+      }
+    }
+    onSelectSubmit(orgList);
+  };
   return (
     <form
       className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
       onSubmit={form.handleSubmit(onSubmit)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.preventDefault();
+      }}
     >
       {data?.getAllOrganization ? (
         data?.getAllOrganization.map((item) => (
@@ -36,6 +50,7 @@ const OrgList = () => {
               <h4 className="m-0 font-semibold text-gray-600">{item.name}</h4>
               <div className="flex items-center justify-end flex-1 gap-2">
                 <Button
+                  type="button"
                   icon={
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +79,7 @@ const OrgList = () => {
         <></>
       )}
       <div className="flex col-span-3 gap-3 justify-end">
-        <Button label="Apply" />
+        <Button label="Apply" rounded />
       </div>
     </form>
   );

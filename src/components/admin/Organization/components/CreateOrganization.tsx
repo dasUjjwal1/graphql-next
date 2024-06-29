@@ -8,7 +8,7 @@ import { AppConfig } from "@/config/appConfig";
 import FieldInput from "@/components/global/FieldInput";
 import FieldDropdown from "@/components/global/FieldDropdown";
 import { Button } from "primereact/button";
-import DialogText from "@/components/global/ui/DialogText";
+import { Divider } from "primereact/divider";
 
 type Props = {
   onSubmit: (val: OrganizationRegisterInput) => void;
@@ -37,13 +37,18 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
   });
 
   return (
-    <form className="h-full z-50" onSubmit={form.handleSubmit(props.onSubmit)}>
-      <DialogText text="General Information" />
-      <div className="grid z-50 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <form
+      className="h-full z-50"
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.preventDefault();
+      }}
+      onSubmit={form.handleSubmit(props.onSubmit)}
+    >
+      <div className="grid z-50 mt-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <Controller
           name="name"
           control={form.control}
-          render={({ field, formState: { errors, touchedFields } }) => (
+          render={({ field, formState: { errors } }) => (
             <FieldInput
               label="Name"
               {...field}
@@ -55,7 +60,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
         <Controller
           name="employeeCount"
           control={form.control}
-          render={({ field, formState: { errors, touchedFields } }) => (
+          render={({ field, formState: { errors } }) => (
             <FieldInput
               keyfilter={"int"}
               {...field}
@@ -115,7 +120,7 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
           )}
         />
       </div>
-      <DialogText text="Address Details" />
+      <Divider />
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <Controller
           name="address.buildingNumber"
@@ -161,13 +166,14 @@ const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
       <div className="col-span-4 flex gap-3 justify-end">
         <Button
           type="reset"
+          rounded
           onClick={() => form.reset()}
           label="Reset"
-          icon={"pi pi-refresh"}
           severity="danger"
         />
         <Button
           color="primary"
+          rounded
           loading={props.loading}
           type="submit"
           label={type === "CREATE" ? "Create" : "Update"}

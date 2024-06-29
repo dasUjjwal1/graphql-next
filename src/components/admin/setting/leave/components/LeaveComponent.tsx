@@ -1,19 +1,18 @@
 import { LeaveDetails } from "@/graphql/graphql";
+import { DataState } from "@/types/appTypes";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Checkbox } from "primereact/checkbox";
-import { InputSwitch } from "primereact/inputswitch";
-import EditIcon from "../../../../../../public/icons/edit_24dp_FILL0_wght400_GRAD0_opsz24.svg";
+import { Dispatch, SetStateAction } from "react";
 
 const LeaveComponent = (props: {
   leaveDetails: LeaveDetails;
-  setOpen: any;
+  setOpen: Dispatch<SetStateAction<DataState<string>>>;
 }) => {
   return (
     <Card
-      className="shadow-sm "
       header={
-        <div className="flex px-4 justify-between items-center">
+        <div className="flex px-3 justify-between items-center">
           <h4 className="text-gray-600 m-0">{props.leaveDetails.name}</h4>
           <div className="flex items-center gap-1">
             <Button
@@ -34,7 +33,13 @@ const LeaveComponent = (props: {
               }
               rounded
               text
-              onClick={() => props.setOpen(true)}
+              onClick={() =>
+                props.setOpen((prev) => ({
+                  ...prev,
+                  data: props.leaveDetails.id,
+                  state: true,
+                }))
+              }
             />
             <Button
               tooltip="Edit"
@@ -102,8 +107,9 @@ const LeaveComponent = (props: {
           </div>
         </div>
       }
+      pt={{ content: { className: "p-0" } }}
     >
-      <div className="p-4 flex flex-col gap-3 rounded-2xl bg-gray-50">
+      <div className="p-3 flex flex-col gap-3 rounded-2xl bg-gray-50">
         <div className="flex justify-between">
           <h5 className="m-0 text-gray-700">Leave per Month </h5>
 
@@ -136,7 +142,7 @@ const LeaveComponent = (props: {
           )}
         </div>
       </div>
-      <div className="bg-gray-50 col-span-3 mt-3 p-4 rounded-2xl">
+      <div className="bg-gray-50 col-span-3 mt-3 p-3 rounded-2xl">
         <h5 className="m-0 text-gray-700">Description</h5>
         <p className="my-2 text-gray-600 font-medium">
           {props.leaveDetails.leaveDescription}
