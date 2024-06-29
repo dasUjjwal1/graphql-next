@@ -1,11 +1,9 @@
 "use client";
 
 import FieldInput from "@/components/global/FieldInput";
-import { LeaveInput, LeaveType } from "@/graphql/graphql";
+import { LeaveDetails, LeaveInput, LeaveType } from "@/graphql/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "primereact/button";
-import { Checkbox } from "primereact/checkbox";
-import { Divider } from "primereact/divider";
 
 import { RadioButton } from "primereact/radiobutton";
 import { Controller, useForm } from "react-hook-form";
@@ -14,8 +12,8 @@ import * as Yup from "yup";
 type Props = {
   onSubmit: (val: LeaveInput) => void;
   loading: boolean;
-  type: "CREATE" | "UPDATE";
-  formData: LeaveInput | null;
+  type?: "CREATE" | "UPDATE";
+  formData: LeaveInput | LeaveDetails | null;
 };
 const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
   const validationSchema = Yup.object().shape({
@@ -23,7 +21,15 @@ const CreateLeave = ({ type = "CREATE", ...props }: Props) => {
   });
   const form = useForm<LeaveInput>({
     defaultValues: {
-      ...(type === "UPDATE" && props.formData && props.formData),
+      ...(type === "UPDATE" &&
+        props.formData && {
+          ...props.formData,
+          leaveType: props.formData?.leaveType
+            ? LeaveType.Paid
+            : LeaveType.NonPaid,
+          earnedLeave: props.formData.earnedLeave ? "YES" : "NO",
+          carryForward: props.formData?.carryForward ? "YES" : "NO",
+        }),
     },
     resolver: yupResolver(validationSchema),
   });

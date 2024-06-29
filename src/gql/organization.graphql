@@ -46,3 +46,8 @@ mutation AddOrganizationLeave($body: OrgAddLeaveInput!) {
     message
   }
 }
+mutation UpdateLeave($body: LeaveInput!) {
+  updateLeave(body: $body) {
+    message
+  }
+}

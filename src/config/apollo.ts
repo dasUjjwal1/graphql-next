@@ -15,6 +15,7 @@ import {
   NextSSRApolloClient,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
+import { removeTypenameFromVariables } from "@apollo/client/link/remove-typename";
 // export const makeClient = (token: string) => {
 //   const httpLink = new HttpLink({
 //     uri: process.env.NEXT_PUBLIC_API + "/rust-graphql",
@@ -37,6 +38,7 @@ import {
 // };
 
 export const makeClient = (token: string) => {
+  const removeTypenameLink = removeTypenameFromVariables();
   const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_API + "/rust-graphql",
     headers: {
@@ -51,6 +53,7 @@ export const makeClient = (token: string) => {
             new SSRMultipartLink({
               stripDefer: true,
             }),
+            removeTypenameLink,
             httpLink,
           ])
         : httpLink,
