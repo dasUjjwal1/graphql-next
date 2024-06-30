@@ -16,16 +16,19 @@ const SettingLayout = ({ children }: { children: ReactNode }) => {
           <h4 className="m-0">Application Setting</h4>
         </div>
 
-        <ul className="flex items-center rounded pt-2 justify-center gap-2 list-none m-0 px-0 py-0">
+        <ul className="flex items-center rounded pt-2 mb-3 justify-center gap-2 list-none m-0 px-0 py-0">
           {menu.map((item, index) => (
             <li
               className={`px-4 py-2 ${
                 pathName === item.path &&
                 "border-[var(--primary-color)] bg-gray-100 border-b-2 border-0 border-solid"
-              } font-medium uppercase`}
+              } uppercase`}
               key={index.toString()}
             >
-              <Link className="text-gray-800 " href={item.path}>
+              <Link
+                className="text-gray-800 text-sm font-medium"
+                href={item.path}
+              >
                 {item.label}
               </Link>
             </li>

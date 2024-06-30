@@ -5,6 +5,7 @@ import FieldInput from "@/components/global/FieldInput";
 import FieldMultiSelect from "@/components/global/FieldMultiSelect";
 import { AppConfig } from "@/config/appConfig";
 import { Role, RoleInput } from "@/graphql/graphql";
+import { DialogType } from "@/types/appTypes";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "primereact/button";
 import { Controller, useForm } from "react-hook-form";
@@ -14,17 +15,17 @@ type Props = {
   onSubmit: (val: RoleInput) => void;
   loading: boolean;
   roleList?: Role[];
-  type: "CREATE" | "UPDATE";
+  type?: DialogType;
   formData: Role | null;
 };
-const CreateRole = ({ type = "CREATE", ...props }: Props) => {
+const CreateRole = ({ type = DialogType.CREATE, ...props }: Props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Role name is required"),
   });
   const form = useForm<RoleInput>({
     defaultValues: {
       access: [],
-      ...(type === "UPDATE" && props.formData && props.formData),
+      ...(type === DialogType.UPDATE && props.formData && props.formData),
     },
     resolver: yupResolver(validationSchema),
   });

@@ -9,26 +9,28 @@ import FieldInput from "@/components/global/FieldInput";
 import FieldDropdown from "@/components/global/FieldDropdown";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
+import { DialogType } from "@/types/appTypes";
 
 type Props = {
   onSubmit: (val: OrganizationRegisterInput) => void;
   loading: boolean;
-  type: "CREATE" | "UPDATE";
+  type?: DialogType;
   formData: OrganizationRegisterInput | null;
 };
-const CreateOrganization = ({ type = "CREATE", ...props }: Props) => {
+const CreateOrganization = ({ type = DialogType.CREATE, ...props }: Props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Organization name is required"),
     employeeCount: Yup.number().required("Organization name is required"),
   });
-  const form = useForm<OrganizationRegisterInput>({
+  const form = useForm<OrganizationRegisterInput | any>({
     defaultValues: {
-      ...(type === "UPDATE" &&
+      ...(type === DialogType.UPDATE &&
         props.formData && {
           ...props.formData,
           workingModel: props.formData.workingModel
             ? AppConfig.WORKING_MODE.find(
-                (elm) => elm.count === props?.formData?.workingModel
+                (elm: { count: number | any }) =>
+                  elm.count === props?.formData?.workingModel
               )?.value
             : "",
         }),

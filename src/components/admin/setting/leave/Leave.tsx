@@ -9,14 +9,22 @@ import {
   UpdateLeaveDocument,
 } from "@/graphql/graphql";
 import { useAdminAuthStore } from "../../AuthContext";
-import { useState } from "react";
+import { Reducer, useReducer } from "react";
 import { toast } from "sonner";
 import CreateLeave from "./components/CreateLeave";
 import { Dialog } from "primereact/dialog";
-import { DataState } from "@/types/appTypes";
+import {
+  DataState,
+  DialogAction,
+  DialogActionType,
+  DialogType,
+} from "@/types/appTypes";
 import { Button } from "primereact/button";
 import LeaveComponent from "./components/LeaveComponent";
 import DialogHeader from "@/components/global/ui/DialogHeader";
+import { ConfirmDialog } from "primereact/confirmdialog"; // For <ConfirmDialog /> component
+import { dialogInitialValue, dialogReducer } from "@/utils/dialogReducer";
+
 const Leave = () => {
   const { token, companyId } = useAdminAuthStore((state) => state);
   const context = {
@@ -31,18 +39,18 @@ const Leave = () => {
     },
     variables: { companyId },
   });
-  const [dataState, setDataState] = useState<
-    DataState<LeaveInput | LeaveDetails>
-  >({
-    type: "CREATE",
-    data: null,
-    state: false,
-  });
 
+  const [dialogState, dialogDispatch] = useReducer<
+    Reducer<
+      DataState<LeaveInput | LeaveDetails>,
+      DialogAction<LeaveInput | LeaveDetails>
+    >
+  >(dialogReducer, dialogInitialValue);
   const [mutation, { loading: createLoading }] = useMutation(AddLeaveDocument, {
     onCompleted: (data) => {
       toast.success(data.addLeave.message);
       refetch();
+      dialogDispatch({ type: DialogActionType.CLOSE });
     },
     onError(error) {
       toast.error(error.message);
@@ -56,6 +64,7 @@ const Leave = () => {
       onCompleted: (data) => {
         toast.success(data.updateLeave.message);
         refetch();
+        dialogDispatch({ type: DialogActionType.CLOSE });
       },
       onError(error) {
         toast.error(error.message);
@@ -65,7 +74,7 @@ const Leave = () => {
   );
 
   const onSubmit = (value: any) => {
-    if (dataState.type === "CREATE") {
+    if (dialogState.type === DialogType.CREATE) {
       const requestBody: LeaveInput = {
         ...value,
         companyId,
@@ -80,6 +89,8 @@ const Leave = () => {
     } else {
       const requestBody: LeaveInput = {
         id: value.id,
+        leaveDescription: value.leaveDescription,
+        leaveType: value.leaveType,
         companyId,
         carryForward: value.carryForward === "YES" ? true : false,
         carryForwardMax: Number(value.carryForwardMax),
@@ -95,52 +106,50 @@ const Leave = () => {
 
   return (
     <>
-      <div className="flex px-6 items-baseline justify-between pb-4">
-        <h3 className="text-2xl text-gray-700 font-bold">Leave</h3>
+      <ConfirmDialog />
 
-        <Button
-          label="Create"
-          rounded
-          tooltip="Add"
-          tooltipOptions={{
-            position: "bottom",
-          }}
-          onClick={() =>
-            setDataState((prev) => ({
-              ...prev,
-              state: true,
-              data: null,
-              type: "CREATE",
-            }))
-          }
-        />
-      </div>
       <Dialog
         footer={<></>}
         className="w-2/4"
         draggable={false}
-        visible={dataState.state}
+        visible={dialogState.state}
         header={<DialogHeader header="Create Leave" />}
-        onHide={() =>
-          setDataState((prev) => ({
-            ...prev,
-            state: false,
-          }))
-        }
+        onHide={() => dialogDispatch({ type: DialogActionType.CLOSE })}
       >
         <CreateLeave
           onSubmit={onSubmit}
-          formData={dataState?.data}
+          formData={dialogState?.data}
           loading={createLoading}
-          type={dataState.type}
+          type={dialogState.type}
         />
       </Dialog>
-      <section className="px-6 pb-6 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="px-6">
+        <div className="flex px-6 rounded-2xl bg-white items-baseline justify-between ">
+          <h3 className="text-2xl text-gray-700 font-bold">Leave</h3>
+
+          <Button
+            label="Create"
+            rounded
+            tooltip="Add"
+            tooltipOptions={{
+              position: "bottom",
+            }}
+            onClick={() =>
+              dialogDispatch({ type: DialogActionType.CREATE_OPEN })
+            }
+          />
+        </div>
+      </div>
+
+      <section className="px-6 py-6 grid sm:grid-cols-2 gap-4">
         {data?.getAllLeave?.map((item) => (
           <LeaveComponent
             key={item.id}
-            setData={setDataState}
+            dialogDispatch={dialogDispatch}
             leaveDetails={item}
+            deleteHandler={function (id: string): void {
+              throw new Error("Function not implemented.");
+            }}
           />
         ))}
       </section>

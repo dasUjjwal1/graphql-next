@@ -1,5 +1,9 @@
+export enum DialogType {
+  CREATE = "CREATE",
+  UPDATE = "UPDATE",
+}
 export type DataState<T> = {
-  type?: "CREATE" | "UPDATE";
+  type?: DialogType;
   data: T | null;
   state: boolean;
 };
@@ -9,3 +13,14 @@ export type NavMenuItems = {
   path: string;
   icon: "SettingIcon" | "DashboardIcon" | "RoleIcon" | "OrgIcon";
 };
+
+export enum DialogActionType {
+  CREATE_OPEN = "CREATE_OPEN",
+  EDIT_OPEN = "EDIT_OPEN",
+  CLOSE = "CLOSE",
+}
+
+export type DialogAction<T> =
+  | { type: DialogActionType.CREATE_OPEN }
+  | { type: DialogActionType.EDIT_OPEN; payload: T }
+  | { type: DialogActionType.CLOSE };

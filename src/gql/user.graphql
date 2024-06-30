@@ -178,8 +178,7 @@ mutation UpdateRoleById($body: RoleInput!) {
     message
   }
 }
-
-mutation DeleteRoleById($body: ObjectId) {
+mutation DeleteRoleById($body: DeleteRoleByIdInput!) {
   deleteRoleById(body: $body) {
     message
   }

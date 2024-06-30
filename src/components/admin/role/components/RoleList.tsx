@@ -1,14 +1,15 @@
 "use client";
 import MenuComponent from "@/components/global/MenuComponent";
-import DeleteIcon from "@/components/global/icons/DeleteIcon";
-import EditIcon from "@/components/global/icons/EditIcon";
 import { AppConfig } from "@/config/appConfig";
 import { Role } from "@/graphql/graphql";
-import { DataState } from "@/types/appTypes";
+import { DialogAction, DialogActionType } from "@/types/appTypes";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { MenuItem } from "primereact/menuitem";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch } from "react";
+import { ConfirmDialog } from "primereact/confirmdialog"; // For <ConfirmDialog /> component
+import { confirmDialog } from "primereact/confirmdialog"; // For confirmDialog method
+
 type Keys = keyof Role;
 
 const columns: { name: string; uid: Keys }[] = [
@@ -20,28 +21,37 @@ const columns: { name: string; uid: Keys }[] = [
 const RoleList = ({
   data,
   loading,
-  setDataState,
+  dialogDispatch,
   deleteRole,
 }: {
   data: Role[];
   loading: boolean;
-  setDataState: Dispatch<SetStateAction<DataState<Role>>>;
+  dialogDispatch: Dispatch<DialogAction<Role>>;
   deleteRole: (id: string) => void;
 }) => {
   const handleEdit = (data: Role) => {
     const access = AppConfig.ACCESS.filter((elm) =>
       data.access?.includes(elm.value)
     ).map((i) => i.name);
-    const requestBody = { ...data, access };
-    setDataState((prev) => ({
-      ...prev,
-      type: "UPDATE",
-      data: requestBody,
-      state: true,
-    }));
+    const requestBody: any = { ...data, access };
+    dialogDispatch({ type: DialogActionType.EDIT_OPEN, payload: requestBody });
   };
   const emptyArray = [{ id: "", name: "Administration" }];
-
+  const handleRemove = (body: Role) => {
+    confirmDialog({
+      message: (
+        <div className="bg-gray-100 p-4 rounded-xl">
+          <h3 className="text-gray-600 my-0">{body.name}</h3>
+          <p>Do you want to delete this record?</p>
+        </div>
+      ),
+      header: "Delete Confirmation",
+      contentClassName: "p-0 pr-3",
+      defaultFocus: "reject",
+      acceptClassName: "p-button-danger rounded-full",
+      accept: () => deleteRole(body.id),
+    });
+  };
   const actionTemplate = (body: Role) => {
     const items: MenuItem[] = [
       {
@@ -50,7 +60,7 @@ const RoleList = ({
       },
       {
         label: "Delete",
-        command: () => deleteRole(body?.id),
+        command: () => handleRemove(body),
       },
     ];
     return <MenuComponent items={items} />;
@@ -94,25 +104,28 @@ const RoleList = ({
     );
   };
   return (
-    <DataTable
-      paginator
-      rows={5}
-      pt={{
-        thead: { className: "table-header" },
-        column: {
-          headerContent: { className: "flex justify-between" },
-        },
-        table: { className: "w-full bg-[#F7F2FA]" },
-      }}
-      rowsPerPageOptions={[5, 10, 25, 50]}
-      loading={loading}
-      value={data?.filter((i) => !i.isDelete) ?? []}
-    >
-      <Column sortable field="name" header={"Role Name"} />
-      <Column body={accessTemplate} header={"Access"} />
-      <Column body={assignTemplate} header={"Assign To"} />
-      <Column body={actionTemplate} header={"Action"} />
-    </DataTable>
+    <>
+      <ConfirmDialog />
+      <DataTable
+        paginator
+        rows={5}
+        pt={{
+          thead: { className: "table-header" },
+          column: {
+            headerContent: { className: "flex justify-between" },
+          },
+          table: { className: "w-full" },
+        }}
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        loading={loading}
+        value={data?.filter((i) => !i.isDelete) ?? []}
+      >
+        <Column sortable field="name" header={"Role Name"} />
+        <Column body={accessTemplate} header={"Access"} />
+        <Column body={assignTemplate} header={"Assign To"} />
+        <Column body={actionTemplate} header={"Action"} />
+      </DataTable>
+    </>
   );
 };
 

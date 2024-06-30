@@ -1,5 +1,5 @@
 "use client";
-
+import { Reducer } from "react";
 import CreateOrganization from "./components/CreateOrganization";
 import OrganizationList from "./components/OrganizationList";
 import { useMutation, useQuery } from "@apollo/client";
@@ -12,20 +12,30 @@ import {
 } from "@/graphql/graphql";
 import { useAdminAuthStore } from "../AuthContext";
 import { toast } from "sonner";
-import { useState } from "react";
-import { DataState } from "@/types/appTypes";
+import { useReducer } from "react";
+import {
+  DataState,
+  DialogAction,
+  DialogActionType,
+  DialogType,
+} from "@/types/appTypes";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import DialogHeader from "@/components/global/ui/DialogHeader";
+import { dialogReducer } from "@/utils/dialogReducer";
 
 const Organization = () => {
-  const [dataState, setDataState] = useState<
-    DataState<OrganizationRegisterInput>
-  >({
-    type: "CREATE",
+  const initialValue: DataState<OrganizationRegisterInput> = {
+    type: DialogType.CREATE,
     data: null,
     state: false,
-  });
+  };
+  const [dialogState, dialogDispatch] = useReducer<
+    Reducer<
+      DataState<OrganizationRegisterInput>,
+      DialogAction<OrganizationRegisterInput>
+    >
+  >(dialogReducer, initialValue);
   const token = useAdminAuthStore((state) => state.token);
   const context = {
     headers: {
@@ -45,11 +55,7 @@ const Organization = () => {
       context,
       onCompleted(data) {
         toast.success(data.createOrganization.message);
-        setDataState((prev) => ({
-          ...prev,
-          state: false,
-          data: null,
-        }));
+        dialogDispatch({ type: DialogActionType.CLOSE });
         refetch();
       },
       onError(error) {
@@ -63,11 +69,7 @@ const Organization = () => {
       context,
       onCompleted(data) {
         toast.success(data.updateOrganization.message);
-        setDataState((prev) => ({
-          ...prev,
-          state: false,
-          data: null,
-        }));
+        dialogDispatch({ type: DialogActionType.CLOSE });
         refetch();
       },
       onError(error) {
@@ -111,7 +113,7 @@ const Organization = () => {
       },
       employeeCount: Number(value.employeeCount),
     };
-    if (dataState.type === "UPDATE")
+    if (dialogState.type === DialogType.UPDATE)
       updateMutation({ variables: { body: requestBody } });
     else mutation({ variables: { body: requestBody } });
   };
@@ -125,17 +127,12 @@ const Organization = () => {
         draggable={false}
         footer={<></>}
         breakpoints={{ "960px": "75vw", "641px": "100vw" }}
-        visible={dataState.state}
-        onHide={() =>
-          setDataState((prev) => ({
-            ...prev,
-            state: false,
-          }))
-        }
+        visible={dialogState.state}
+        onHide={() => dialogDispatch({ type: DialogActionType.CLOSE })}
         header={
           <DialogHeader
             header={
-              dataState?.type === "CREATE"
+              dialogState?.type === DialogType.CREATE
                 ? "Create New Office Record"
                 : "Update Office Record"
             }
@@ -145,33 +142,16 @@ const Organization = () => {
         <CreateOrganization
           loading={createLoading}
           onSubmit={onSubmit}
-          formData={dataState.data}
-          type={dataState.type}
+          formData={dialogState.data}
+          type={dialogState.type}
         />
       </Dialog>
-
       <div className="px-6">
-        <div className="flex items-baseline justify-between">
-          <h4 className="text-lg font-bold text-gray-700 flex items-center gap-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="#5f6368"
-            >
-              <path d="M80-120v-720h400v160h400v560H80Zm80-80h240v-80H160v80Zm0-160h240v-80H160v80Zm0-160h240v-80H160v80Zm0-160h240v-80H160v80Zm320 480h320v-400H480v400Zm80-240v-80h160v80H560Zm0 160v-80h160v80H560Z" />
-            </svg>
-            Office List
-          </h4>
+        <div className="flex bg-white rounded-2xl px-6 items-baseline justify-between">
+          <h3 className="text-2xl font-bold">Office List</h3>
           <Button
             onClick={() =>
-              setDataState((prev) => ({
-                ...prev,
-                state: true,
-                data: null,
-                type: "CREATE",
-              }))
+              dialogDispatch({ type: DialogActionType.CREATE_OPEN })
             }
             rounded
             // icon={
@@ -190,12 +170,16 @@ const Organization = () => {
             label="Create"
           />
         </div>
-        <OrganizationList
-          data={data}
-          loading={loading}
-          removeOrganization={removeOrganization}
-          setDataState={setDataState}
-        />
+      </div>
+      <div className="p-6">
+        <div className="p-6 bg-white rounded-2xl">
+          <OrganizationList
+            data={data}
+            loading={loading}
+            removeOrganization={removeOrganization}
+            dialogDispatch={dialogDispatch}
+          />
+        </div>
       </div>
     </>
   );

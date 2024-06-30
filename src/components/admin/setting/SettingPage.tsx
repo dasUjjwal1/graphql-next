@@ -67,7 +67,7 @@ const SettingPage = () => {
         />
       </Dialog>
       <div className="px-6">
-        <div className="bg-white text-gray-700 p-6 rounded border border-solid border-gray-200">
+        <div className="bg-white p-6 rounded-2xl">
           <div className="flex justify-between">
             <h4 className="text-xl m-0 text-gray-700 font-semibold flex gap-2 items-center">
               <svg

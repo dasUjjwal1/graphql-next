@@ -6,12 +6,12 @@ import {
   Organization,
   OrganizationRegisterInput,
 } from "@/graphql/graphql";
-import { DataState } from "@/types/appTypes";
+import { DialogAction, DialogActionType } from "@/types/appTypes";
 import { useRouter } from "next/navigation";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { MenuItem } from "primereact/menuitem";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch } from "react";
 
 import { ConfirmDialog } from "primereact/confirmdialog"; // For <ConfirmDialog /> component
 import { confirmDialog } from "primereact/confirmdialog"; // For confirmDialog method
@@ -20,12 +20,12 @@ const OrganizationList = ({
   data,
   loading,
   removeOrganization,
-  setDataState,
+  dialogDispatch,
 }: {
   data: GetAllOrganizationQuery | undefined;
   loading: boolean;
   removeOrganization: (id: string) => void;
-  setDataState: Dispatch<SetStateAction<DataState<OrganizationRegisterInput>>>;
+  dialogDispatch: Dispatch<DialogAction<OrganizationRegisterInput>>;
 }) => {
   const router = useRouter();
   const handleEdit = (data: OrganizationRegisterInput) => {
@@ -34,12 +34,7 @@ const OrganizationList = ({
       // endTime: addMinutes(new Date(2014, 6, 10, 0, 0), data.endTime),
       // startTime: addMinutes(new Date(2014, 6, 10, 0, 0), data.startTime),
     };
-    setDataState((prev) => ({
-      ...prev,
-      type: "UPDATE",
-      data: requestBody,
-      state: true,
-    }));
+    dialogDispatch({ type: DialogActionType.EDIT_OPEN, payload: requestBody });
   };
   const handleRemove = (body: OrganizationRegisterInput) => {
     confirmDialog({
@@ -53,7 +48,6 @@ const OrganizationList = ({
       contentClassName: "p-0 pr-3",
       defaultFocus: "reject",
       acceptClassName: "p-button-danger rounded-full",
-      rejectClassName: "p-button-info rounded-full",
       accept: () => removeOrganization(body.id),
     });
   };

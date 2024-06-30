@@ -57,9 +57,7 @@ const LeaveList = (props: Props) => {
       target: event.currentTarget,
       message: (
         <>
-          <h4 className="m-0">
-            Click <i className="pi mx-3 pi-ellipsis-h"></i> to add leaves.
-          </h4>
+          <h4 className="m-0">Click &apos;Apply&apos; to add leaves.</h4>
           <p>If list is empty, create leave in setting &gt; leave </p>
         </>
       ),
@@ -123,17 +121,6 @@ const LeaveList = (props: Props) => {
             </Link>
             Leave List
           </h4>
-
-          <div>
-            <Button onClick={confirm2} text icon={"pi pi-ellipsis-h"} />
-            <Button
-              onClick={confirm1}
-              text
-              icon={"pi pi-info-circle"}
-              tooltip="Information"
-              tooltipOptions={{ position: "bottom" }}
-            />
-          </div>
         </div>
         <DataTable
           selection={selectedItems}
@@ -171,6 +158,9 @@ const LeaveList = (props: Props) => {
           />
           <Column field="leaveDescription" header={"Leave Description"} />
         </DataTable>
+        <div className="flex p-3 justify-end">
+          <Button onClick={confirm2} label="Apply" rounded />
+        </div>
       </div>
     </div>
   );

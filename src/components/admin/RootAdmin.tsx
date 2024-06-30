@@ -41,6 +41,7 @@ const RootAdmin = (props: Props) => {
       onCompleted(data) {
         toast.success("Created");
         setCompanyId(data.createCompany.id);
+        refetch();
       },
       onError(error) {
         toast.error(error.message);
@@ -64,7 +65,7 @@ const RootAdmin = (props: Props) => {
       ) : (
         <>
           {data?.getCompanyDetails ? (
-            <main className="flex min-h-full flex-grow">
+            <main className="flex min-h-full bg-[#f6f9fb] flex-grow">
               <AdminNavbar />
               <div className="flex-grow  ml-56">{props?.children}</div>
             </main>
