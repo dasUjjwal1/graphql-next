@@ -1,49 +1,54 @@
 "use client";
 
 import { useAdminAuthStore } from "@/components/admin/AuthContext";
+import FieldInput from "@/components/global/FieldInput";
+import { Department, DepartmentCreateInput } from "@/graphql/graphql";
+import { Button } from "primereact/button";
+import { Controller, useForm } from "react-hook-form";
 
 const AddDepartment = ({
-  organizationId,
-  refetch,
+  type = "CREATE",
+  ...props
 }: {
-  organizationId: string;
-  refetch?: () => void;
+  onSubmit: (val: DepartmentCreateInput) => void;
+  loading: boolean;
+  type: "CREATE" | "UPDATE";
+  formData: Department | null;
 }) => {
   const { token } = useAdminAuthStore((state) => state);
-  // const context = {
-  //   headers: {
-  //     authorization: token,
-  //   },
-  // };
-  // const [mutation] = useMutation(AddDepartmentDocument, {
-  //   onCompleted: (data) => {
-  //     toast({
-  //       title: "Success",
-  //       description: data.addDepartment.message,
-  //       variant: "default",
-  //     });
-  //     refetch && refetch();
-  //   },
-  //   onError(error) {
-  //     toast({
-  //       title: "Error",
-  //       description: error.message,
-  //       variant: "destructive",
-  //     });
-  //   },
-  //   context,
-  // });
-  // const form = useForm<DepartmentCreateInput>({
-  //   defaultValues: {},
-  // });
-  // const onSubmit = (value: DepartmentCreateInput) => {
-  //   const requestBody: DepartmentCreateInput = {
-  //     name: value.name,
-  //     organizationId,
-  //   };
-  //   mutation({ variables: { body: requestBody } });
-  // };
-  return <></>;
+  const context = {
+    headers: {
+      authorization: token,
+    },
+  };
+
+  const form = useForm<DepartmentCreateInput>({
+    defaultValues: {},
+  });
+
+  return (
+    <>
+      <form onSubmit={form.handleSubmit(props.onSubmit)}>
+        <Controller
+          name="name"
+          control={form.control}
+          render={({ field, formState: { errors } }) => (
+            <FieldInput
+              label="Department Name"
+              {...field}
+              invalid={Boolean(errors?.name?.message)}
+            />
+          )}
+        />
+        <div>
+          <Button severity="info">Close</Button>
+          <Button loading={props.loading} type="submit">
+            Create
+          </Button>
+        </div>
+      </form>
+    </>
+  );
 };
 
 export default AddDepartment;

@@ -4,15 +4,18 @@ import { StoreApi, useStore } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { ReactNode, createContext, useContext, useRef } from "react";
 import { LoginUserQuery } from "@/graphql/graphql";
+import { NavMenuItems } from "@/types/appTypes";
 type AdminAuthType = {
   loaded: boolean;
-  menu: { id: string; label: string; path: string; icon: string[] }[];
+  menu: NavMenuItems[];
   adminAuth: LoginUserQuery["loginUser"] | null;
   token: any;
+  companyId: string | null;
 };
 type AdminAuthActions = {
   setMenu: (payload: AdminAuthType["menu"]) => void;
   setDetails: (data: any | null) => void;
+  setCompanyId: (data: string | null) => void;
 };
 type AdminSTore = AdminAuthType & AdminAuthActions;
 const AdminAuthInitialState: AdminAuthType = {
@@ -20,22 +23,29 @@ const AdminAuthInitialState: AdminAuthType = {
   menu: [],
   adminAuth: null,
   token: null,
+  companyId: null,
 };
 export const createAdminStore = createStore<AdminSTore>()(
   persist(
     (set, get) => ({
       ...AdminAuthInitialState,
       setMenu: (payload) => {
-        set((state) => ({
+        set(() => ({
           ...get(),
           menu: payload,
         }));
       },
       setDetails: (data) => {
-        set((state) => ({
+        set(() => ({
           ...get(),
           adminAuth: data,
           token: data?.token ?? null,
+        }));
+      },
+      setCompanyId: (data) => {
+        set(() => ({
+          ...get(),
+          companyId: data,
         }));
       },
     }),

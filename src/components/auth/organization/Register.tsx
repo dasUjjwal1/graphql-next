@@ -1,12 +1,15 @@
 "use client";
 
 import { useAdminAuthStore } from "@/components/admin/AuthContext";
-import { AppConfig } from "@/config/appConfig";
 import { CreateUserDocument } from "@/graphql/graphql";
 import { RegisterProps } from "@/types/authType";
 import { useMutation } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Input } from "@nextui-org/react";
+import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+
+import { FloatLabel } from "primereact/floatlabel";
+import { InputText } from "primereact/inputtext";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as Yup from "yup";
@@ -23,10 +26,6 @@ function AdminRegister() {
   });
   const [mutation, { loading }] = useMutation(CreateUserDocument, {
     onCompleted: (data) => {
-      sessionStorage.setItem(
-        AppConfig.CREDENTIAL,
-        JSON.stringify(data?.createUser?.token)
-      );
       setDetails(data?.createUser);
     },
     onError(error) {
@@ -53,32 +52,40 @@ function AdminRegister() {
   return (
     <>
       <form
-        className="flex flex-col gap-4 w-full"
+        className="flex flex-col gap-3 w-full"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <Controller
           name="name"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <Input
-              label="Name"
-              {...field}
-              isInvalid={Boolean(errors.name?.message)}
-              errorMessage={errors.name?.message}
-            />
+            <FloatLabel>
+              <InputText
+                className="w-full"
+                invalid={Boolean(errors.name?.message)}
+                {...field}
+              />
+              <label htmlFor="name" className="text-xs font-semibold">
+                Name
+              </label>
+            </FloatLabel>
           )}
         />
         <Controller
           name="email"
           control={form.control}
           render={({ field, formState: { errors } }) => (
-            <Input
-              label="Email"
-              type="email"
-              {...field}
-              isInvalid={Boolean(errors.email?.message)}
-              errorMessage={errors.email?.message}
-            />
+            <FloatLabel>
+              <InputText
+                className="w-full"
+                keyfilter={"email"}
+                invalid={Boolean(errors.email?.message)}
+                {...field}
+              />
+              <label htmlFor="email" className="text-xs font-semibold">
+                Email
+              </label>
+            </FloatLabel>
           )}
         />
         <Controller
@@ -86,18 +93,37 @@ function AdminRegister() {
           control={form.control}
           rules={{ required: true }}
           render={({ field, formState: { errors } }) => (
-            <Input
-              label="Password"
-              type="password"
-              {...field}
-              isInvalid={Boolean(errors.password?.message)}
-              errorMessage={errors.password?.message}
-            />
+            <FloatLabel>
+              <InputText
+                className="w-full"
+                invalid={Boolean(errors.password?.message)}
+                {...field}
+                type="password"
+              />
+              <label htmlFor="password" className="text-xs font-semibold">
+                Password
+              </label>
+            </FloatLabel>
           )}
         />
-        <Button color="primary" type="submit">
-          REGISTER
-        </Button>
+        <Controller
+          name="location"
+          control={form.control}
+          rules={{ required: true }}
+          render={({ field, formState: { errors } }) => (
+            <FloatLabel>
+              <Dropdown
+                className="w-full"
+                {...field}
+                options={[{ label: "India", value: 1 }]}
+              />
+              <label htmlFor="location" className="text-xs font-semibold">
+                Location
+              </label>
+            </FloatLabel>
+          )}
+        />
+        <Button label="Sign-up" type="submit" />
       </form>
     </>
   );

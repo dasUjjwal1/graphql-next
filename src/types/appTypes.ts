@@ -1,62 +1,26 @@
-import {
-  GetAllOrganizationQuery,
-  GetAllRoleQuery,
-  OrganizationDetailsRegisterInput,
-} from "@/graphql/graphql";
-import { Dispatch, FC, SetStateAction } from "react";
-import { UseFormReturn } from "react-hook-form";
-type IStringIndex = {
-  [key: string]: any;
+export enum DialogType {
+  CREATE = "CREATE",
+  UPDATE = "UPDATE",
+}
+export type DataState<T> = {
+  type?: DialogType;
+  data: T | null;
+  state: boolean;
 };
-export type Role = IStringIndex & {
-  _id: string;
-  name: string;
-  position: number;
-  parent: string;
-};
-export type RoleFormTypes = {
-  roles: GetAllRoleQuery["getAllRole"];
-  Trigger: FC;
-  refetch?: () => void;
-  open?: boolean;
-  setModal?: any;
-};
-export type EmployeeCredentialFormTypes = {
-  orgList: GetAllOrganizationQuery["getAllOrganization"];
-  Trigger: FC;
-  refetch?: () => void;
-  open?: boolean;
-  setModal?: any;
-};
-export type Employee = {
-  employeeName?: string;
-  employeeEmail: string;
-  profileImage: string;
-  employeeType?: number;
-  depertment?: string;
-  employeePosition?: number;
-  employeeId?: number;
-  account?: string;
-  employeePassword: string;
-  country: number;
-  organizationId: string;
-  mobile: string;
-  joiningDate?: Date;
-  employeeAddress?: JSON;
-  qualification?: JSON;
-};
-export type EmployeeFormTypes = {
-  form: UseFormReturn<Employee>;
-  onSubmit: (value: Employee) => void;
-  setSaveType: Dispatch<SetStateAction<"create" | "update">>;
-  saveType: "create" | "update";
-};
-export type OrgDetailsTable = {
-  _id: string;
-  name: string;
+export type NavMenuItems = {
+  id: string;
+  label: string;
+  path: string;
+  icon: "SettingIcon" | "DashboardIcon" | "RoleIcon" | "OrgIcon";
 };
 
-export type OrgDetailsFormTypes = {
-  form: UseFormReturn<OrganizationDetailsRegisterInput>;
-  onSubmit: (value: OrganizationDetailsRegisterInput) => void;
-};
+export enum DialogActionType {
+  CREATE_OPEN = "CREATE_OPEN",
+  EDIT_OPEN = "EDIT_OPEN",
+  CLOSE = "CLOSE",
+}
+
+export type DialogAction<T> =
+  | { type: DialogActionType.CREATE_OPEN }
+  | { type: DialogActionType.EDIT_OPEN; payload: T }
+  | { type: DialogActionType.CLOSE };

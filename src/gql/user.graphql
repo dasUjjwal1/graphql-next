@@ -1,0 +1,208 @@
+mutation CreateUser($body: UserRegister!) {
+  createUser(body: $body) {
+    name
+    email
+    isActive
+    isAdmin
+    mobileNo
+    isDelete
+    gmtMinuteOffset
+    timeZone
+    picturePath
+    paymentStructure
+    location
+    address {
+      city
+      street
+      houseNumber
+      state
+      pin
+    }
+    verification {
+      identityProof
+      addressProof
+    }
+    lastSubscribe
+    createdAt
+    updatedAt
+    token
+  }
+}
+
+query LoginUser($body: UserLogin!) {
+  loginUser(body: $body) {
+    name
+    email
+    isActive
+    isAdmin
+    mobileNo
+    isDelete
+    gmtMinuteOffset
+    timeZone
+    picturePath
+    paymentStructure
+    location
+    address {
+      city
+      street
+      houseNumber
+      state
+      pin
+    }
+    verification {
+      identityProof
+      addressProof
+    }
+    lastSubscribe
+    createdAt
+    updatedAt
+    token
+  }
+}
+
+query GetAllOrganization {
+  getAllOrganization {
+    id
+    name
+    userId
+    companyId
+    isActive
+    lastSubscribe
+    latitude
+    longitude
+    workingModel
+    address {
+      city
+      street
+      buildingNumber
+      state
+      pin
+    }
+    employeeCount
+    documents
+    notWorkingDays
+    orgContact
+    leave
+    remoteClockIn
+    locationRequired
+    gracePeriod
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateOrganization($body: OrganizationRegisterInput!) {
+  createOrganization(body: $body) {
+    message
+  }
+}
+
+mutation CreateRole($body: RoleInput!) {
+  createRole(body: $body) {
+    message
+  }
+}
+
+query GetCompanyDetails {
+  getCompanyDetails {
+    id
+    companyName
+    userId
+    roles {
+      id
+      isDelete
+      name
+      parent
+      access
+    }
+    isActive
+    logo
+    financialYearStart
+    leave {
+      id
+      name
+      days
+      carryForward
+      carryForwardMax
+      earnedLeave
+      earnedLeaveMax
+      monthlyDays
+      leaveDescription
+      leaveType
+      isDelete
+      isActive
+    }
+    registeredAddress {
+      area
+      city
+      state
+      postal
+    }
+    financialYearEnd
+    lastSubscribe
+    companyType
+    createdAt
+    updatedAt
+  }
+}
+
+query GetAllLeave($companyId: ObjectId!) {
+  getAllLeave(companyId: $companyId) {
+    id
+    name
+    days
+    carryForward
+    carryForwardMax
+    earnedLeave
+    earnedLeaveMax
+    monthlyDays
+    leaveDescription
+    leaveType
+    isDelete
+    isActive
+  }
+}
+
+query GetAllRole($body: GetByCompanyId!) {
+  getAllRole(body: $body) {
+    id
+    isDelete
+    name
+    parent
+    access
+  }
+}
+
+mutation UpdateRoleById($body: RoleInput!) {
+  updateRoleById(body: $body) {
+    message
+  }
+}
+mutation DeleteRoleById($body: DeleteRoleByIdInput!) {
+  deleteRoleById(body: $body) {
+    message
+  }
+}
+mutation CreateCompany($body: CompanyCreateInput!) {
+  createCompany(body: $body) {
+    id
+    companyName
+    isActive
+    logo
+    financialYearStart
+    financialYearEnd
+    lastSubscribe
+    companyType
+    createdAt
+  }
+}
+mutation UpdateCompany($body: CompanyUpdateInput!) {
+  updateCompany(body: $body) {
+    id
+  }
+}
+mutation UpdateOrganization($body: OrganizationRegisterInput!) {
+  updateOrganization(body: $body) {
+    message
+  }
+}

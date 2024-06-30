@@ -1,6 +1,30 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
+ */
+:root {
+  /* --ui-bg: #f5f8ff; */
+  --ui-bg: #f0f4f9;
+  --primary-color: #345fb3;
+  /* --primary-color: #556ee6; */
+  --bg-highlight: #eff6ff;
+  --text-foreground: #71717a;
+  --text-color-light: #202124;
+}
+
+@layer tailwind-base, primereact, tailwind-utilities;
+/* @import "primereact/resources/themes/lara-light-cyan/theme.css"; */
+@import "./prime.module.css";
+@import "primeicons/primeicons.css";
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
 
 * {
   box-sizing: border-box;
@@ -10,10 +34,14 @@
 html,
 body {
   height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 a {
   text-decoration: none;
+  /* color: #202124; */
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -27,4 +55,50 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
   appearance: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+
+::-ms-input-placeholder {
+  /* Edge 12-18 */
+  font-size: 12px;
+}
+
+::placeholder {
+  font-size: 12px;
+}
+
+/* .table-header {} */
+
+.table-header th {
+  border-bottom: 0.15rem solid white;
+  /* border-right: 0.1rem solid white;
+  border-left: 0.1rem solid white; */
+  color: var(--primary-color);
+  background-color: var(--bg-highlight);
+  /* border-radius: 0.4rem; */
+  font-weight: 700;
+}
+
+.table-header th:first-child {
+  /* border-right: 0.1rem solid white; */
+  border-left: none;
+  color: var(--primary-color);
+  background-color: var(--bg-highlight);
+  border-radius: 1rem 0 0 1rem;
+}
+
+.table-header th:last-child {
+  /* border-left: 0.1rem solid white; */
+  border-right: none;
+  color: var(--primary-color);
+  background-color: var(--bg-highlight);
+  border-radius: 0 1rem 1rem 0;
 }

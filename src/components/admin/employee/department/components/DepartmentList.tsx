@@ -1,131 +1,74 @@
 "use client";
 
-import {
-  createColumnHelper,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-// import AddDepartment from "./AddDepartment";
+import { Department, GetAllDepartmentByOrgIdQuery } from "@/graphql/graphql";
+import { DataState } from "@/types/appTypes";
 
-const DepartmentList = () => {
-  const columnHelper = createColumnHelper<any>();
+import { Dispatch, SetStateAction, useCallback } from "react";
 
-  const columns = [
-    columnHelper.accessor("id", {
-      header: () => "#",
-      cell: (info) => info.row.index + 1,
-    }),
-    columnHelper.accessor("name", {
-      header: () => "Department",
-      cell: (info) => info.getValue(),
-    }),
+type Props = {
+  data: GetAllDepartmentByOrgIdQuery | undefined;
+  loading: boolean;
+  setDataState: Dispatch<SetStateAction<DataState<Department>>>;
+  onOpen: () => void;
+  deleteRole: (id: string) => void;
+};
+type Keys = keyof Department;
 
-    // columnHelper.display({
-    //   id: "actions",
-    //   header: "Options",
-    //   cell: (props) => (
-    //     <DropdownMenu>
-    //       <DropdownMenuTrigger asChild>
-    //         <Button variant="ghost">
-    //           <DotsVerticalIcon />
-    //         </Button>
-    //       </DropdownMenuTrigger>
-    //       <DropdownMenuContent>
-    //         <Button
-    //           onClick={() => {}}
-    //           variant={"ghost"}
-    //           className="flex items-center justify-start gap-3 text-sm w-full"
-    //         >
-    //           <Pencil1Icon />
-    //           Preview & Update
-    //         </Button>
-    //         <DropdownMenuSeparator />
-    //         <Button
-    //           onClick={() => {}}
-    //           variant={"ghost"}
-    //           className="flex items-center justify-start gap-3 w-full text-sm"
-    //         >
-    //           <TrashIcon />
-    //           Delete
-    //         </Button>
-    //       </DropdownMenuContent>
-    //     </DropdownMenu>
-    //   ),
-    // }),
+const DepartmentList = ({
+  data,
+  loading,
+  onOpen,
+  setDataState,
+  deleteRole,
+}: Props) => {
+  const columns: { name: string; uid: Keys }[] = [
+    { name: "NAME", uid: "name" },
+    { name: "ACTIONS", uid: "id" },
   ];
-  const table = useReactTable({
-    data: [],
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+
   return (
     <>
-      <div className="w-full flex items-center justify-between">
-        {/* <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Theme" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
-          </SelectContent>
-        </Select> */}
-        {/* <AddDepartment /> */}
-      </div>
-      {/* <Table className="mt-3 w-full">
-        <TableHeader>
-          {table.getHeaderGroups()?.map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers?.map((header, index) => {
-                return (
-                  <TableHead
-                    className={
-                      "px-4 " + (index === 0 ? "text-left" : "text-right")
-                    }
-                    key={header.id}
-                  >
-                    {!header.isPlaceholder &&
-                      flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
+      {/* <Table aria-label="Example table with custom cells">
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "id" ? "end" : "start"}
+            >
+              {column.name}
+            </TableColumn>
+          )}
         </TableHeader>
-
-        <TableBody>
-          <>
-            {table.getRowModel()?.rows?.length ? (
-              table.getRowModel()?.rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells()?.map((cell) => (
-                    <TableCell className="px-4" key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
+        <TableBody
+          loadingContent={
+            <div className="w-full h-full py-6 px-3 bg-default-50">
+              <Skeleton className="rounded-lg h-14 w-full" />
+              <div className="w-full mt-3 flex gap-3">
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+              </div>
+              <div className="w-full mt-3 flex gap-3">
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+              </div>
+              <div className="w-full mt-3 flex gap-3">
+                <Skeleton className="w-full h-9 rounded-lg" />
+                <Skeleton className="w-full h-9 rounded-lg" />
+              </div>
+            </div>
+          }
+          loadingState={loading ? "loading" : "idle"}
+          items={data?.getAllDepartmentByOrgId ?? []}
+        >
+          {(item) =>
+            !item?.isDelete && (
+              <TableRow key={item.id}>
+                {(columnKey) => (
+                  <TableCell>{renderCell(item, columnKey as Keys)}</TableCell>
+                )}
               </TableRow>
-            )}
-          </>
+            )
+          }
         </TableBody>
       </Table> */}
     </>

@@ -1,7 +1,5 @@
 export const AppConfig = {
-  NODE_GQL_URL: "http://localhost:4000/graphql",
-  CREDENTIAL: "credential",
-  ORGANIZATION_TYPE: [
+  COMPANY_TYPE: [
     { label: "Automobiles", value: 1 },
     { label: "Agriculture based", value: 2 },
     { label: "Banking", value: 3 },
@@ -30,9 +28,9 @@ export const AppConfig = {
     { label: "Employee Credential", value: 15, name: "EMPLOYEE_CREDENTIAL" },
   ],
   WORKING_MODE: [
-    { label: "ONSITE", value: "ONSITE" },
-    { label: "HYBRID", value: "HYBRID" },
-    { label: "REMOTE", value: "REMOTE" },
-    { label: "OTHER", value: "OTHER" },
+    { label: "ONSITE", value: "ONSITE", count: 1 },
+    { label: "HYBRID", value: "HYBRID", count: 2 },
+    { label: "REMOTE", value: "REMOTE", count: 3 },
+    { label: "OTHER", value: "OTHER", count: 4 },
   ],
 };

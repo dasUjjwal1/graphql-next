@@ -1,15 +1,12 @@
 "use client";
+import { NavMenuItems } from "@/types/appTypes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-type MenuItems = {
-  id?: string;
-  label?: string;
-  path: string;
-  icon?: string[];
-  child?: MenuItems[];
-};
+import { useAdminAuthStore } from "../admin/AuthContext";
+import { Button } from "primereact/button";
+import MenuIcons from "../global/icons/MenuIcons";
 type Props = {
-  menu: MenuItems[];
+  menu: NavMenuItems[];
 };
 
 function useActivePath(): (path: string) => boolean {
@@ -26,43 +23,41 @@ function useActivePath(): (path: string) => boolean {
 }
 export default function Navbar(props: Props) {
   const checkActivePath = useActivePath();
+  const { setDetails, setMenu } = useAdminAuthStore((state) => state);
   return (
     <>
-      <nav className="min-h-screen h-full fixed left-0 py-6 pr-2 overflow-y-auto dark:bg-card shadow-md w-56">
-        <ul className="h-full flex flex-col gap-3 p-0">
-          {props?.menu?.map((item) => (
-            <li key={item?.id}>
+      <nav className="min-h-screen flex flex-col fixed w-56 left-0 pt-6 overflow-y-auto bg-white">
+        <ul className="flex-1 flex gap-2 flex-col p-0 list-none">
+          {props?.menu?.map((item, index) => (
+            <li key={index} className="p-2">
               <Link
                 href={item.path}
                 as={item.path}
-                className={`flex items-center w-full gap-2 ${
-                  checkActivePath(item.path)
-                    ? "dark:bg-sky-950 dark:text-primary-foreground"
-                    : "dark:text-muted-foreground"
-                }  rounded-e-3xl p-3`}
+                title={item.label}
+                className={
+                  (checkActivePath(item.path)
+                    ? "bg-blue-50 text-blue-600"
+                    : " hover:bg-gray-100") +
+                  "  p-3 rounded-2xl font-semibold text-[--text-color-light] gap-4 flex items-center justify-start"
+                }
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="w-5 h-5"
-                  strokeWidth="1.6"
-                  stroke="currentColor"
-                >
-                  {item?.icon?.map((elm, index) => (
-                    <path
-                      key={index}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d={elm}
-                    />
-                  ))}
-                </svg>
-                <p className="text-sm">{item.label}</p>
+                <span className="text-[#aab3c4]">{MenuIcons[item.icon]}</span>{" "}
+                {item.label}
               </Link>
             </li>
           ))}
         </ul>
+        <div className="p-6">
+          <Button
+            outlined
+            className="w-full font-semibold text-sm"
+            label="Log-out"
+            onClick={(e) => {
+              setDetails(null);
+              setMenu([]);
+            }}
+          />
+        </div>
       </nav>
     </>
   );

@@ -1,0 +1,53 @@
+mutation AddDepartment($body: DepartmentCreateInput!) {
+  addDepartment(body: $body) {
+    message
+  }
+}
+
+query GetAllDepartmentByOrgId($getAllDepartmentByOrgIdId: ObjectId!) {
+  getAllDepartmentByOrgId(id: $getAllDepartmentByOrgIdId) {
+    id
+    name
+    isDelete
+  }
+}
+
+mutation AddLeave($body: LeaveInput!) {
+  addLeave(body: $body) {
+    message
+  }
+}
+query GetAllLeaveByOrgId($orgId: ObjectId!) {
+  getAllLeaveByOrgId(orgId: $orgId) {
+    id
+    leaveList {
+      id
+      name
+      days
+      carryForward
+      carryForwardMax
+      earnedLeave
+      earnedLeaveMax
+      monthlyDays
+      leaveDescription
+      leaveType
+      isDelete
+      isActive
+    }
+  }
+}
+mutation RemoveOrganization($removeOrganizationId: ObjectId!) {
+  removeOrganization(id: $removeOrganizationId) {
+    message
+  }
+}
+mutation AddOrganizationLeave($body: OrgAddLeaveInput!) {
+  addOrganizationLeave(body: $body) {
+    message
+  }
+}
+mutation UpdateLeave($body: LeaveInput!) {
+  updateLeave(body: $body) {
+    message
+  }
+}

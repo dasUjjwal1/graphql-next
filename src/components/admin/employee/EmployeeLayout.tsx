@@ -11,7 +11,7 @@ const EmployeeLayout = ({ children }: { children: ReactNode }) => {
   const pathName = usePathname();
   return (
     <>
-      <div className="mb-3 dark:bg-[#292929]">
+      <div className="mb-3">
         <ul className="flex gap-2">
           {menu.map((item, index) => (
             <li

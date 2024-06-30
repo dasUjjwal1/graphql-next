@@ -2,26 +2,42 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
+function useActivePath(): (path: string) => boolean {
+  const pathname = usePathname();
+
+  const checkActivePath = (path: string) => {
+    if (path === "/admin" && pathname !== path) {
+      return false;
+    }
+    return pathname.startsWith(path);
+  };
+
+  return checkActivePath;
+}
 const OrgLayout = ({ children }: { children: ReactNode }) => {
   const menu = [
     { label: "Organization", path: "/admin/organization" },
-    { label: "Role", path: "/admin/organization/role" },
     { label: "Attendance", path: "/admin/organization/attendance" },
   ];
-  const pathName = usePathname();
+  const checkActivePath = useActivePath();
   return (
     <>
-      <div className="px-3 mb-3 bg-muted">
-        <ul className="flex gap-2">
+      <div className="px-6 pb-4">
+        <h3 className="text-xl font-bold text-gray-700">Organization</h3>
+        <hr color="#eff0f2" />
+        <ul className="flex pt-2 bg-[#e8f0fe] rounded justify-center gap-2 list-none m-0 px-0 py-0">
           {menu.map((item, index) => (
             <li
-              className={`px-4 py-2 ${
-                pathName === item.path &&
-                "text-primary border-primary border-b-2"
+              className={`px-4 pb-2 ${
+                checkActivePath(item.path) &&
+                "border-[var(--primary-color)] border-b-2 border-0 border-solid"
               } font-bold`}
               key={index.toString()}
             >
-              <Link className="text-sm" href={item.path}>
+              <Link
+                className="text-sm text-[var(--primary-color)]"
+                href={item.path}
+              >
                 {item.label}
               </Link>
             </li>

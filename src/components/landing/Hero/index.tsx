@@ -7,11 +7,11 @@ const Hero = () => {
         id="home"
         className="relative z-10 overflow-hidden pb-16 pt-[120px] dark:bg-gray-dark md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px]"
       >
-        <div className="container">
+        <div className="w-full">
           <div className="flex flex-wrap">
             <div className="w-full px-4">
               <div className="mx-auto max-w-[800px] text-center">
-                <h1 className="mb-5 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
+                <h1 className="mb-5 text-3xl font-bold leading-tight text-gray-700 dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
                   Other features are coming soon!
                 </h1>
                 <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
@@ -20,13 +20,13 @@ const Hero = () => {
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
                     href={"/admin"}
-                    className="rounded-sm bg-primary px-8 py-4 text-base font-semibold text-primary-foreground duration-300 ease-in-out hover:bg-primary/80"
+                    className="bg-[var(--primary-color)] px-8 py-4 text-base font-semibold text-gray-50 rounded-md  duration-300 ease-in-out hover:bg-primary/80"
                   >
-                    Organization
+                    I&apos;m Admin
                   </Link>
                   <Link
                     href="/application"
-                    className="inline-block rounded-sm bg-black px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5"
+                    className="inline-block rounded-md bg-black px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5"
                   >
                     Employee log in
                   </Link>
